@@ -1,5 +1,6 @@
 package com.epicdragonworld.gameserver.network;
 
+import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Logger;
 
 import io.netty.channel.Channel;
@@ -30,13 +31,36 @@ public class ClientHandler extends SimpleChannelInboundHandler<String>
 	{
 		Channel incoming = ctx.channel();
 		LOGGER.info(getClass().getSimpleName() + ": Connection closed! [" + incoming.remoteAddress() + "]");
+		// TODO: ThreadPoolManager.execute(new DisconnectTask());
 		CHANNELS.remove(ctx.channel());
 	}
 	
 	@Override
-	protected void channelRead0(ChannelHandlerContext arg0, String arg1)
+	protected void channelRead0(ChannelHandlerContext ctx, String data)
 	{
 		// TODO:
 		// Channel incoming = arg0.channel();
+	}
+	
+	@Override
+	public void channelInactive(ChannelHandlerContext ctx)
+	{
+		LOGGER.finer("Client Disconnected: " + ctx.channel());
+		
+		// no long running tasks here, do it async
+		try
+		{
+			CHANNELS.remove(ctx.channel());
+			// TODO: ThreadPoolManager.execute(new DisconnectTask());
+		}
+		catch (RejectedExecutionException e)
+		{
+			// server is closing
+		}
+	}
+	
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+	{
 	}
 }
