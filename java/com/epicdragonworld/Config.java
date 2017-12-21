@@ -20,7 +20,8 @@ public final class Config
 	// --------------------------------------------------
 	// Server
 	// --------------------------------------------------
-	public static int GAME_PORT;
+	public static int GAMESERVER_PORT;
+	public static String GAMESERVER_HOSTNAME;
 	public static String DATABASE_DRIVER;
 	public static String DATABASE_URL;
 	public static String DATABASE_LOGIN;
@@ -31,11 +32,13 @@ public final class Config
 	public static int THREADS_PER_SCHEDULED_THREAD_POOL;
 	public static int INSTANT_THREAD_POOL_COUNT;
 	public static int THREADS_PER_INSTANT_THREAD_POOL;
+	public static int IO_PACKET_THREAD_CORE_SIZE;
 	
 	public static void load()
 	{
 		final PropertiesParser serverSettings = new PropertiesParser(SERVER_CONFIG_FILE);
-		GAME_PORT = serverSettings.getInt("GamePort", 5055);
+		GAMESERVER_PORT = serverSettings.getInt("GameserverPort", 5055);
+		GAMESERVER_HOSTNAME = serverSettings.getString("GameserverHostname", "0.0.0.0");
 		DATABASE_DRIVER = serverSettings.getString("Driver", "com.mysql.jdbc.Driver");
 		DATABASE_URL = serverSettings.getString("URL", "jdbc:mysql://localhost/edws");
 		DATABASE_LOGIN = serverSettings.getString("Login", "root");
@@ -46,5 +49,6 @@ public final class Config
 		THREADS_PER_SCHEDULED_THREAD_POOL = serverSettings.getInt("ThreadsPerScheduledThreadPool", 4);
 		INSTANT_THREAD_POOL_COUNT = serverSettings.getInt("InstantThreadPoolCount", -1);
 		THREADS_PER_INSTANT_THREAD_POOL = serverSettings.getInt("ThreadsPerInstantThreadPool", 2);
+		IO_PACKET_THREAD_CORE_SIZE = serverSettings.getInt("UrgentPacketThreadCoreSize", 2);
 	}
 }

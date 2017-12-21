@@ -12,16 +12,16 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 /**
  * @author Pantelis Andrianakis
  */
-public class ServerHandler extends SimpleChannelInboundHandler<String>
+public class ClientHandler extends SimpleChannelInboundHandler<String>
 {
-	private static final Logger LOGGER = Logger.getLogger(ServerHandler.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ClientHandler.class.getName());
 	private static final ChannelGroup CHANNELS = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 	
 	@Override
 	public void handlerAdded(ChannelHandlerContext ctx)
 	{
 		Channel incoming = ctx.channel();
-		LOGGER.info(getClass().getName() + " New connection[" + incoming.remoteAddress() + "]");
+		LOGGER.info(getClass().getSimpleName() + ": New connection[" + incoming.remoteAddress() + "]");
 		CHANNELS.add(ctx.channel());
 	}
 	
@@ -29,7 +29,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String>
 	public void handlerRemoved(ChannelHandlerContext ctx)
 	{
 		Channel incoming = ctx.channel();
-		LOGGER.info(getClass().getName() + " Connection closed! [" + incoming.remoteAddress() + "]");
+		LOGGER.info(getClass().getSimpleName() + ": Connection closed! [" + incoming.remoteAddress() + "]");
 		CHANNELS.remove(ctx.channel());
 	}
 	

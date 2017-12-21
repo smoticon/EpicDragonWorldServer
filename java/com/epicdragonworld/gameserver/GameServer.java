@@ -11,12 +11,7 @@ import java.util.logging.Logger;
 import com.epicdragonworld.Config;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
 import com.epicdragonworld.gameserver.managers.ThreadPoolManager;
-import com.epicdragonworld.gameserver.network.ServerInitializer;
-
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
+import com.epicdragonworld.gameserver.network.ClientNetworkManager;
 
 /**
  * @author Pantelis Andrianakis
@@ -65,21 +60,11 @@ public class GameServer
 		final long totalMem = Runtime.getRuntime().maxMemory() / 1048576;
 		LOGGER.info("Started, using " + getUsedMemoryMB() + " of " + totalMem + " MB total memory.");
 		
-		Toolkit.getDefaultToolkit().beep();
-		
 		// Network.
-		final EventLoopGroup bossGroup = new NioEventLoopGroup();
-		final EventLoopGroup workerGroup = new NioEventLoopGroup();
-		try
-		{
-			ServerBootstrap bootstrap = new ServerBootstrap().group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(new ServerInitializer());
-			bootstrap.bind(Config.GAME_PORT).sync().channel().closeFuture().sync();
-		}
-		finally
-		{
-			bossGroup.shutdownGracefully();
-			workerGroup.shutdownGracefully();
-		}
+		ClientNetworkManager.getInstance().start();
+		
+		// Notify sound.
+		Toolkit.getDefaultToolkit().beep();
 	}
 	
 	private long getUsedMemoryMB()

@@ -12,7 +12,7 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 /**
  * @author Pantelis Andrianakis
  */
-public class ServerInitializer extends ChannelInitializer<SocketChannel>
+public class ClientInitializer extends ChannelInitializer<SocketChannel>
 {
 	@Override
 	protected void initChannel(SocketChannel ch)
@@ -22,8 +22,8 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel>
 		pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
 		pipeline.addLast("decoder", new StringDecoder());
 		pipeline.addLast("encoder", new ByteArrayEncoder());
+		pipeline.addLast("clientHandler", new ClientHandler());
 		pipeline.addLast("readTimeoutHandler", new ReadTimeoutHandler(120));
-		pipeline.addLast("handler", new ServerHandler());
-		pipeline.addLast("ServerTimeoutHandler", new ServerTimeoutHandler());
+		pipeline.addLast("clientTimeoutHandler", new ClientTimeoutHandler());
 	}
 }
