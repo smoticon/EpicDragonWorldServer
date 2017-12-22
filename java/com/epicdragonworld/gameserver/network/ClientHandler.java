@@ -19,6 +19,8 @@ package com.epicdragonworld.gameserver.network;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Logger;
 
+import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
+
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
@@ -35,6 +37,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<String>
 	private Channel _channel;
 	private String _ip;
 	private String _accountName;
+	private PlayerInstance _activeChar;
 	
 	@Override
 	public void handlerAdded(ChannelHandlerContext ctx)
@@ -52,9 +55,9 @@ public class ClientHandler extends SimpleChannelInboundHandler<String>
 		// TODO: ThreadPoolManager.execute(new DisconnectTask());
 	}
 	
-	public void send(String message)
+	public void send(String info)
 	{
-		_channel.writeAndFlush(Unpooled.copiedBuffer(message + "\r\n", CharsetUtil.UTF_8));
+		_channel.writeAndFlush(Unpooled.copiedBuffer(info + "\r\n", CharsetUtil.UTF_8));
 	}
 	
 	@Override
@@ -97,5 +100,20 @@ public class ClientHandler extends SimpleChannelInboundHandler<String>
 	public String getAccountName()
 	{
 		return _accountName;
+	}
+	
+	public void setAccountName(String accountName)
+	{
+		_accountName = accountName;
+	}
+	
+	public PlayerInstance getActiveChar()
+	{
+		return _activeChar;
+	}
+	
+	public void setActiveChar(PlayerInstance activeChar)
+	{
+		_activeChar = activeChar;
 	}
 }
