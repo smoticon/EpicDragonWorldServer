@@ -19,12 +19,11 @@ package com.epicdragonworld.gameserver.network;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Logger;
 
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.util.concurrent.GlobalEventExecutor;
+import io.netty.util.CharsetUtil;
 
 /**
  * @author Pantelis Andrianakis
@@ -32,30 +31,36 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 public class ClientHandler extends SimpleChannelInboundHandler<String>
 {
 	private static final Logger LOGGER = Logger.getLogger(ClientHandler.class.getName());
-	private static final ChannelGroup CHANNELS = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+	
+	private Channel _channel;
+	private String _ip;
+	private String _accountName;
 	
 	@Override
 	public void handlerAdded(ChannelHandlerContext ctx)
 	{
-		Channel incoming = ctx.channel();
-		LOGGER.info(getClass().getSimpleName() + ": New connection[" + incoming.remoteAddress() + "]");
-		CHANNELS.add(ctx.channel());
+		final Channel incoming = ctx.channel();
+		_channel = incoming;
+		_ip = incoming.remoteAddress().toString();
+		LOGGER.info(getClass().getSimpleName() + ": New connection[" + _ip + "]");
 	}
 	
 	@Override
 	public void handlerRemoved(ChannelHandlerContext ctx)
 	{
-		Channel incoming = ctx.channel();
-		LOGGER.info(getClass().getSimpleName() + ": Connection closed! [" + incoming.remoteAddress() + "]");
+		LOGGER.info(getClass().getSimpleName() + ": Connection closed! [" + ctx.channel().remoteAddress() + "]");
 		// TODO: ThreadPoolManager.execute(new DisconnectTask());
-		CHANNELS.remove(ctx.channel());
+	}
+	
+	public void send(String message)
+	{
+		_channel.writeAndFlush(Unpooled.copiedBuffer(message + "\r\n", CharsetUtil.UTF_8));
 	}
 	
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, String data)
 	{
-		// TODO:
-		// Channel incoming = arg0.channel();
+		LOGGER.info("Recieved " + data);
 	}
 	
 	@Override
@@ -66,7 +71,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<String>
 		// no long running tasks here, do it async
 		try
 		{
-			CHANNELS.remove(ctx.channel());
 			// TODO: ThreadPoolManager.execute(new DisconnectTask());
 		}
 		catch (RejectedExecutionException e)
@@ -78,5 +82,20 @@ public class ClientHandler extends SimpleChannelInboundHandler<String>
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 	{
+	}
+	
+	public Channel getChannel()
+	{
+		return _channel;
+	}
+	
+	public String getIp()
+	{
+		return _ip;
+	}
+	
+	public String getAccountName()
+	{
+		return _accountName;
 	}
 }
