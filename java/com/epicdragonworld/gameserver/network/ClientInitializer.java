@@ -38,6 +38,6 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel>
 		pipeline.addLast("decoder", new StringDecoder());
 		pipeline.addLast("encoder", new ByteArrayEncoder());
 		// Handle the client.
-		pipeline.addLast("clientHandler", new ClientHandler());
+		pipeline.addLast("clientHandler", new GameClient());
 	}
 }

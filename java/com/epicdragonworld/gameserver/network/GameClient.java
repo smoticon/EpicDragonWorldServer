@@ -30,9 +30,12 @@ import io.netty.util.CharsetUtil;
 /**
  * @author Pantelis Andrianakis
  */
-public class ClientHandler extends SimpleChannelInboundHandler<String>
+public class GameClient extends SimpleChannelInboundHandler<String>
 {
-	private static final Logger LOGGER = Logger.getLogger(ClientHandler.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(GameClient.class.getName());
+	
+	private final String MESSAGE_TERMINATOR = "\r\n";
+	private final String ARRAY_SEPARATOR = "\n";
 	
 	private Channel _channel;
 	private String _ip;
@@ -55,15 +58,22 @@ public class ClientHandler extends SimpleChannelInboundHandler<String>
 		// TODO: ThreadPoolManager.execute(new DisconnectTask());
 	}
 	
-	public void send(String info)
+	public void send(String[] info)
 	{
-		_channel.writeAndFlush(Unpooled.copiedBuffer(info + "\r\n", CharsetUtil.UTF_8));
+		final String concatenate = String.join(ARRAY_SEPARATOR, info);
+		// TODO: Encrypt.
+		_channel.writeAndFlush(Unpooled.copiedBuffer(concatenate + MESSAGE_TERMINATOR, CharsetUtil.UTF_8));
 	}
 	
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, String data)
+	protected void channelRead0(ChannelHandlerContext ctx, String info)
 	{
-		LOGGER.info("Recieved " + data);
+		// TODO: Decrypt.
+		final String[] dataArray = info.split(ARRAY_SEPARATOR);
+		for (String s : dataArray) // TODO: Handle message.
+		{
+			LOGGER.info("Recieved " + s);
+		}
 	}
 	
 	@Override
