@@ -19,23 +19,18 @@ package com.epicdragonworld.gameserver.network;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Logger;
 
-import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
-
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
+
+import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
 
 /**
  * @author Pantelis Andrianakis
  */
-public class GameClient extends SimpleChannelInboundHandler<String>
+public class GameClient extends SimpleChannelInboundHandler<byte[]>
 {
 	private static final Logger LOGGER = Logger.getLogger(GameClient.class.getName());
-	
-	private final String MESSAGE_TERMINATOR = "\r\n";
-	private final String ARRAY_SEPARATOR = "\n";
 	
 	private Channel _channel;
 	private String _ip;
@@ -58,22 +53,18 @@ public class GameClient extends SimpleChannelInboundHandler<String>
 		// TODO: ThreadPoolManager.execute(new DisconnectTask());
 	}
 	
-	public void send(String[] info)
+	public void send(byte[] bytes)
 	{
-		final String concatenate = String.join(ARRAY_SEPARATOR, info);
-		// TODO: Encrypt.
-		_channel.writeAndFlush(Unpooled.copiedBuffer(concatenate + MESSAGE_TERMINATOR, CharsetUtil.UTF_8));
+		_channel.writeAndFlush(bytes);
 	}
 	
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, String info)
+	protected void channelRead0(ChannelHandlerContext ctx, byte[] bytes)
 	{
-		// TODO: Decrypt.
-		final String[] dataArray = info.split(ARRAY_SEPARATOR);
-		for (String s : dataArray) // TODO: Handle message.
-		{
-			LOGGER.info("Recieved " + s);
-		}
+		// TODO: Decrypt. (bytes)
+		@SuppressWarnings("unused")
+		final ReceivablePacket packet = new ReceivablePacket(bytes);
+		// TODO: Handle message.
 	}
 	
 	@Override

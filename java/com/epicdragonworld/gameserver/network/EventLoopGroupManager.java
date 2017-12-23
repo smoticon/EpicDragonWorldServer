@@ -16,9 +16,9 @@
  */
 package com.epicdragonworld.gameserver.network;
 
-import com.epicdragonworld.Config;
-
 import io.netty.channel.nio.NioEventLoopGroup;
+
+import com.epicdragonworld.Config;
 
 /**
  * @author Nos
