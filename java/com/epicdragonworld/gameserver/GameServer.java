@@ -28,6 +28,7 @@ import com.epicdragonworld.Config;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
 import com.epicdragonworld.gameserver.managers.ThreadPoolManager;
 import com.epicdragonworld.gameserver.network.ClientNetworkManager;
+import com.epicdragonworld.gameserver.network.crypt.Encryption;
 
 /**
  * @author Pantelis Andrianakis
@@ -65,6 +66,9 @@ public class GameServer
 		
 		printSection("Database");
 		DatabaseManager.getInstance();
+		
+		printSection("Encryption");
+		Encryption.getInstance();
 		
 		printSection("ThreadPool");
 		ThreadPoolManager.init();

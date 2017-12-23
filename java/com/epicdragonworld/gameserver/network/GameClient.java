@@ -24,6 +24,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
+import com.epicdragonworld.gameserver.network.crypt.Encryption;
 
 /**
  * @author Pantelis Andrianakis
@@ -44,6 +45,10 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 		_channel = incoming;
 		_ip = incoming.remoteAddress().toString();
 		LOGGER.info(getClass().getSimpleName() + ": New connection[" + _ip + "]");
+		
+		SendablePacket test = new SendablePacket();
+		test.writeString("test 123 test");
+		send(test.getSendableBytes());
 	}
 	
 	@Override
@@ -55,16 +60,14 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 	
 	public void send(byte[] bytes)
 	{
-		// TODO: Encrypt (bytes).
-		_channel.writeAndFlush(bytes);
+		_channel.writeAndFlush(Encryption.encrypt(bytes));
 	}
 	
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, byte[] bytes)
 	{
-		// TODO: Decrypt. (bytes)
 		@SuppressWarnings("unused")
-		final ReceivablePacket packet = new ReceivablePacket(bytes);
+		final ReceivablePacket packet = new ReceivablePacket(Encryption.decrypt(bytes));
 		// TODO: Handle message.
 	}
 	
