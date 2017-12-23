@@ -45,10 +45,6 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 		_channel = incoming;
 		_ip = incoming.remoteAddress().toString();
 		LOGGER.info(getClass().getSimpleName() + ": New connection[" + _ip + "]");
-		
-		SendablePacket test = new SendablePacket();
-		test.writeString("test 123 test");
-		send(test.getSendableBytes());
 	}
 	
 	@Override
