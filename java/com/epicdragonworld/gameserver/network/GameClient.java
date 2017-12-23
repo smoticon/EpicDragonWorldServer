@@ -55,6 +55,7 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 	
 	public void send(byte[] bytes)
 	{
+		// TODO: Encrypt (bytes).
 		_channel.writeAndFlush(bytes);
 	}
 	

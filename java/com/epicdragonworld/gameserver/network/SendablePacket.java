@@ -108,7 +108,6 @@ public class SendablePacket
 	
 	public byte[] getSendableBytes()
 	{
-		// TODO: Encrypt (_baos.toByteArray()).
 		return _baos.toByteArray();
 	}
 }
