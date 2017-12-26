@@ -108,6 +108,21 @@ public class SendablePacket
 	
 	public byte[] getSendableBytes()
 	{
-		return _baos.toByteArray();
+		// Encrypt bytes.
+		final byte[] encryptedBytes = Encryption.encrypt(_baos.toByteArray());
+		final int size = encryptedBytes.length;
+		
+		// Create two bytes for length (short - max length 32767).
+		final byte[] lengthBytes = new byte[2];
+		lengthBytes[0] = (byte) (size & 0xff);
+		lengthBytes[1] = (byte) ((size >> 8) & 0xff);
+		
+		// Join bytes.
+		byte[] result = new byte[size + 2];
+		System.arraycopy(lengthBytes, 0, result, 0, 2);
+		System.arraycopy(encryptedBytes, 0, result, 2, size);
+		
+		// Return the data.
+		return result;
 	}
 }

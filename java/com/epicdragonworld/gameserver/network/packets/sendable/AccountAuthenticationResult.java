@@ -14,25 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.epicdragonworld.gameserver.model.actor.instance;
+package com.epicdragonworld.gameserver.network.packets.sendable;
 
-import com.epicdragonworld.gameserver.model.actor.Creature;
-import com.epicdragonworld.gameserver.network.GameClient;
+import com.epicdragonworld.gameserver.network.SendablePacket;
 
 /**
  * @author Pantelis Andrianakis
  */
-public abstract class PlayerInstance extends Creature
+public class AccountAuthenticationResult extends SendablePacket
 {
-	private GameClient _client;
-	
-	public GameClient getClient()
+	public AccountAuthenticationResult(int result)
 	{
-		return _client;
-	}
-	
-	public void setClient(GameClient client)
-	{
-		_client = client;
+		writeShort(1);
+		writeByte(result); // 0 does not exist, 1 banned, 2 requires activation, 3 wrong password, 4 authenticated
 	}
 }

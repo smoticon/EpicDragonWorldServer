@@ -14,25 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.epicdragonworld.gameserver.model.actor.instance;
+package com.epicdragonworld.gameserver.network;
 
-import com.epicdragonworld.gameserver.model.actor.Creature;
-import com.epicdragonworld.gameserver.network.GameClient;
+import com.epicdragonworld.gameserver.network.packets.receivable.AccountAuthenticationRequest;
 
 /**
  * @author Pantelis Andrianakis
  */
-public abstract class PlayerInstance extends Creature
+public class RecievablePacketManager
 {
-	private GameClient _client;
-	
-	public GameClient getClient()
+	public static void handle(GameClient client, ReceivablePacket packet)
 	{
-		return _client;
-	}
-	
-	public void setClient(GameClient client)
-	{
-		_client = client;
+		switch (packet.readShort())
+		{
+			case 1:
+			{
+				new AccountAuthenticationRequest(client, packet);
+				break;
+			}
+		}
 	}
 }

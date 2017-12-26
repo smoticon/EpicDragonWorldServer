@@ -14,58 +14,67 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.epicdragonworld.gameserver.network.crypt;
+package com.epicdragonworld.gameserver.network;
+
+import java.security.MessageDigest;
 
 import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
+ * AES Rijndael encryption.
  * @author Pantelis Andrianakis
  */
-public final class Encryption
+public class Encryption
 {
-	private final static String KEY = "SECRET_KEYWORD";
-	private final static String CHARSET = "UTF-8";
-	private final static String ALGORITHM = "Blowfish";
-	private static SecretKeySpec secretKeySpec;
+	// Secret keyword.
+	private final static String PASSWORD = "SECRET_KEYWORD";
+	// 16-byte private password.
+	private final static String IV = "0123456789012345";
+	
+	private static Cipher _cipher;
+	private static SecretKey _key;
+	private static IvParameterSpec _ivParameterSpec;
 	
 	public Encryption()
 	{
 		try
 		{
-			secretKeySpec = new SecretKeySpec(KEY.getBytes(CHARSET), ALGORITHM);
+			_key = new SecretKeySpec(MessageDigest.getInstance("MD5").digest(PASSWORD.getBytes("UTF-8")), "AES");
+			_cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+			_ivParameterSpec = new IvParameterSpec(IV.getBytes("UTF-8"));
 		}
 		catch (Exception e)
 		{
 		}
 	}
 	
-	public static byte[] encrypt(byte[] data)
+	public static byte[] encrypt(byte[] bytes)
 	{
 		try
 		{
-			final Cipher encryptCipher = Cipher.getInstance(ALGORITHM);
-			encryptCipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-			return encryptCipher.doFinal(data);
+			_cipher.init(Cipher.ENCRYPT_MODE, _key, _ivParameterSpec);
+			return _cipher.doFinal(bytes);
 		}
 		catch (Exception e)
 		{
+			return null;
 		}
-		return null;
 	}
 	
-	public static byte[] decrypt(byte[] data)
+	public static byte[] decrypt(byte[] bytes)
 	{
 		try
 		{
-			final Cipher decryptCipher = Cipher.getInstance(ALGORITHM);
-			decryptCipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-			return decryptCipher.doFinal(data);
+			_cipher.init(Cipher.DECRYPT_MODE, _key, _ivParameterSpec);
+			return _cipher.doFinal(bytes);
 		}
 		catch (Exception e)
 		{
+			return null;
 		}
-		return null;
 	}
 	
 	public static Encryption getInstance()

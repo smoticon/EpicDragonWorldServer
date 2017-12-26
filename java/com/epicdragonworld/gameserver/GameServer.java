@@ -19,7 +19,6 @@ package com.epicdragonworld.gameserver;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -28,7 +27,7 @@ import com.epicdragonworld.Config;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
 import com.epicdragonworld.gameserver.managers.ThreadPoolManager;
 import com.epicdragonworld.gameserver.network.ClientNetworkManager;
-import com.epicdragonworld.gameserver.network.crypt.Encryption;
+import com.epicdragonworld.gameserver.network.Encryption;
 
 /**
  * @author Pantelis Andrianakis
@@ -41,12 +40,12 @@ public class GameServer
 	private static final String LOG_FOLDER = "log"; // Name of folder for log file
 	private static final String LOG_NAME = "./log.cfg"; // Name of log file
 	
-	public static void main(String[] args) throws IOException, SecurityException, InterruptedException
+	public static void main(String[] args) throws Exception
 	{
 		new GameServer();
 	}
 	
-	private GameServer() throws IOException, SecurityException, InterruptedException
+	private GameServer() throws Exception
 	{
 		// Create log folder
 		final File logFolder = new File(".", LOG_FOLDER);

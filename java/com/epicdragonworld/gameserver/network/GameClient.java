@@ -16,7 +16,6 @@
  */
 package com.epicdragonworld.gameserver.network;
 
-import java.util.concurrent.RejectedExecutionException;
 import java.util.logging.Logger;
 
 import io.netty.channel.Channel;
@@ -24,7 +23,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
-import com.epicdragonworld.gameserver.network.crypt.Encryption;
 
 /**
  * @author Pantelis Andrianakis
@@ -41,56 +39,39 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 	@Override
 	public void handlerAdded(ChannelHandlerContext ctx)
 	{
+		// Connected.
 		final Channel incoming = ctx.channel();
 		_channel = incoming;
 		_ip = incoming.remoteAddress().toString();
-		LOGGER.info(getClass().getSimpleName() + ": New connection[" + _ip + "]");
+		_ip = _ip.substring(1, _ip.lastIndexOf(':')); // Trim out /127.0.0.1:12345
 	}
 	
 	@Override
 	public void handlerRemoved(ChannelHandlerContext ctx)
 	{
-		LOGGER.info(getClass().getSimpleName() + ": Connection closed! [" + ctx.channel().remoteAddress() + "]");
-		// TODO: ThreadPoolManager.execute(new DisconnectTask());
+		// Disconnected.
 	}
 	
-	public void send(byte[] bytes)
+	public void channelSend(SendablePacket packet)
 	{
-		_channel.writeAndFlush(Encryption.encrypt(bytes));
+		_channel.writeAndFlush(packet.getSendableBytes());
 	}
 	
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, byte[] bytes)
 	{
-		@SuppressWarnings("unused")
-		final ReceivablePacket packet = new ReceivablePacket(Encryption.decrypt(bytes));
-		// TODO: Handle message.
+		RecievablePacketManager.handle(this, new ReceivablePacket(Encryption.decrypt(bytes)));
 	}
 	
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx)
 	{
 		LOGGER.finer("Client Disconnected: " + ctx.channel());
-		
-		// no long running tasks here, do it async
-		try
-		{
-			// TODO: ThreadPoolManager.execute(new DisconnectTask());
-		}
-		catch (RejectedExecutionException e)
-		{
-			// server is closing
-		}
 	}
 	
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 	{
-	}
-	
-	public Channel getChannel()
-	{
-		return _channel;
 	}
 	
 	public String getIp()
