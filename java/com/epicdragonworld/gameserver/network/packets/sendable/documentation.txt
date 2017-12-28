@@ -1,2 +1,3 @@
 PacketId: Name
 1: AccountAuthenticationResult
+2: CharacterSelectionInfoResult

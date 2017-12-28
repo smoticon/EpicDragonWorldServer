@@ -25,7 +25,8 @@ public class AccountAuthenticationResult extends SendablePacket
 {
 	public AccountAuthenticationResult(int result)
 	{
-		writeShort(1);
-		writeByte(result); // 0 does not exist, 1 banned, 2 requires activation, 3 wrong password, 4 authenticated
+		// Send the data.
+		writeShort(1); // Packet id.
+		writeByte(result); // 0 does not exist, 1 banned, 2 requires activation, 3 wrong password, 4 too many online, 5 authenticated
 	}
 }

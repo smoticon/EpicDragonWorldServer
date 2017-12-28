@@ -14,30 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.epicdragonworld.gameserver.network;
+package com.epicdragonworld.gameserver.network.packets.receivable;
 
-import com.epicdragonworld.gameserver.network.packets.receivable.AccountAuthenticationRequest;
-import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelectionInfoRequest;
+import com.epicdragonworld.gameserver.network.GameClient;
+import com.epicdragonworld.gameserver.network.ReceivablePacket;
+import com.epicdragonworld.gameserver.network.packets.sendable.CharacterSelectionInfoResult;
 
 /**
  * @author Pantelis Andrianakis
  */
-public class RecievablePacketManager
+public class CharacterSelectionInfoRequest
 {
-	public static void handle(GameClient client, ReceivablePacket packet)
+	public CharacterSelectionInfoRequest(GameClient client, ReceivablePacket packet)
 	{
-		switch (packet.readShort()) // Packet id.
+		// Read data.
+		final String accountName = packet.readString().toLowerCase();
+		
+		// If account has logged send the information.
+		if (client.getAccountName().equals(accountName))
 		{
-			case 1:
-			{
-				new AccountAuthenticationRequest(client, packet);
-				break;
-			}
-			case 2:
-			{
-				new CharacterSelectionInfoRequest(client, packet);
-				break;
-			}
+			client.channelSend(new CharacterSelectionInfoResult(accountName));
 		}
 	}
 }

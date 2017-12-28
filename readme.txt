@@ -7,3 +7,5 @@ Epic Dragon World Server
 - Threadpool task manager.
 - Packet communication.
 - Network encryption.
+- Client authentication.
+- Character management.

@@ -1,13 +1,14 @@
 CREATE TABLE IF NOT EXISTS `accounts` (
-  `account` VARCHAR(45) NOT NULL DEFAULT '',
-  `password` varchar(45), # MD5 hash
-  `email` varchar(255) DEFAULT NULL,
-  `first_name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
+  `account` varchar(20) NOT NULL DEFAULT '',
+  `password` varchar(64) NOT NULL, # MD5 hash
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `first_name` varchar(45) NOT NULL DEFAULT '',
+  `last_name` varchar(45) NOT NULL DEFAULT '',
   `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_active` bigint(13) unsigned NOT NULL DEFAULT '0',
-  `status` tinyint(4) NOT NULL, # 1 banned, 2 requires activation, 3 active
-  `last_ip` CHAR(15) NULL DEFAULT NULL,
-  `active_code` int(11) NOT NULL,
+  `status` int(2) NOT NULL, # 1 banned, 2 requires activation, 3 active
+  `membership` int(2) NOT NULL DEFAULT '0', # special status
+  `last_ip` varchar(15) NULL DEFAULT NULL,
+  `active_code` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,0 +1,222 @@
+/*
+ * This file is part of the Epic Dragon World project.
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+package com.epicdragonworld.gameserver.model.holders;
+
+/**
+ * @author Pantelis Andrianakis
+ */
+public class CharacterDataHolder
+{
+	private byte _slot = 0;
+	private String _name = "";
+	private byte _classId = 0;
+	private long _x = 0;
+	private long _y = 0;
+	private long _z = 0;
+	private int _heading = 0;
+	private long _experience = 0;
+	private long _hp = 0;
+	private long _mp = 0;
+	private byte _accessLevel = 0;
+	private int _itemHead = 0;
+	private int _itemChest = 0;
+	private int _itemGloves = 0;
+	private int _itemLegs = 0;
+	private int _itemBoots = 0;
+	private int _itemRightHand = 0;
+	private int _itemLeftHand = 0;
+	
+	public byte getSlot()
+	{
+		return _slot;
+	}
+	
+	public void setSlot(byte slot)
+	{
+		_slot = slot;
+	}
+	
+	public String getName()
+	{
+		return _name;
+	}
+	
+	public void setName(String name)
+	{
+		_name = name;
+	}
+	
+	public byte getClassId()
+	{
+		return _classId;
+	}
+	
+	public void setClassId(byte classId)
+	{
+		_classId = classId;
+	}
+	
+	public long getX()
+	{
+		return _x;
+	}
+	
+	public void setX(long x)
+	{
+		_x = x;
+	}
+	
+	public long getY()
+	{
+		return _y;
+	}
+	
+	public void setY(long y)
+	{
+		_y = y;
+	}
+	
+	public long getZ()
+	{
+		return _z;
+	}
+	
+	public void setZ(long z)
+	{
+		_z = z;
+	}
+	
+	public int getHeading()
+	{
+		return _heading;
+	}
+	
+	public void setHeading(int heading)
+	{
+		_heading = heading;
+	}
+	
+	public long getExperience()
+	{
+		return _experience;
+	}
+	
+	public void setExperience(long experience)
+	{
+		_experience = experience;
+	}
+	
+	public long getHp()
+	{
+		return _hp;
+	}
+	
+	public void setHp(long hp)
+	{
+		_hp = hp;
+	}
+	
+	public long getMp()
+	{
+		return _mp;
+	}
+	
+	public void setMp(long mp)
+	{
+		_mp = mp;
+	}
+	
+	public byte getAccessLevel()
+	{
+		return _accessLevel;
+	}
+	
+	public void setAccessLevel(byte accessLevel)
+	{
+		_accessLevel = accessLevel;
+	}
+	
+	public int getItemHead()
+	{
+		return _itemHead;
+	}
+	
+	public void setItemHead(int itemHead)
+	{
+		_itemHead = itemHead;
+	}
+	
+	public int getItemChest()
+	{
+		return _itemChest;
+	}
+	
+	public void setItemChest(int itemChest)
+	{
+		_itemChest = itemChest;
+	}
+	
+	public int getItemGloves()
+	{
+		return _itemGloves;
+	}
+	
+	public void setItemGloves(int itemGloves)
+	{
+		_itemGloves = itemGloves;
+	}
+	
+	public int getItemLegs()
+	{
+		return _itemLegs;
+	}
+	
+	public void setItemLegs(int itemLegs)
+	{
+		_itemLegs = itemLegs;
+	}
+	
+	public int getItemBoots()
+	{
+		return _itemBoots;
+	}
+	
+	public void setItemBoots(int itemBoots)
+	{
+		_itemBoots = itemBoots;
+	}
+	
+	public int getItemRightHand()
+	{
+		return _itemRightHand;
+	}
+	
+	public void setItemRightHand(int itemRightHand)
+	{
+		_itemRightHand = itemRightHand;
+	}
+	
+	public int getItemLeftHand()
+	{
+		return _itemLeftHand;
+	}
+	
+	public void setItemLeftHand(int itemLeftHand)
+	{
+		_itemLeftHand = itemLeftHand;
+	}
+}

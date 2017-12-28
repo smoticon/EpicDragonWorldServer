@@ -31,13 +31,15 @@ import com.epicdragonworld.gameserver.network.packets.sendable.AccountAuthentica
  */
 public class AccountAuthenticationRequest
 {
-	private static final Logger LOGGER = Logger.getLogger(GameClient.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(AccountAuthenticationRequest.class.getName());
 	
 	private static final String ACCOUNT_QUERY = "SELECT * FROM accounts WHERE account=?";
 	private static final String ACCOUNT_INFO_UPDATE = "UPDATE accounts SET last_active=?, last_ip=? WHERE account=?";
 	private static final int STATUS_NOT_FOUND = 0;
 	private static final int STATUS_WRONG_PASSWORD = 3;
-	private static final int STATUS_AUTHENTICATED = 4;
+	@SuppressWarnings("unused")
+	private static final int STATUS_TOO_MANY_ONLINE = 4; // TODO: STATUS_TOO_MANY_ONLINE
+	private static final int STATUS_AUTHENTICATED = 100;
 	
 	public AccountAuthenticationRequest(GameClient client, ReceivablePacket packet)
 	{
@@ -69,7 +71,7 @@ public class AccountAuthenticationRequest
 		}
 		
 		// Account status issue.
-		// 0 does not exist, 1 banned, 2 requires activation, 3 wrong password, 4 authenticated
+		// 0 does not exist, 1 banned, 2 requires activation, 3 wrong password, 4 too many online, 5 authenticated
 		if (status < STATUS_WRONG_PASSWORD)
 		{
 			client.channelSend(new AccountAuthenticationResult(status));
@@ -82,6 +84,8 @@ public class AccountAuthenticationRequest
 			client.channelSend(new AccountAuthenticationResult(STATUS_WRONG_PASSWORD));
 			return;
 		}
+		
+		// TODO: STATUS_TOO_MANY_ONLINE
 		
 		// Authentication was successful.
 		client.setAccountName(accountName);
