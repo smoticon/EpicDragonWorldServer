@@ -21,12 +21,14 @@ package com.epicdragonworld.gameserver.model.holders;
  */
 public class CharacterDataHolder
 {
-	private byte _slot = 0;
 	private String _name = "";
+	private byte _slot = 0;
+	private boolean _selected = false;
 	private byte _classId = 0;
-	private long _x = 0;
-	private long _y = 0;
-	private long _z = 0;
+	private String _locationName = "";
+	private double _x = 0;
+	private double _y = 0;
+	private double _z = 0;
 	private int _heading = 0;
 	private long _experience = 0;
 	private long _hp = 0;
@@ -40,6 +42,16 @@ public class CharacterDataHolder
 	private int _itemRightHand = 0;
 	private int _itemLeftHand = 0;
 	
+	public String getName()
+	{
+		return _name;
+	}
+	
+	public void setName(String name)
+	{
+		_name = name;
+	}
+	
 	public byte getSlot()
 	{
 		return _slot;
@@ -50,14 +62,14 @@ public class CharacterDataHolder
 		_slot = slot;
 	}
 	
-	public String getName()
+	public boolean isSelected()
 	{
-		return _name;
+		return _selected;
 	}
 	
-	public void setName(String name)
+	public void setSelected(boolean selected)
 	{
-		_name = name;
+		_selected = selected;
 	}
 	
 	public byte getClassId()
@@ -70,32 +82,42 @@ public class CharacterDataHolder
 		_classId = classId;
 	}
 	
-	public long getX()
+	public String getLocationName()
+	{
+		return _locationName;
+	}
+	
+	public void setLocationName(String locationName)
+	{
+		_locationName = locationName;
+	}
+	
+	public double getX()
 	{
 		return _x;
 	}
 	
-	public void setX(long x)
+	public void setX(double x)
 	{
 		_x = x;
 	}
 	
-	public long getY()
+	public double getY()
 	{
 		return _y;
 	}
 	
-	public void setY(long y)
+	public void setY(double y)
 	{
 		_y = y;
 	}
 	
-	public long getZ()
+	public double getZ()
 	{
 		return _z;
 	}
 	
-	public void setZ(long z)
+	public void setZ(double z)
 	{
 		_z = z;
 	}

@@ -17,6 +17,7 @@
 package com.epicdragonworld.gameserver.network;
 
 import com.epicdragonworld.gameserver.network.packets.receivable.AccountAuthenticationRequest;
+import com.epicdragonworld.gameserver.network.packets.receivable.CharacterCreationRequest;
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelectionInfoRequest;
 
 /**
@@ -36,6 +37,11 @@ public class RecievablePacketManager
 			case 2:
 			{
 				new CharacterSelectionInfoRequest(client, packet);
+				break;
+			}
+			case 3:
+			{
+				new CharacterCreationRequest(client, packet);
 				break;
 			}
 		}

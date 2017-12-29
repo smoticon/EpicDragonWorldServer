@@ -34,7 +34,7 @@ public class CharacterSelectionInfoResult extends SendablePacket
 {
 	private static final Logger LOGGER = Logger.getLogger(CharacterSelectionInfoResult.class.getName());
 	
-	private static final String PLAYER_QUERY = "SELECT * FROM players WHERE account=?";
+	private static final String CHARACTER_QUERY = "SELECT * FROM characters WHERE account=? ORDER BY slot DESC";
 	
 	public CharacterSelectionInfoResult(String accountName)
 	{
@@ -43,7 +43,7 @@ public class CharacterSelectionInfoResult extends SendablePacket
 		
 		// Get data from database.
 		try (Connection con = DatabaseManager.getInstance().getConnection();
-			PreparedStatement ps = con.prepareStatement(PLAYER_QUERY))
+			PreparedStatement ps = con.prepareStatement(CHARACTER_QUERY))
 		{
 			ps.setString(1, accountName);
 			try (ResultSet rset = ps.executeQuery())
@@ -51,12 +51,14 @@ public class CharacterSelectionInfoResult extends SendablePacket
 				while (rset.next())
 				{
 					final CharacterDataHolder characterData = new CharacterDataHolder();
-					characterData.setSlot(rset.getByte("slot"));
 					characterData.setName(rset.getString("name"));
+					characterData.setSlot(rset.getByte("slot"));
+					characterData.setSelected(rset.getBoolean("selected"));
 					characterData.setClassId(rset.getByte("class_id"));
-					characterData.setX(rset.getLong("x"));
-					characterData.setY(rset.getLong("y"));
-					characterData.setZ(rset.getLong("z"));
+					characterData.setLocationName(rset.getString("location_name"));
+					characterData.setX(rset.getDouble("x"));
+					characterData.setY(rset.getDouble("y"));
+					characterData.setZ(rset.getDouble("z"));
 					characterData.setHeading(rset.getInt("heading"));
 					characterData.setExperience(rset.getLong("experience"));
 					characterData.setHp(rset.getLong("hp"));
@@ -83,12 +85,14 @@ public class CharacterSelectionInfoResult extends SendablePacket
 		writeByte(characterList.size());
 		for (CharacterDataHolder characterData : characterList)
 		{
-			writeByte(characterData.getSlot());
 			writeString(characterData.getName());
+			writeByte(characterData.getSlot());
+			writeByte(characterData.isSelected() ? 1 : 0);
 			writeByte(characterData.getClassId());
-			writeLong(characterData.getX());
-			writeLong(characterData.getY());
-			writeLong(characterData.getZ());
+			writeString(characterData.getLocationName());
+			writeDouble(characterData.getX());
+			writeDouble(characterData.getY());
+			writeDouble(characterData.getZ());
 			writeInt(characterData.getHeading());
 			writeLong(characterData.getExperience());
 			writeLong(characterData.getHp());

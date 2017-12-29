@@ -37,7 +37,7 @@ import com.epicdragonworld.Config;
  */
 public final class Util
 {
-	private static final char[] ILLEGAL_CHARACTERS =
+	public static final char[] ILLEGAL_CHARACTERS =
 	{
 		'/',
 		'\n',
@@ -53,7 +53,10 @@ public final class Util
 		'>',
 		'|',
 		'\"',
-		':'
+		'{',
+		'}',
+		'(',
+		')'
 	};
 	
 	/**

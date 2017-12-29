@@ -21,12 +21,12 @@ import com.epicdragonworld.gameserver.network.SendablePacket;
 /**
  * @author Pantelis Andrianakis
  */
-public class AccountAuthenticationResult extends SendablePacket
+public class CharacterCreationResult extends SendablePacket
 {
-	public AccountAuthenticationResult(int result)
+	public CharacterCreationResult(int result)
 	{
 		// Send the data.
-		writeShort(1); // Packet id.
-		writeByte(result); // 0 does not exist, 1 banned, 2 requires activation, 3 wrong password, 4 too many online, 100 authenticated
+		writeShort(3); // Packet id.
+		writeByte(result);
 	}
 }

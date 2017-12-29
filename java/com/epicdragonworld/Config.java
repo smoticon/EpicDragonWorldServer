@@ -31,7 +31,14 @@ public final class Config
 	// --------------------------------------------------
 	// Config File Definitions
 	// --------------------------------------------------
+	public static final String ACCOUNTS_CONFIG_FILE = "./config/Accounts.ini";
 	public static final String SERVER_CONFIG_FILE = "./config/Server.ini";
+	
+	// --------------------------------------------------
+	// Accounts
+	// --------------------------------------------------
+	public static boolean ACCOUNT_AUTO_CREATE;
+	public static int ACCOUNT_MAX_CHARACTERS;
 	
 	// --------------------------------------------------
 	// Server
@@ -52,6 +59,10 @@ public final class Config
 	
 	public static void load()
 	{
+		final PropertiesParser accountsSettings = new PropertiesParser(ACCOUNTS_CONFIG_FILE);
+		ACCOUNT_AUTO_CREATE = accountsSettings.getBoolean("AccountAutoCreate", false);
+		ACCOUNT_MAX_CHARACTERS = accountsSettings.getInt("AccountMaxCharacters", 5);
+		
 		final PropertiesParser serverSettings = new PropertiesParser(SERVER_CONFIG_FILE);
 		GAMESERVER_PORT = serverSettings.getInt("GameserverPort", 5055);
 		GAMESERVER_HOSTNAME = serverSettings.getString("GameserverHostname", "0.0.0.0");

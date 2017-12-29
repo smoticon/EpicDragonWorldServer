@@ -1,3 +1,4 @@
 PacketId: Name
 1: AccountAuthenticationRequest
 2: CharacterSelectionInfoRequest
+3: CharacterCreationRequest
