@@ -16,12 +16,10 @@
  */
 package com.epicdragonworld.gameserver.model;
 
-import com.epicdragonworld.gameserver.model.interfaces.IPositionable;
-
 /**
  * @author Pantelis Andrianakis
  */
-public abstract class GameObject implements IPositionable
+public abstract class GameObject
 {
 	
 }
