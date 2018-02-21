@@ -2,3 +2,4 @@ PacketId: Name
 1: AccountAuthenticationResult
 2: CharacterSelectionInfoResult
 3: CharacterCreationResult
+4: CharacterDeletionResult

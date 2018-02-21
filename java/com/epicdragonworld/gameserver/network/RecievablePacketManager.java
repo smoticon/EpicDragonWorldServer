@@ -18,7 +18,10 @@ package com.epicdragonworld.gameserver.network;
 
 import com.epicdragonworld.gameserver.network.packets.receivable.AccountAuthenticationRequest;
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterCreationRequest;
+import com.epicdragonworld.gameserver.network.packets.receivable.CharacterDeletionRequest;
+import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelectUpdate;
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelectionInfoRequest;
+import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSlotUpdate;
 
 /**
  * @author Pantelis Andrianakis
@@ -42,6 +45,21 @@ public class RecievablePacketManager
 			case 3:
 			{
 				new CharacterCreationRequest(client, packet);
+				break;
+			}
+			case 4:
+			{
+				new CharacterDeletionRequest(client, packet);
+				break;
+			}
+			case 5:
+			{
+				new CharacterSlotUpdate(client, packet);
+				break;
+			}
+			case 6:
+			{
+				new CharacterSelectUpdate(client, packet);
 				break;
 			}
 		}

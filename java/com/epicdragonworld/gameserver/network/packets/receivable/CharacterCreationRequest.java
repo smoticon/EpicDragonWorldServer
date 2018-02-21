@@ -151,7 +151,7 @@ public class CharacterCreationRequest
 			ps.setInt(3, lastCharacterSlot + 1);
 			ps.setInt(4, 1); // Selected character.
 			ps.setInt(5, classId);
-			ps.setString(6, "Start Location.");
+			ps.setString(6, "Start Location");
 			ps.setDouble(7, 0); // TODO: Starting Location.
 			ps.setDouble(8, 0); // TODO: Starting Location.
 			ps.setDouble(9, 0); // TODO: Starting Location.
