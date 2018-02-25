@@ -19,17 +19,58 @@ package com.epicdragonworld.gameserver.model;
 /**
  * @author Pantelis Andrianakis
  */
-public abstract class GameObject
+public class Location
 {
-	private Location _location;
+	int _x;
+	int _y;
+	int _z;
+	int _heading;
 	
-	public Location getLocation()
+	public Location(int x, int y, int z, int heading)
 	{
-		return _location;
+		_x = x;
+		_y = y;
+		_z = z;
+		_heading = heading;
 	}
 	
-	public void setLocation(Location location)
+	public int getX()
 	{
-		_location = location;
+		return _x;
+	}
+	
+	public void setX(int x)
+	{
+		_x = x;
+	}
+	
+	public int getY()
+	{
+		return _y;
+	}
+	
+	public void setY(int y)
+	{
+		_y = y;
+	}
+	
+	public int getZ()
+	{
+		return _z;
+	}
+	
+	public void setZ(int z)
+	{
+		_z = z;
+	}
+	
+	public int getHeading()
+	{
+		return _heading;
+	}
+	
+	public void setHeading(int heading)
+	{
+		_heading = heading;
 	}
 }

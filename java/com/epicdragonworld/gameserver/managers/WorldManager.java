@@ -14,22 +14,44 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.epicdragonworld.gameserver.model;
+package com.epicdragonworld.gameserver.managers;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.epicdragonworld.gameserver.model.GameObject;
 
 /**
  * @author Pantelis Andrianakis
  */
-public abstract class GameObject
+public class WorldManager
 {
-	private Location _location;
+	private final List<GameObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
 	
-	public Location getLocation()
+	public WorldManager()
 	{
-		return _location;
 	}
 	
-	public void setLocation(Location location)
+	public synchronized void add(GameObject object)
 	{
-		_location = location;
+		if (!GAME_OBJECTS.contains(object))
+		{
+			GAME_OBJECTS.add(object);
+		}
+	}
+	
+	public void remove(GameObject object)
+	{
+		GAME_OBJECTS.remove(object);
+	}
+	
+	public static WorldManager getInstance()
+	{
+		return SingletonHolder.INSTANCE;
+	}
+	
+	private static class SingletonHolder
+	{
+		protected static final WorldManager INSTANCE = new WorldManager();
 	}
 }
