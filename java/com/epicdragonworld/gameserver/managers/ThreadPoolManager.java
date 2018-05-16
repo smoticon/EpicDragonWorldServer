@@ -16,8 +16,7 @@
  */
 package com.epicdragonworld.gameserver.managers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -30,7 +29,7 @@ import com.epicdragonworld.Config;
 /**
  * This class handles thread pooling system. It relies on two ThreadPoolExecutor arrays, which poolers number is generated using config.
  * <p>
- * Those arrays hold following pools :
+ * Those arrays hold following pools:
  * </p>
  * <ul>
  * <li>Scheduled pool keeps a track about incoming, future events.</li>
@@ -41,12 +40,9 @@ public final class ThreadPoolManager
 {
 	protected static final Logger LOGGER = Logger.getLogger(ThreadPoolManager.class.getName());
 	
-	private static final long MAX_DELAY = TimeUnit.NANOSECONDS.toMillis(Long.MAX_VALUE - System.nanoTime()) / 2;
-	
-	private static int _threadPoolRandomizer;
-	
-	protected static ScheduledThreadPoolExecutor[] _scheduledPools;
-	protected static ThreadPoolExecutor[] _instantPools;
+	protected static ScheduledThreadPoolExecutor[] SCHEDULED_POOLS;
+	protected static ThreadPoolExecutor[] INSTANT_POOLS;
+	private static int THREAD_POOL_RANDOMIZER;
 	
 	/**
 	 * Init the different pools, based on Config. It is launched only once, on Gameserver instance.
@@ -54,38 +50,38 @@ public final class ThreadPoolManager
 	public static void init()
 	{
 		// Feed scheduled pool.
-		int poolCount = Config.SCHEDULED_THREAD_POOL_COUNT;
-		if (poolCount == -1)
+		int scheduledPoolCount = Config.SCHEDULED_THREAD_POOL_COUNT;
+		if (scheduledPoolCount == -1)
 		{
-			poolCount = Runtime.getRuntime().availableProcessors();
+			scheduledPoolCount = Runtime.getRuntime().availableProcessors();
 		}
 		
-		_scheduledPools = new ScheduledThreadPoolExecutor[poolCount];
-		for (int i = 0; i < poolCount; i++)
+		SCHEDULED_POOLS = new ScheduledThreadPoolExecutor[scheduledPoolCount];
+		for (int i = 0; i < scheduledPoolCount; i++)
 		{
-			_scheduledPools[i] = new ScheduledThreadPoolExecutor(Config.THREADS_PER_SCHEDULED_THREAD_POOL);
+			SCHEDULED_POOLS[i] = new ScheduledThreadPoolExecutor(Config.THREADS_PER_SCHEDULED_THREAD_POOL);
 		}
 		
 		// Feed instant pool.
-		poolCount = Config.INSTANT_THREAD_POOL_COUNT;
-		if (poolCount == -1)
+		int instantPoolCount = Config.INSTANT_THREAD_POOL_COUNT;
+		if (instantPoolCount == -1)
 		{
-			poolCount = Runtime.getRuntime().availableProcessors();
+			instantPoolCount = Runtime.getRuntime().availableProcessors();
 		}
 		
-		_instantPools = new ThreadPoolExecutor[poolCount];
-		for (int i = 0; i < poolCount; i++)
+		INSTANT_POOLS = new ThreadPoolExecutor[instantPoolCount];
+		for (int i = 0; i < instantPoolCount; i++)
 		{
-			_instantPools[i] = new ThreadPoolExecutor(Config.THREADS_PER_INSTANT_THREAD_POOL, Config.THREADS_PER_INSTANT_THREAD_POOL, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(100000));
+			INSTANT_POOLS[i] = new ThreadPoolExecutor(Config.THREADS_PER_INSTANT_THREAD_POOL, Config.THREADS_PER_INSTANT_THREAD_POOL, 0, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(100000));
 		}
 		
 		// Prestart core threads.
-		for (ScheduledThreadPoolExecutor threadPool : _scheduledPools)
+		for (ScheduledThreadPoolExecutor threadPool : SCHEDULED_POOLS)
 		{
 			threadPool.prestartAllCoreThreads();
 		}
 		
-		for (ThreadPoolExecutor threadPool : _instantPools)
+		for (ThreadPoolExecutor threadPool : INSTANT_POOLS)
 		{
 			threadPool.prestartAllCoreThreads();
 		}
@@ -96,17 +92,18 @@ public final class ThreadPoolManager
 			purge();
 		}, 600000, 600000);
 		
-		LOGGER.info("Initialized " + getPoolSize(_instantPools) + "/" + getMaximumPoolSize(_instantPools) + " instant thread(s).");
-		LOGGER.info("Initialized " + getPoolSize(_scheduledPools) + "/" + getMaximumPoolSize(_scheduledPools) + " scheduled thread(s).");
+		LOGGER.info("ThreadPool: Initialized");
+		LOGGER.info("..." + scheduledPoolCount + " scheduled pool executors with " + (scheduledPoolCount * Config.THREADS_PER_SCHEDULED_THREAD_POOL) + " total threads.");
+		LOGGER.info("..." + instantPoolCount + " instant pool executors with " + (instantPoolCount * Config.THREADS_PER_INSTANT_THREAD_POOL) + " total threads.");
 	}
 	
 	public static void purge()
 	{
-		for (ScheduledThreadPoolExecutor threadPool1 : _scheduledPools)
+		for (ScheduledThreadPoolExecutor threadPool1 : SCHEDULED_POOLS)
 		{
 			threadPool1.purge();
 		}
-		for (ThreadPoolExecutor threadPool2 : _instantPools)
+		for (ThreadPoolExecutor threadPool2 : INSTANT_POOLS)
 		{
 			threadPool2.purge();
 		}
@@ -122,7 +119,7 @@ public final class ThreadPoolManager
 	{
 		try
 		{
-			return getPool(_scheduledPools).schedule(new TaskWrapper(r), validate(delay), TimeUnit.MILLISECONDS);
+			return getPool(SCHEDULED_POOLS).schedule(new TaskWrapper(r), delay, TimeUnit.MILLISECONDS);
 		}
 		catch (Exception e)
 		{
@@ -141,7 +138,7 @@ public final class ThreadPoolManager
 	{
 		try
 		{
-			return getPool(_scheduledPools).scheduleAtFixedRate(new TaskWrapper(r), validate(delay), validate(period), TimeUnit.MILLISECONDS);
+			return getPool(SCHEDULED_POOLS).scheduleAtFixedRate(new TaskWrapper(r), delay, period, TimeUnit.MILLISECONDS);
 		}
 		catch (Exception e)
 		{
@@ -157,69 +154,10 @@ public final class ThreadPoolManager
 	{
 		try
 		{
-			getPool(_instantPools).execute(new TaskWrapper(r));
+			getPool(INSTANT_POOLS).execute(new TaskWrapper(r));
 		}
 		catch (Exception e)
 		{
-		}
-	}
-	
-	public static String[] getStats()
-	{
-		List<String> stats = new ArrayList<>();
-		for (int i = 0; i < _scheduledPools.length; i++)
-		{
-			final ScheduledThreadPoolExecutor threadPool = _scheduledPools[i];
-			stats.add("Scheduled pool #" + i + ":");
-			stats.add(" |- ActiveCount: ...... " + threadPool.getActiveCount());
-			stats.add(" |- CorePoolSize: ..... " + threadPool.getCorePoolSize());
-			stats.add(" |- PoolSize: ......... " + threadPool.getPoolSize());
-			stats.add(" |- LargestPoolSize: .. " + threadPool.getLargestPoolSize());
-			stats.add(" |- MaximumPoolSize: .. " + threadPool.getMaximumPoolSize());
-			stats.add(" |- CompletedTaskCount: " + threadPool.getCompletedTaskCount());
-			stats.add(" |- QueuedTaskCount: .. " + threadPool.getQueue().size());
-			stats.add(" |- TaskCount: ........ " + threadPool.getTaskCount());
-			stats.add(" | -------");
-		}
-		for (int i = 0; i < _instantPools.length; i++)
-		{
-			final ThreadPoolExecutor threadPool = _instantPools[i];
-			stats.add("Scheduled pool #" + i + ":");
-			stats.add(" |- ActiveCount: ...... " + threadPool.getActiveCount());
-			stats.add(" |- CorePoolSize: ..... " + threadPool.getCorePoolSize());
-			stats.add(" |- PoolSize: ......... " + threadPool.getPoolSize());
-			stats.add(" |- LargestPoolSize: .. " + threadPool.getLargestPoolSize());
-			stats.add(" |- MaximumPoolSize: .. " + threadPool.getMaximumPoolSize());
-			stats.add(" |- CompletedTaskCount: " + threadPool.getCompletedTaskCount());
-			stats.add(" |- QueuedTaskCount: .. " + threadPool.getQueue().size());
-			stats.add(" |- TaskCount: ........ " + threadPool.getTaskCount());
-			stats.add(" | -------");
-		}
-		return stats.toArray(new String[stats.size()]);
-	}
-	
-	/**
-	 * Shutdown thread pooling system correctly. Send different informations.
-	 */
-	public static void shutdown()
-	{
-		try
-		{
-			LOGGER.info("ThreadPoolManager: Shutting down.");
-			
-			for (ScheduledThreadPoolExecutor threadPool : _scheduledPools)
-			{
-				threadPool.shutdownNow();
-			}
-			
-			for (ThreadPoolExecutor threadPool : _instantPools)
-			{
-				threadPool.shutdownNow();
-			}
-		}
-		catch (Throwable t)
-		{
-			t.printStackTrace();
 		}
 	}
 	
@@ -230,51 +168,70 @@ public final class ThreadPoolManager
 	 */
 	private static <T> T getPool(T[] threadPools)
 	{
-		return threadPools[_threadPoolRandomizer++ % threadPools.length];
+		return threadPools[THREAD_POOL_RANDOMIZER++ % threadPools.length];
 	}
 	
-	/**
-	 * @param delay : The delay to validate.
-	 * @return a secured value, from 0 to MAX_DELAY.
-	 */
-	private static long validate(long delay)
+	public static String[] getStats()
 	{
-		return Math.max(0, Math.min(MAX_DELAY, delay));
-	}
-	
-	/**
-	 * @param threadPools : The pool array to check.
-	 * @return the overall actual pools size.
-	 */
-	private static long getPoolSize(ThreadPoolExecutor[] threadPools)
-	{
-		long result = 0;
-		
-		for (ThreadPoolExecutor threadPool : threadPools)
+		final String[] stats = new String[(SCHEDULED_POOLS.length + INSTANT_POOLS.length) * 10];
+		int pos = 0;
+		for (int i = 0; i < SCHEDULED_POOLS.length; i++)
 		{
-			result += threadPool.getPoolSize();
+			final ScheduledThreadPoolExecutor threadPool = SCHEDULED_POOLS[i];
+			stats[pos++] = "Scheduled pool #" + i + ":";
+			stats[pos++] = " |- ActiveCount: ...... " + threadPool.getActiveCount();
+			stats[pos++] = " |- CorePoolSize: ..... " + threadPool.getCorePoolSize();
+			stats[pos++] = " |- PoolSize: ......... " + threadPool.getPoolSize();
+			stats[pos++] = " |- LargestPoolSize: .. " + threadPool.getLargestPoolSize();
+			stats[pos++] = " |- MaximumPoolSize: .. " + threadPool.getMaximumPoolSize();
+			stats[pos++] = " |- CompletedTaskCount: " + threadPool.getCompletedTaskCount();
+			stats[pos++] = " |- QueuedTaskCount: .. " + threadPool.getQueue().size();
+			stats[pos++] = " |- TaskCount: ........ " + threadPool.getTaskCount();
+			stats[pos++] = " | -------";
 		}
-		
-		return result;
+		for (int i = 0; i < INSTANT_POOLS.length; i++)
+		{
+			final ThreadPoolExecutor threadPool = INSTANT_POOLS[i];
+			stats[pos++] = "Instant pool #" + i + ":";
+			stats[pos++] = " |- ActiveCount: ...... " + threadPool.getActiveCount();
+			stats[pos++] = " |- CorePoolSize: ..... " + threadPool.getCorePoolSize();
+			stats[pos++] = " |- PoolSize: ......... " + threadPool.getPoolSize();
+			stats[pos++] = " |- LargestPoolSize: .. " + threadPool.getLargestPoolSize();
+			stats[pos++] = " |- MaximumPoolSize: .. " + threadPool.getMaximumPoolSize();
+			stats[pos++] = " |- CompletedTaskCount: " + threadPool.getCompletedTaskCount();
+			stats[pos++] = " |- QueuedTaskCount: .. " + threadPool.getQueue().size();
+			stats[pos++] = " |- TaskCount: ........ " + threadPool.getTaskCount();
+			stats[pos++] = " | -------";
+		}
+		return stats;
 	}
 	
 	/**
-	 * @param threadPools : The pool array to check.
-	 * @return the overall maximum pools size.
+	 * Shutdown thread pooling system correctly. Send different informations.
 	 */
-	private static long getMaximumPoolSize(ThreadPoolExecutor[] threadPools)
+	public static void shutdown()
 	{
-		long result = 0;
-		
-		for (ThreadPoolExecutor threadPool : threadPools)
+		try
 		{
-			result += threadPool.getMaximumPoolSize();
+			LOGGER.info("ThreadPool: Shutting down.");
+			
+			for (ScheduledThreadPoolExecutor threadPool : SCHEDULED_POOLS)
+			{
+				threadPool.shutdownNow();
+			}
+			
+			for (ThreadPoolExecutor threadPool : INSTANT_POOLS)
+			{
+				threadPool.shutdownNow();
+			}
 		}
-		
-		return result;
+		catch (Throwable t)
+		{
+			t.printStackTrace();
+		}
 	}
 	
-	public static final class TaskWrapper implements Runnable
+	static final class TaskWrapper implements Runnable
 	{
 		private final Runnable _runnable;
 		
@@ -290,9 +247,14 @@ public final class ThreadPoolManager
 			{
 				_runnable.run();
 			}
-			catch (RuntimeException e)
+			catch (final Throwable e)
 			{
-				LOGGER.warning("Exception in " + _runnable.getClass().getName() + " execution: " + e.getMessage());
+				final Thread t = Thread.currentThread();
+				final UncaughtExceptionHandler h = t.getUncaughtExceptionHandler();
+				if (h != null)
+				{
+					h.uncaughtException(t, e);
+				}
 			}
 		}
 	}
