@@ -19,7 +19,7 @@ package com.epicdragonworld.gameserver.model;
 /**
  * @author Pantelis Andrianakis
  */
-public abstract class GameObject
+public class GameObject
 {
 	private Location _location;
 	
@@ -31,5 +31,32 @@ public abstract class GameObject
 	public void setLocation(Location location)
 	{
 		_location = location;
+	}
+	
+	/**
+	 * Calculates distance between this GameObject and given x, y , z.
+	 * @param x the X coordinate
+	 * @param y the Y coordinate
+	 * @param z the Z coordinate
+	 * @return distance between object and given x, y, z.
+	 */
+	public double calculateDistance(int x, int y, int z)
+	{
+		return Math.pow(x - _location.getX(), 2) + Math.pow(y - _location.getY(), 2) + Math.pow(z - _location.getZ(), 2);
+	}
+	
+	/**
+	 * Calculates distance between this GameObject and another GameObject.
+	 * @param object GameObject
+	 * @return distance between object and given x, y, z.
+	 */
+	public double calculateDistance(GameObject object)
+	{
+		return calculateDistance(object.getLocation().getX(), object.getLocation().getY(), object.getLocation().getZ());
+	}
+	
+	public boolean isPlayer()
+	{
+		return false;
 	}
 }

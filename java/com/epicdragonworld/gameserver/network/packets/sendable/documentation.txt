@@ -3,3 +3,5 @@ PacketId: Name
 2: CharacterSelectionInfoResult
 3: CharacterCreationResult
 4: CharacterDeletionResult
+5: EnterWorldInformation
+6: PlayerInformation

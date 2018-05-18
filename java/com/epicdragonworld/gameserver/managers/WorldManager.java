@@ -16,6 +16,7 @@
  */
 package com.epicdragonworld.gameserver.managers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -27,6 +28,7 @@ import com.epicdragonworld.gameserver.model.GameObject;
 public class WorldManager
 {
 	private final List<GameObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
+	private final int VISIBILITY_RANGE = 3000;
 	
 	public WorldManager()
 	{
@@ -43,6 +45,23 @@ public class WorldManager
 	public void remove(GameObject object)
 	{
 		GAME_OBJECTS.remove(object);
+	}
+	
+	public List<GameObject> getVisibleObjects(GameObject object)
+	{
+		final List<GameObject> result = new ArrayList<>();
+		for (GameObject obj : GAME_OBJECTS)
+		{
+			if (obj == object)
+			{
+				continue;
+			}
+			if (object.calculateDistance(obj) < VISIBILITY_RANGE)
+			{
+				result.add(obj);
+			}
+		}
+		return result;
 	}
 	
 	public static WorldManager getInstance()

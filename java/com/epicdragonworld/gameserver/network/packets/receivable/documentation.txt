@@ -5,3 +5,4 @@ PacketId: Name
 4: CharacterDeletionResult
 5: CharacterSlotUpdate
 6: CharacterSelectUpdate
+7: EnterWorldRequest

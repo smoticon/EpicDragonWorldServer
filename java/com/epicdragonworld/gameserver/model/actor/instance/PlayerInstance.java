@@ -16,23 +16,43 @@
  */
 package com.epicdragonworld.gameserver.model.actor.instance;
 
+import com.epicdragonworld.gameserver.managers.WorldManager;
 import com.epicdragonworld.gameserver.model.actor.Creature;
 import com.epicdragonworld.gameserver.network.GameClient;
 
 /**
  * @author Pantelis Andrianakis
  */
-public abstract class PlayerInstance extends Creature
+public class PlayerInstance extends Creature
 {
-	private GameClient _client;
+	private final GameClient _client;
+	private final String _name;
+	
+	public PlayerInstance(GameClient client, String name)
+	{
+		_client = client;
+		_name = name;
+		
+		// Load information from database.
+		// TODO: Get XYZ
+		
+		// Add object to the world.
+		WorldManager.getInstance().add(this);
+	}
 	
 	public GameClient getClient()
 	{
 		return _client;
 	}
 	
-	public void setClient(GameClient client)
+	public String getName()
 	{
-		_client = client;
+		return _name;
+	}
+	
+	@Override
+	public boolean isPlayer()
+	{
+		return true;
 	}
 }

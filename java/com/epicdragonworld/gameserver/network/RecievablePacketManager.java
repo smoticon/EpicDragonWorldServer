@@ -22,6 +22,7 @@ import com.epicdragonworld.gameserver.network.packets.receivable.CharacterDeleti
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelectUpdate;
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelectionInfoRequest;
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSlotUpdate;
+import com.epicdragonworld.gameserver.network.packets.receivable.EnterWorldRequest;
 
 /**
  * @author Pantelis Andrianakis
@@ -60,6 +61,11 @@ public class RecievablePacketManager
 			case 6:
 			{
 				new CharacterSelectUpdate(client, packet);
+				break;
+			}
+			case 7:
+			{
+				new EnterWorldRequest(client, packet);
 				break;
 			}
 		}
