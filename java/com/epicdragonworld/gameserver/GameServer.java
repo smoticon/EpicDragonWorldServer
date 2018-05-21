@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 
 import com.epicdragonworld.Config;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
+import com.epicdragonworld.gameserver.managers.IdManager;
 import com.epicdragonworld.gameserver.managers.ThreadPoolManager;
 import com.epicdragonworld.gameserver.network.ClientNetworkManager;
 import com.epicdragonworld.gameserver.network.Encryption;
@@ -71,6 +72,9 @@ public class GameServer
 		
 		printSection("ThreadPool");
 		ThreadPoolManager.init();
+		
+		printSection("IdManager");
+		IdManager.getInstance();
 		
 		// Post info.
 		printSection("Info");
