@@ -5,3 +5,5 @@ PacketId: Name
 4: CharacterDeletionResult
 5: EnterWorldInformation
 6: PlayerInformation
+7: DeleteObject
+8: Logout

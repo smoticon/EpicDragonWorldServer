@@ -23,9 +23,11 @@ import java.util.logging.Logger;
 
 import com.epicdragonworld.Config;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
+import com.epicdragonworld.gameserver.managers.WorldManager;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.ReceivablePacket;
 import com.epicdragonworld.gameserver.network.packets.sendable.AccountAuthenticationResult;
+import com.epicdragonworld.gameserver.network.packets.sendable.Logout;
 import com.epicdragonworld.util.Util;
 
 /**
@@ -40,8 +42,8 @@ public class AccountAuthenticationRequest
 	private static final String ACCOUNT_CREATE_QUERY = "INSERT INTO accounts (account, password, status) values (?, ?, 3)";
 	private static final int STATUS_NOT_FOUND = 0;
 	private static final int STATUS_WRONG_PASSWORD = 3;
-	@SuppressWarnings("unused")
-	private static final int STATUS_TOO_MANY_ONLINE = 4; // TODO: STATUS_TOO_MANY_ONLINE
+	private static final int STATUS_ALREADY_ONLINE = 4;
+	private static final int STATUS_TOO_MANY_ONLINE = 5;
 	private static final int STATUS_AUTHENTICATED = 100;
 	
 	public AccountAuthenticationRequest(GameClient client, ReceivablePacket packet)
@@ -118,9 +120,24 @@ public class AccountAuthenticationRequest
 			}
 		}
 		
-		// TODO: STATUS_TOO_MANY_ONLINE
+		// Kick existing logged client.
+		final GameClient existingClient = WorldManager.getInstance().getClientByAccountName(accountName);
+		if (existingClient != null)
+		{
+			existingClient.channelSend(new Logout(accountName));
+			client.channelSend(new AccountAuthenticationResult(STATUS_ALREADY_ONLINE));
+			return;
+		}
+		
+		// Too many online users.
+		if (WorldManager.getInstance().getOnlineCount() >= Config.MAXIMUM_ONLINE_USERS)
+		{
+			client.channelSend(new AccountAuthenticationResult(STATUS_TOO_MANY_ONLINE));
+			return;
+		}
 		
 		// Authentication was successful.
+		WorldManager.getInstance().addClient(client);
 		client.setAccountName(accountName);
 		client.channelSend(new AccountAuthenticationResult(STATUS_AUTHENTICATED));
 		

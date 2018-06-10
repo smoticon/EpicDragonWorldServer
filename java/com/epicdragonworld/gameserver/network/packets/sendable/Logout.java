@@ -14,51 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.epicdragonworld.gameserver.model.actor.instance;
+package com.epicdragonworld.gameserver.network.packets.sendable;
 
 import com.epicdragonworld.gameserver.managers.WorldManager;
-import com.epicdragonworld.gameserver.model.actor.Creature;
-import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.SendablePacket;
 
 /**
  * @author Pantelis Andrianakis
  */
-public class PlayerInstance extends Creature
+public class Logout extends SendablePacket
 {
-	private final GameClient _client;
-	private final String _name;
-	
-	public PlayerInstance(GameClient client, String name)
+	public Logout(String accountName)
 	{
-		_client = client;
-		_name = name;
+		// Send the data.
+		writeShort(8); // Packet id.
 		
-		// Load information from database.
-		// TODO: Get XYZ
-		
-		// Add object to the world.
-		WorldManager.getInstance().addObject(this);
-	}
-	
-	public GameClient getClient()
-	{
-		return _client;
-	}
-	
-	public String getName()
-	{
-		return _name;
-	}
-	
-	@Override
-	public boolean isPlayer()
-	{
-		return true;
-	}
-	
-	public void channelSend(SendablePacket packet)
-	{
-		_client.channelSend(packet);
+		// Extreme case precaution in case of client crash or forced close.
+		WorldManager.getInstance().removeClientByAccountName(accountName);
 	}
 }

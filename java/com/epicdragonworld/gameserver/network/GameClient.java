@@ -22,6 +22,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
+import com.epicdragonworld.gameserver.managers.WorldManager;
 import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
 
 /**
@@ -66,6 +67,7 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx)
 	{
+		WorldManager.getInstance().removeClient(this);
 		LOGGER.finer("Client Disconnected: " + ctx.channel());
 	}
 	

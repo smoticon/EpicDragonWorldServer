@@ -56,6 +56,7 @@ public final class Config
 	public static int INSTANT_THREAD_POOL_COUNT;
 	public static int THREADS_PER_INSTANT_THREAD_POOL;
 	public static int IO_PACKET_THREAD_CORE_SIZE;
+	public static int MAXIMUM_ONLINE_USERS;
 	
 	public static void load()
 	{
@@ -77,5 +78,6 @@ public final class Config
 		INSTANT_THREAD_POOL_COUNT = serverSettings.getInt("InstantThreadPoolCount", -1);
 		THREADS_PER_INSTANT_THREAD_POOL = serverSettings.getInt("ThreadsPerInstantThreadPool", 2);
 		IO_PACKET_THREAD_CORE_SIZE = serverSettings.getInt("UrgentPacketThreadCoreSize", 2);
+		MAXIMUM_ONLINE_USERS = serverSettings.getInt("MaximumOnlineUsers", 2000);
 	}
 }

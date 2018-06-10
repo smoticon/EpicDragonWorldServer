@@ -21,7 +21,13 @@ package com.epicdragonworld.gameserver.model;
  */
 public class GameObject
 {
+	private int _objectId;
 	private Location _location;
+	
+	public int getObjectId()
+	{
+		return _objectId;
+	}
 	
 	public Location getLocation()
 	{
