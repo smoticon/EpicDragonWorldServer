@@ -48,6 +48,7 @@ public class ObjectInfoRequest
 					otherPlayer.channelSend(playerInfo);
 				}
 				// TODO: Other objects.
+				break;
 			}
 		}
 	}
