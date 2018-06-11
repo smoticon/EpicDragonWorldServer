@@ -21,12 +21,12 @@ package com.epicdragonworld.gameserver.model;
  */
 public class Location
 {
-	int _x;
-	int _y;
-	int _z;
+	float _x;
+	float _y;
+	float _z;
 	int _heading;
 	
-	public Location(int x, int y, int z, int heading)
+	public Location(float x, float y, float z, int heading)
 	{
 		_x = x;
 		_y = y;
@@ -34,32 +34,32 @@ public class Location
 		_heading = heading;
 	}
 	
-	public int getX()
+	public float getX()
 	{
 		return _x;
 	}
 	
-	public void setX(int x)
+	public void setX(float x)
 	{
 		_x = x;
 	}
 	
-	public int getY()
+	public float getY()
 	{
 		return _y;
 	}
 	
-	public void setY(int y)
+	public void setY(float y)
 	{
 		_y = y;
 	}
 	
-	public int getZ()
+	public float getZ()
 	{
 		return _z;
 	}
 	
-	public void setZ(int z)
+	public void setZ(float z)
 	{
 		_z = z;
 	}

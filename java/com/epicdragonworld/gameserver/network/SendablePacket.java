@@ -93,6 +93,15 @@ public class SendablePacket
 		_baos.write((int) ((value >> 56) & 0xff));
 	}
 	
+	public void writeFloat(float fvalue)
+	{
+		final int value = Float.floatToRawIntBits(fvalue);
+		_baos.write(value & 0xff);
+		_baos.write((value >> 8) & 0xff);
+		_baos.write((value >> 16) & 0xff);
+		_baos.write((value >> 24) & 0xff);
+	}
+	
 	public void writeDouble(double dvalue)
 	{
 		final long value = Double.doubleToRawLongBits(dvalue);

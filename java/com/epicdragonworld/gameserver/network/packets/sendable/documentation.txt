@@ -7,3 +7,4 @@ PacketId: Name
 6: PlayerInformation
 7: DeleteObject
 8: Logout
+9: MoveToLocation

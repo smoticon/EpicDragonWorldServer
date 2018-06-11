@@ -21,38 +21,37 @@ import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.ReceivablePacket;
-import com.epicdragonworld.gameserver.network.packets.sendable.EnterWorldInformation;
-import com.epicdragonworld.gameserver.network.packets.sendable.PlayerInformation;
+import com.epicdragonworld.gameserver.network.packets.sendable.MoveToLocation;
 
 /**
  * @author Pantelis Andrianakis
  */
-public class EnterWorldRequest
+public class LocationUpdate
 {
-	public EnterWorldRequest(GameClient client, ReceivablePacket packet)
+	public LocationUpdate(GameClient client, ReceivablePacket packet)
 	{
 		// Read data.
-		final String characterName = packet.readString();
+		final float posX = (float) packet.readDouble(); // TODO: Client WriteFloat
+		final float posY = (float) packet.readDouble(); // TODO: Client WriteFloat
+		final float posZ = (float) packet.readDouble(); // TODO: Client WriteFloat
 		
-		// Create a new PlayerInstance.
-		final PlayerInstance player = new PlayerInstance(client, characterName);
-		// Add object to the world.
-		WorldManager.getInstance().addObject(player);
-		// Assign this player to client.
-		client.setActiveChar(player);
-		// Send active player information to client.
-		client.channelSend(new EnterWorldInformation(player));
-		// Send and receive visible object information.
-		final PlayerInformation playerInfo = new PlayerInformation(player);
-		for (WorldObject object : WorldManager.getInstance().getVisibleObjects(player))
+		// Update player location.
+		final PlayerInstance player = client.getActiveChar();
+		if (player != null)
 		{
-			if (object.isPlayer())
+			player.getLocation().setX(posX);
+			player.getLocation().setY(posY);
+			player.getLocation().setZ(posZ);
+			
+			// Broadcast movement.
+			for (WorldObject object : WorldManager.getInstance().getVisibleObjects(player))
 			{
-				final PlayerInstance otherPlayer = (PlayerInstance) object;
-				client.channelSend(new PlayerInformation(otherPlayer));
-				otherPlayer.channelSend(playerInfo);
+				if (object.isPlayer())
+				{
+					((PlayerInstance) object).channelSend(new MoveToLocation(player));
+				}
+				// TODO: Other objects.
 			}
-			// TODO: Other objects.
 		}
 	}
 }

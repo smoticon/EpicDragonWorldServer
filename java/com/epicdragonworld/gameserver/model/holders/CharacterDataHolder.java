@@ -26,9 +26,9 @@ public class CharacterDataHolder
 	private boolean _selected = false;
 	private byte _classId = 0;
 	private String _locationName = "";
-	private double _x = 0;
-	private double _y = 0;
-	private double _z = 0;
+	private float _x = 0;
+	private float _y = 0;
+	private float _z = 0;
 	private int _heading = 0;
 	private long _experience = 0;
 	private long _hp = 0;
@@ -92,32 +92,32 @@ public class CharacterDataHolder
 		_locationName = locationName;
 	}
 	
-	public double getX()
+	public float getX()
 	{
 		return _x;
 	}
 	
-	public void setX(double x)
+	public void setX(float x)
 	{
 		_x = x;
 	}
 	
-	public double getY()
+	public float getY()
 	{
 		return _y;
 	}
 	
-	public void setY(double y)
+	public void setY(float y)
 	{
 		_y = y;
 	}
 	
-	public double getZ()
+	public float getZ()
 	{
 		return _z;
 	}
 	
-	public void setZ(double z)
+	public void setZ(float z)
 	{
 		_z = z;
 	}

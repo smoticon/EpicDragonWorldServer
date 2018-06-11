@@ -152,9 +152,9 @@ public class CharacterCreationRequest
 			ps.setInt(4, 1); // Selected character.
 			ps.setInt(5, classId);
 			ps.setString(6, "Start Location");
-			ps.setDouble(7, 0); // TODO: Starting Location.
-			ps.setDouble(8, 0); // TODO: Starting Location.
-			ps.setDouble(9, 0); // TODO: Starting Location.
+			ps.setFloat(7, 0); // TODO: Starting Location.
+			ps.setFloat(8, 0); // TODO: Starting Location.
+			ps.setFloat(9, 0); // TODO: Starting Location.
 			ps.setInt(10, 0); // TODO: Starting Location.
 			ps.setLong(11, 0); // TODO: Starting level experience.
 			ps.setLong(12, 1); // TODO: Character stats HP.

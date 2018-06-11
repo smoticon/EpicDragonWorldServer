@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.epicdragonworld.gameserver.model.GameObject;
+import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.packets.sendable.DeleteObject;
@@ -30,7 +30,7 @@ import com.epicdragonworld.gameserver.network.packets.sendable.DeleteObject;
  */
 public class WorldManager
 {
-	private final List<GameObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
+	private final List<WorldObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
 	private final List<GameClient> ONLINE_CLIENTS = new CopyOnWriteArrayList<>();
 	private final int VISIBILITY_RANGE = 3000;
 	
@@ -38,7 +38,7 @@ public class WorldManager
 	{
 	}
 	
-	public synchronized void addObject(GameObject object)
+	public synchronized void addObject(WorldObject object)
 	{
 		if (!GAME_OBJECTS.contains(object))
 		{
@@ -50,9 +50,9 @@ public class WorldManager
 		}
 	}
 	
-	public void removeObject(GameObject object)
+	public void removeObject(WorldObject object)
 	{
-		for (GameObject obj : getVisibleObjects(object))
+		for (WorldObject obj : getVisibleObjects(object))
 		{
 			if (obj.isPlayer())
 			{
@@ -60,12 +60,13 @@ public class WorldManager
 			}
 		}
 		GAME_OBJECTS.remove(object);
+		object.deleteMe();
 	}
 	
-	public List<GameObject> getVisibleObjects(GameObject object)
+	public List<WorldObject> getVisibleObjects(WorldObject object)
 	{
-		final List<GameObject> result = new ArrayList<>();
-		for (GameObject obj : GAME_OBJECTS)
+		final List<WorldObject> result = new ArrayList<>();
+		for (WorldObject obj : GAME_OBJECTS)
 		{
 			if (obj == object)
 			{

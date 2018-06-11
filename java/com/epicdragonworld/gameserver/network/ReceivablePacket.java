@@ -85,6 +85,15 @@ public class ReceivablePacket
 		return result;
 	}
 	
+	public float readFloat()
+	{
+		int result = _bais.read() & 0xff;
+		result |= (_bais.read() << 8) & 0xff00;
+		result |= (_bais.read() << 0x10) & 0xff0000;
+		result |= (_bais.read() << 0x18) & 0xff000000;
+		return Float.intBitsToFloat(result);
+	}
+	
 	public double readDouble()
 	{
 		long result = _bais.read() & 0xff;

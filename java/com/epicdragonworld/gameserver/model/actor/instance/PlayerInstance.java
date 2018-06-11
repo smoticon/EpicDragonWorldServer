@@ -16,7 +16,6 @@
  */
 package com.epicdragonworld.gameserver.model.actor.instance;
 
-import com.epicdragonworld.gameserver.managers.WorldManager;
 import com.epicdragonworld.gameserver.model.actor.Creature;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.SendablePacket;
@@ -36,9 +35,9 @@ public class PlayerInstance extends Creature
 		
 		// Load information from database.
 		// TODO: Get XYZ
-		
-		// Add object to the world.
-		WorldManager.getInstance().addObject(this);
+		getLocation().setX(0);
+		getLocation().setY(0);
+		getLocation().setZ(0);
 	}
 	
 	public GameClient getClient()

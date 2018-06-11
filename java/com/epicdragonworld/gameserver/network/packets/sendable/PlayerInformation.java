@@ -29,10 +29,11 @@ public class PlayerInformation extends SendablePacket
 		// Packet id.
 		writeShort(6);
 		// Player information.
+		writeInt(player.getObjectId());
 		writeString(player.getName());
-		writeDouble(player.getLocation().getX());
-		writeDouble(player.getLocation().getY());
-		writeDouble(player.getLocation().getZ());
+		writeFloat(player.getLocation().getX());
+		writeFloat(player.getLocation().getY());
+		writeFloat(player.getLocation().getZ());
 		writeInt(player.getLocation().getHeading());
 	}
 }

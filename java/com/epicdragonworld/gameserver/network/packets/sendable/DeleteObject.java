@@ -16,7 +16,7 @@
  */
 package com.epicdragonworld.gameserver.network.packets.sendable;
 
-import com.epicdragonworld.gameserver.model.GameObject;
+import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.network.SendablePacket;
 
 /**
@@ -24,10 +24,10 @@ import com.epicdragonworld.gameserver.network.SendablePacket;
  */
 public class DeleteObject extends SendablePacket
 {
-	public DeleteObject(GameObject obj)
+	public DeleteObject(WorldObject object)
 	{
 		// Send the data.
 		writeShort(7); // Packet id.
-		writeInt(obj.getObjectId()); // ID of object to delete.
+		writeInt(object.getObjectId()); // ID of object to delete.
 	}
 }

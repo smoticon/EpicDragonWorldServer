@@ -56,9 +56,9 @@ public class CharacterSelectionInfoResult extends SendablePacket
 					characterData.setSelected(rset.getBoolean("selected"));
 					characterData.setClassId(rset.getByte("class_id"));
 					characterData.setLocationName(rset.getString("location_name"));
-					characterData.setX(rset.getDouble("x"));
-					characterData.setY(rset.getDouble("y"));
-					characterData.setZ(rset.getDouble("z"));
+					characterData.setX(rset.getFloat("x"));
+					characterData.setY(rset.getFloat("y"));
+					characterData.setZ(rset.getFloat("z"));
 					characterData.setHeading(rset.getInt("heading"));
 					characterData.setExperience(rset.getLong("experience"));
 					characterData.setHp(rset.getLong("hp"));
@@ -90,9 +90,9 @@ public class CharacterSelectionInfoResult extends SendablePacket
 			writeByte(characterData.isSelected() ? 1 : 0);
 			writeByte(characterData.getClassId());
 			writeString(characterData.getLocationName());
-			writeDouble(characterData.getX());
-			writeDouble(characterData.getY());
-			writeDouble(characterData.getZ());
+			writeFloat(characterData.getX());
+			writeFloat(characterData.getY());
+			writeFloat(characterData.getZ());
 			writeInt(characterData.getHeading());
 			writeLong(characterData.getExperience());
 			writeLong(characterData.getHp());

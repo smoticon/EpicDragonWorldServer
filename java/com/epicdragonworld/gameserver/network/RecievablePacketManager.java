@@ -23,6 +23,7 @@ import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelect
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelectionInfoRequest;
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSlotUpdate;
 import com.epicdragonworld.gameserver.network.packets.receivable.EnterWorldRequest;
+import com.epicdragonworld.gameserver.network.packets.receivable.LocationUpdate;
 
 /**
  * @author Pantelis Andrianakis
@@ -66,6 +67,11 @@ public class RecievablePacketManager
 			case 7:
 			{
 				new EnterWorldRequest(client, packet);
+				break;
+			}
+			case 8:
+			{
+				new LocationUpdate(client, packet);
 				break;
 			}
 		}

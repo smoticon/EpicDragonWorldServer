@@ -14,14 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package com.epicdragonworld.gameserver.model.actor;
+package com.epicdragonworld.gameserver.network.packets.sendable;
 
 import com.epicdragonworld.gameserver.model.WorldObject;
+import com.epicdragonworld.gameserver.network.SendablePacket;
 
 /**
  * @author Pantelis Andrianakis
  */
-public class Creature extends WorldObject
+public class MoveToLocation extends SendablePacket
 {
-	
+	public MoveToLocation(WorldObject object)
+	{
+		// Send the data.
+		writeShort(9); // Packet id.
+		writeInt(object.getObjectId());
+		writeFloat(object.getLocation().getX());
+		writeFloat(object.getLocation().getY());
+		writeFloat(object.getLocation().getZ());
+	}
 }

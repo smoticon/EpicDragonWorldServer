@@ -47,12 +47,6 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 		_ip = _ip.substring(1, _ip.lastIndexOf(':')); // Trim out /127.0.0.1:12345
 	}
 	
-	@Override
-	public void handlerRemoved(ChannelHandlerContext ctx)
-	{
-		// Disconnected.
-	}
-	
 	public void channelSend(SendablePacket packet)
 	{
 		_channel.writeAndFlush(packet.getSendableBytes());
@@ -65,15 +59,28 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 	}
 	
 	@Override
-	public void channelInactive(ChannelHandlerContext ctx)
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 	{
-		WorldManager.getInstance().removeClient(this);
-		LOGGER.finer("Client Disconnected: " + ctx.channel());
 	}
 	
 	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+	public void channelInactive(ChannelHandlerContext ctx)
 	{
+		// Disconnected.
+		onDisconnect(ctx);
+	}
+	
+	@Override
+	public void handlerRemoved(ChannelHandlerContext ctx)
+	{
+		// Disconnected.
+		onDisconnect(ctx);
+	}
+	
+	private void onDisconnect(ChannelHandlerContext ctx)
+	{
+		WorldManager.getInstance().removeClient(this);
+		LOGGER.finer("Client Disconnected: " + ctx.channel());
 	}
 	
 	public String getIp()
