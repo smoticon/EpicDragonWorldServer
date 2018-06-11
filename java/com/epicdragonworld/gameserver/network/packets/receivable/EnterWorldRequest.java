@@ -48,8 +48,10 @@ public class EnterWorldRequest
 		{
 			if (object.isPlayer())
 			{
+				// Send the information to the current player.
 				final PlayerInstance otherPlayer = (PlayerInstance) object;
 				client.channelSend(new PlayerInformation(otherPlayer));
+				// Send information to the other player as well.
 				otherPlayer.channelSend(playerInfo);
 			}
 			// TODO: Other objects.
