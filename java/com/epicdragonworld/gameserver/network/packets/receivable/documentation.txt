@@ -7,3 +7,4 @@ PacketId: Name
 6: CharacterSelectUpdate
 7: EnterWorldRequest
 8: LocationUpdate
+9: ObjectInfoRequest
