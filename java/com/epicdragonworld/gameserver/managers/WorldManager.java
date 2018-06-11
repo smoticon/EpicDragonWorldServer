@@ -56,7 +56,7 @@ public class WorldManager
 		{
 			if (obj.isPlayer())
 			{
-				((PlayerInstance) obj).channelSend(new DeleteObject(obj));
+				((PlayerInstance) obj).channelSend(new DeleteObject(object));
 			}
 		}
 		GAME_OBJECTS.remove(object);
