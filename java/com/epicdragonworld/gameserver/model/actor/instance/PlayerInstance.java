@@ -35,9 +35,9 @@ public class PlayerInstance extends Creature
 		
 		// Load information from database.
 		// TODO: Get XYZ
-		getLocation().setX(0);
-		getLocation().setY(0);
-		getLocation().setZ(0);
+		getLocation().setX(9.824759f);
+		getLocation().setY(-9.33f);
+		getLocation().setZ(0.2593288f);
 	}
 	
 	public GameClient getClient()

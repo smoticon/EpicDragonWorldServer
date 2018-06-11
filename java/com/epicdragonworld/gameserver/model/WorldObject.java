@@ -24,8 +24,7 @@ import com.epicdragonworld.gameserver.managers.IdManager;
 public class WorldObject
 {
 	private final int _objectId;
-	// private Location _location = new Location(0, -1000, 0, 0);
-	private Location _location = new Location(9.824759f, -9.33f, 0.2593288f, 0);
+	private Location _location = new Location(0, -1000, 0, 0);
 	
 	public WorldObject()
 	{
