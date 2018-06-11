@@ -30,6 +30,7 @@ public class PlayerInformation extends SendablePacket
 		writeShort(6);
 		// Player information.
 		writeInt(player.getObjectId());
+		writeShort(player.getClassId());
 		writeString(player.getName());
 		writeFloat(player.getLocation().getX());
 		writeFloat(player.getLocation().getY());
