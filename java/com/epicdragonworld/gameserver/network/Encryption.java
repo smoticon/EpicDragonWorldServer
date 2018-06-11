@@ -33,8 +33,9 @@ public class Encryption
 	private final static String PASSWORD = "SECRET_KEYWORD";
 	// 16-byte private password.
 	private final static String IV = "0123456789012345";
+	// Transformation.
+	private final static String ALGORITHM = "AES/CBC/PKCS5Padding";
 	
-	private static Cipher _cipher;
 	private static SecretKey _key;
 	private static IvParameterSpec _ivParameterSpec;
 	
@@ -43,7 +44,6 @@ public class Encryption
 		try
 		{
 			_key = new SecretKeySpec(MessageDigest.getInstance("MD5").digest(PASSWORD.getBytes("UTF-8")), "AES");
-			_cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			_ivParameterSpec = new IvParameterSpec(IV.getBytes("UTF-8"));
 		}
 		catch (Exception e)
@@ -55,8 +55,9 @@ public class Encryption
 	{
 		try
 		{
-			_cipher.init(Cipher.ENCRYPT_MODE, _key, _ivParameterSpec);
-			return _cipher.doFinal(bytes);
+			final Cipher cipher = Cipher.getInstance(ALGORITHM);
+			cipher.init(Cipher.ENCRYPT_MODE, _key, _ivParameterSpec);
+			return cipher.doFinal(bytes);
 		}
 		catch (Exception e)
 		{
@@ -68,8 +69,9 @@ public class Encryption
 	{
 		try
 		{
-			_cipher.init(Cipher.DECRYPT_MODE, _key, _ivParameterSpec);
-			return _cipher.doFinal(bytes);
+			final Cipher cipher = Cipher.getInstance(ALGORITHM);
+			cipher.init(Cipher.DECRYPT_MODE, _key, _ivParameterSpec);
+			return cipher.doFinal(bytes);
 		}
 		catch (Exception e)
 		{
