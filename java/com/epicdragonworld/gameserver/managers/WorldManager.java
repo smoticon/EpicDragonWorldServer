@@ -98,6 +98,7 @@ public class WorldManager
 		final PlayerInstance player = client.getActiveChar();
 		if (player != null)
 		{
+			player.storeMe();
 			removeObject(player);
 		}
 		ONLINE_CLIENTS.remove(client);

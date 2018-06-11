@@ -33,6 +33,7 @@ public class PlayerInstance extends Creature
 {
 	private static final Logger LOGGER = Logger.getLogger(PlayerInstance.class.getName());
 	private static final String RESTORE_CHARACTER = "SELECT * FROM characters WHERE name=?";
+	private static final String STORE_CHARACTER = "UPDATE characters SET name=?, class_id=? WHERE account=? AND name=?";
 	
 	private final GameClient _client;
 	private final String _name;
@@ -58,6 +59,24 @@ public class PlayerInstance extends Creature
 					getLocation().setZ(rset.getFloat("z"));
 				}
 			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.warning(e.getMessage());
+		}
+	}
+	
+	public void storeMe()
+	{
+		try (Connection con = DatabaseManager.getInstance().getConnection();
+			PreparedStatement ps = con.prepareStatement(STORE_CHARACTER))
+		{
+			ps.setString(1, _name);
+			ps.setInt(2, _classId);
+			// TODO: Save location.
+			ps.setString(3, _client.getAccountName());
+			ps.setString(4, _name);
+			ps.execute();
 		}
 		catch (Exception e)
 		{
