@@ -9,3 +9,4 @@ Epic Dragon World Server
 - Network encryption.
 - Client authentication.
 - Character management.
+- Broadcast game object movement.
