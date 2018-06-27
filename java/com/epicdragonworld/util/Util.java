@@ -91,7 +91,7 @@ public final class Util
 	{
 		final byte[] data = new byte[buf.remaining()];
 		buf.get(data);
-		final String hex = Util.printData(data, data.length);
+		final String hex = printData(data, data.length);
 		buf.position(buf.position() - data.length);
 		return hex;
 	}

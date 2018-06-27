@@ -30,11 +30,11 @@ import javax.crypto.spec.SecretKeySpec;
 public class Encryption
 {
 	// Secret keyword.
-	private final static String PASSWORD = "SECRET_KEYWORD";
+	private static final String PASSWORD = "SECRET_KEYWORD";
 	// 16-byte private password.
-	private final static String IV = "0123456789012345";
+	private static final String IV = "0123456789012345";
 	// Transformation.
-	private final static String ALGORITHM = "AES/CBC/PKCS5Padding";
+	private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
 	
 	private static SecretKey _key;
 	private static IvParameterSpec _ivParameterSpec;
