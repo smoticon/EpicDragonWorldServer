@@ -13,4 +13,5 @@ Java/Netty server that connects with Unity3D/C# clients.
 - Character management.
 - Broadcast game object movement.
 
+### You can see the latest development progress on YouTube.
 [![Video demonstration](https://img.youtube.com/vi/I5hA0cYZCoE/0.jpg)](https://www.youtube.com/watch?v=I5hA0cYZCoE&list=PLNuit1aMUWTDRll1MGF7Cqn_lX-BqKpZn)
