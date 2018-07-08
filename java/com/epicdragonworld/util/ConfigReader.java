@@ -27,107 +27,107 @@ public final class ConfigReader
 		}
 	}
 	
-	public String getString(String value, String defaultValue)
+	public String getString(String config, String defaultValue)
 	{
-		if (!_properties.containsKey(value))
+		if (!_properties.containsKey(config))
 		{
-			LOGGER.warning("Missing config " + value + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
+			LOGGER.warning("Missing config " + config + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
 			return defaultValue;
 		}
-		return _properties.getProperty(value);
+		return _properties.getProperty(config);
 	}
 	
-	public boolean getBoolean(String value, boolean defaultValue)
+	public boolean getBoolean(String config, boolean defaultValue)
 	{
-		if (!_properties.containsKey(value))
+		if (!_properties.containsKey(config))
 		{
-			LOGGER.warning("Missing config " + value + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
+			LOGGER.warning("Missing config " + config + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
 			return defaultValue;
 		}
 		
 		try
 		{
-			return Boolean.parseBoolean(_properties.getProperty(value));
+			return Boolean.parseBoolean(_properties.getProperty(config));
 		}
 		catch (Exception e)
 		{
-			LOGGER.warning("Config " + value + " from file " + _fileName + " should be Boolean. Using default value " + defaultValue + " instead.");
+			LOGGER.warning("Config " + config + " from file " + _fileName + " should be Boolean. Using default value " + defaultValue + " instead.");
 			return defaultValue;
 		}
 	}
 	
-	public int getInt(String value, int defaultValue)
+	public int getInt(String config, int defaultValue)
 	{
-		if (!_properties.containsKey(value))
+		if (!_properties.containsKey(config))
 		{
-			LOGGER.warning("Missing config " + value + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
+			LOGGER.warning("Missing config " + config + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
 			return defaultValue;
 		}
 		
 		try
 		{
-			return Integer.parseInt(_properties.getProperty(value));
+			return Integer.parseInt(_properties.getProperty(config));
 		}
 		catch (Exception e)
 		{
-			LOGGER.warning("Config " + value + " from file " + _fileName + " should be Integer. Using default value " + defaultValue + " instead.");
+			LOGGER.warning("Config " + config + " from file " + _fileName + " should be Integer. Using default value " + defaultValue + " instead.");
 			return defaultValue;
 		}
 	}
 	
-	public long getLong(String value, long defaultValue)
+	public long getLong(String config, long defaultValue)
 	{
-		if (!_properties.containsKey(value))
+		if (!_properties.containsKey(config))
 		{
-			LOGGER.warning("Missing config " + value + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
+			LOGGER.warning("Missing config " + config + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
 			return defaultValue;
 		}
 		
 		try
 		{
-			return Long.parseLong(_properties.getProperty(value));
+			return Long.parseLong(_properties.getProperty(config));
 		}
 		catch (Exception e)
 		{
-			LOGGER.warning("Config " + value + " from file " + _fileName + " should be Long. Using default value " + defaultValue + " instead.");
+			LOGGER.warning("Config " + config + " from file " + _fileName + " should be Long. Using default value " + defaultValue + " instead.");
 			return defaultValue;
 		}
 	}
 	
-	public float getFloat(String value, float defaultValue)
+	public float getFloat(String config, float defaultValue)
 	{
-		if (!_properties.containsKey(value))
+		if (!_properties.containsKey(config))
 		{
-			LOGGER.warning("Missing config " + value + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
+			LOGGER.warning("Missing config " + config + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
 			return defaultValue;
 		}
 		
 		try
 		{
-			return Float.parseFloat(_properties.getProperty(value));
+			return Float.parseFloat(_properties.getProperty(config));
 		}
 		catch (Exception e)
 		{
-			LOGGER.warning("Config " + value + " from file " + _fileName + " should be Float. Using default value " + defaultValue + " instead.");
+			LOGGER.warning("Config " + config + " from file " + _fileName + " should be Float. Using default value " + defaultValue + " instead.");
 			return defaultValue;
 		}
 	}
 	
-	public double getDouble(String value, double defaultValue)
+	public double getDouble(String config, double defaultValue)
 	{
-		if (!_properties.containsKey(value))
+		if (!_properties.containsKey(config))
 		{
-			LOGGER.warning("Missing config " + value + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
+			LOGGER.warning("Missing config " + config + " from file " + _fileName + ". Default value " + defaultValue + " will be used instead.");
 			return defaultValue;
 		}
 		
 		try
 		{
-			return Double.parseDouble(_properties.getProperty(value));
+			return Double.parseDouble(_properties.getProperty(config));
 		}
 		catch (Exception e)
 		{
-			LOGGER.warning("Config " + value + " from file " + _fileName + " should be Double. Using default value " + defaultValue + " instead.");
+			LOGGER.warning("Config " + config + " from file " + _fileName + " should be Double. Using default value " + defaultValue + " instead.");
 			return defaultValue;
 		}
 	}
