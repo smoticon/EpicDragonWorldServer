@@ -66,8 +66,7 @@ public class GameServer
 		printSection("Info");
 		LOGGER.info("Server loaded in " + ((System.currentTimeMillis() - serverLoadStart) / 1000) + " seconds.");
 		System.gc();
-		final long totalMem = Runtime.getRuntime().maxMemory() / 1048576;
-		LOGGER.info("Started, using " + getUsedMemoryMB() + " of " + totalMem + " MB total memory.");
+		LOGGER.info("Started, using " + ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576) + " of " + (Runtime.getRuntime().maxMemory() / 1048576) + " MB total memory.");
 		
 		// Initialize Network.
 		new ServerBootstrap() //
@@ -77,15 +76,10 @@ public class GameServer
 			.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT) //
 			.bind(Config.GAMESERVER_HOSTNAME, Config.GAMESERVER_PORT) //
 			.sync();
-		LOGGER.info(getClass().getSimpleName() + ": Listening on " + Config.GAMESERVER_HOSTNAME + ":" + Config.GAMESERVER_PORT);
+		LOGGER.info("Listening on " + Config.GAMESERVER_HOSTNAME + ":" + Config.GAMESERVER_PORT);
 		
 		// Notify sound.
 		Toolkit.getDefaultToolkit().beep();
-	}
-	
-	private long getUsedMemoryMB()
-	{
-		return (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576;
 	}
 	
 	private void printSection(String s)
