@@ -7,11 +7,17 @@ import java.io.InputStream;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+
 import com.epicdragonworld.Config;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
 import com.epicdragonworld.gameserver.managers.IdManager;
 import com.epicdragonworld.gameserver.managers.ThreadPoolManager;
-import com.epicdragonworld.gameserver.network.ClientNetworkManager;
+import com.epicdragonworld.gameserver.network.ClientInitializer;
 import com.epicdragonworld.gameserver.network.Encryption;
 
 /**
@@ -67,8 +73,15 @@ public class GameServer
 		final long totalMem = Runtime.getRuntime().maxMemory() / 1048576;
 		LOGGER.info("Started, using " + getUsedMemoryMB() + " of " + totalMem + " MB total memory.");
 		
-		// Network.
-		ClientNetworkManager.getInstance().start();
+		// Initialize Network.
+		new ServerBootstrap() //
+			.group(new NioEventLoopGroup(1), new NioEventLoopGroup(Config.IO_PACKET_THREAD_CORE_SIZE)) //
+			.channel(NioServerSocketChannel.class) //
+			.childHandler(new ClientInitializer()) //
+			.childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT) //
+			.bind(Config.GAMESERVER_HOSTNAME, Config.GAMESERVER_PORT) //
+			.sync();
+		LOGGER.info(getClass().getSimpleName() + ": Listening on " + Config.GAMESERVER_HOSTNAME + ":" + Config.GAMESERVER_PORT);
 		
 		// Notify sound.
 		Toolkit.getDefaultToolkit().beep();
