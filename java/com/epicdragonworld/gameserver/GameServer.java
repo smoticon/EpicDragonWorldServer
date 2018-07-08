@@ -27,10 +27,6 @@ public class GameServer
 {
 	private static final Logger LOGGER = Logger.getLogger(GameServer.class.getName());
 	
-	// Local Constants
-	private static final String LOG_FOLDER = "log"; // Name of folder for log file
-	private static final String LOG_NAME = "./log.cfg"; // Name of log file
-	
 	public static void main(String[] args) throws Exception
 	{
 		new GameServer();
@@ -38,12 +34,12 @@ public class GameServer
 	
 	private GameServer() throws Exception
 	{
-		// Create log folder
-		final File logFolder = new File(".", LOG_FOLDER);
+		// Create log folder.
+		final File logFolder = new File(".", "log");
 		logFolder.mkdir();
 		
-		// Create input stream for log file -- or store file data into memory
-		try (InputStream is = new FileInputStream(new File(LOG_NAME)))
+		// Create input stream for log file.
+		try (InputStream is = new FileInputStream(new File("./log.cfg")))
 		{
 			LogManager.getLogManager().readConfiguration(is);
 		}
