@@ -70,7 +70,7 @@ public class DatabaseManager
 		}
 		catch (Exception e)
 		{
-			LOGGER.severe("DatabaseManager: There was a problem closing the connection. " + e);
+			LOGGER.severe("DatabaseManager: There was a problem closing the ComboPooledDataSource. " + e);
 		}
 	}
 	
