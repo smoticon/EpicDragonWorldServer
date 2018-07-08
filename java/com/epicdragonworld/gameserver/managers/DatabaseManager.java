@@ -47,7 +47,7 @@ public class DatabaseManager
 		}
 		catch (Exception e)
 		{
-			LOGGER.warning("DatabaseManager: There was a problem getting the connection: " + e);
+			LOGGER.severe("DatabaseManager: There was a problem getting the connection. " + e);
 		}
 		return null;
 	}
@@ -60,7 +60,7 @@ public class DatabaseManager
 		}
 		catch (Exception e)
 		{
-			LOGGER.warning("DatabaseManager: There was a problem closing the connection: " + e);
+			LOGGER.severe("DatabaseManager: There was a problem closing the connection. " + e);
 		}
 	}
 	
