@@ -1,6 +1,7 @@
 package com.epicdragonworld.gameserver.managers;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.logging.Logger;
 
 import com.epicdragonworld.Config;
@@ -36,6 +37,17 @@ public class DatabaseManager
 		catch (Exception e)
 		{
 			LOGGER.severe("DatabaseManager: Problem initializing connection. " + e);
+		}
+		
+		// Test if connection is valid.
+		try
+		{
+			DriverManager.getConnection(Config.DATABASE_URL, Config.DATABASE_LOGIN, Config.DATABASE_PASSWORD);
+		}
+		catch (Exception e)
+		{
+			LOGGER.severe("DatabaseManager: " + e.getMessage());
+			System.exit(1); // Close server.
 		}
 	}
 	
