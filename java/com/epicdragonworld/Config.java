@@ -55,7 +55,7 @@ public final class Config
 		DATABASE_URL = serverConfigs.getString("URL", "jdbc:mysql://localhost/edws");
 		DATABASE_LOGIN = serverConfigs.getString("Login", "root");
 		DATABASE_PASSWORD = serverConfigs.getString("Password", "");
-		DATABASE_MAX_CONNECTIONS = serverConfigs.getInt("MaximumDbConnections", 10);
+		DATABASE_MAX_CONNECTIONS = serverConfigs.getInt("MaximumDbConnections", 100);
 		DATABASE_MAX_IDLE_TIME = serverConfigs.getInt("MaximumDbIdleTime", 0);
 		SCHEDULED_THREAD_POOL_COUNT = serverConfigs.getInt("ScheduledThreadPoolCount", -1);
 		THREADS_PER_SCHEDULED_THREAD_POOL = serverConfigs.getInt("ThreadsPerScheduledThreadPool", 4);
