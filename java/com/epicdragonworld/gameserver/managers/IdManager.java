@@ -8,7 +8,7 @@ import com.epicdragonworld.util.PrimeFinder;
 
 public class IdManager
 {
-	private final Logger LOGGER = Logger.getLogger(getClass().getName());
+	private static final Logger LOGGER = Logger.getLogger(IdManager.class.getName());
 	
 	private static final int FIRST_OID = 0x10000000;
 	private static final int LAST_OID = 0x7FFFFFFF;
@@ -18,32 +18,7 @@ public class IdManager
 	private AtomicInteger _freeIdCount;
 	private AtomicInteger _nextFreeId;
 	
-	protected class BitSetCapacityCheck implements Runnable
-	{
-		@Override
-		public void run()
-		{
-			synchronized (IdManager.this)
-			{
-				if (reachingBitSetCapacity())
-				{
-					increaseBitSetCapacity();
-				}
-			}
-		}
-	}
-	
-	protected IdManager()
-	{
-		synchronized (IdManager.class)
-		{
-			ThreadPoolManager.scheduleAtFixedRate(new BitSetCapacityCheck(), 30000, 30000);
-			initialize();
-		}
-		LOGGER.info(getClass().getSimpleName() + ": " + _freeIds.size() + " ids available.");
-	}
-	
-	public void initialize()
+	public IdManager()
 	{
 		try
 		{
@@ -54,8 +29,16 @@ public class IdManager
 		}
 		catch (Exception e)
 		{
-			LOGGER.severe(getClass().getSimpleName() + ": Could not be initialized properly: " + e.getMessage());
+			LOGGER.severe("IdManager: Could not be initialized properly: " + e.getMessage());
 		}
+		
+		ThreadPoolManager.scheduleAtFixedRate(() ->
+		{
+			if (reachingBitSetCapacity())
+			{
+				increaseBitSetCapacity();
+			}
+		}, 30000, 30000);
 	}
 	
 	public synchronized void releaseId(int objectID)
@@ -67,7 +50,7 @@ public class IdManager
 		}
 		else
 		{
-			LOGGER.warning(getClass().getSimpleName() + ": Release objectID " + objectID + " failed (< " + FIRST_OID + ")");
+			LOGGER.warning("IdManager: Release objectID " + objectID + " failed (< " + FIRST_OID + ")");
 		}
 	}
 	
@@ -83,7 +66,7 @@ public class IdManager
 		{
 			if (_freeIds.size() >= FREE_OBJECT_ID_SIZE)
 			{
-				throw new NullPointerException("Ran out of valid Ids.");
+				throw new NullPointerException("Ran out of valid ids.");
 			}
 			increaseBitSetCapacity();
 		}
@@ -93,22 +76,17 @@ public class IdManager
 		return newID + FIRST_OID;
 	}
 	
-	public synchronized int size()
+	private synchronized int usedIdCount()
 	{
-		return _freeIdCount.get();
+		return _freeIdCount.get() - FIRST_OID;
 	}
 	
-	protected synchronized int usedIdCount()
-	{
-		return size() - FIRST_OID;
-	}
-	
-	protected synchronized boolean reachingBitSetCapacity()
+	private synchronized boolean reachingBitSetCapacity()
 	{
 		return PrimeFinder.nextPrime((usedIdCount() * 11) / 10) > _freeIds.size();
 	}
 	
-	protected synchronized void increaseBitSetCapacity()
+	private synchronized void increaseBitSetCapacity()
 	{
 		final BitSet newBitSet = new BitSet(PrimeFinder.nextPrime((usedIdCount() * 11) / 10));
 		newBitSet.or(_freeIds);
