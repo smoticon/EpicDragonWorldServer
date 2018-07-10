@@ -12,7 +12,7 @@ public class MoveToLocation extends SendablePacket
 	{
 		// Send the data.
 		writeShort(9); // Packet id.
-		writeInt(object.getObjectId());
+		writeLong(object.getObjectId());
 		writeFloat(object.getLocation().getX());
 		writeFloat(object.getLocation().getY());
 		writeFloat(object.getLocation().getZ());

@@ -12,6 +12,6 @@ public class DeleteObject extends SendablePacket
 	{
 		// Send the data.
 		writeShort(7); // Packet id.
-		writeInt(object.getObjectId()); // ID of object to delete.
+		writeLong(object.getObjectId()); // ID of object to delete.
 	}
 }

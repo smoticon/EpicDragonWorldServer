@@ -7,7 +7,7 @@ import com.epicdragonworld.gameserver.managers.IdManager;
  */
 public class WorldObject
 {
-	private final int _objectId;
+	private final long _objectId;
 	private Location _location = new Location(0, -1000, 0, 0);
 	
 	public WorldObject()
@@ -16,7 +16,7 @@ public class WorldObject
 		_objectId = IdManager.getInstance().getNextId();
 	}
 	
-	public int getObjectId()
+	public long getObjectId()
 	{
 		return _objectId;
 	}
@@ -56,11 +56,5 @@ public class WorldObject
 	public boolean isPlayer()
 	{
 		return false;
-	}
-	
-	public void deleteMe()
-	{
-		// Release unused id.
-		IdManager.getInstance().releaseId(_objectId);
 	}
 }

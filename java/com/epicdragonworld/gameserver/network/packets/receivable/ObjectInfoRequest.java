@@ -15,7 +15,7 @@ public class ObjectInfoRequest
 	public ObjectInfoRequest(GameClient client, ReceivablePacket packet)
 	{
 		// Read data.
-		final int objectId = packet.readInt();
+		final long objectId = packet.readLong();
 		
 		// Get the acting player.
 		final PlayerInstance player = client.getActiveChar();

@@ -44,7 +44,6 @@ public class WorldManager
 			}
 		}
 		GAME_OBJECTS.remove(object);
-		object.deleteMe();
 	}
 	
 	public List<WorldObject> getVisibleObjects(WorldObject object)
