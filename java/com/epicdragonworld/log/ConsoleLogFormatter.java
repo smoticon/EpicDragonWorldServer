@@ -1,12 +1,13 @@
 package com.epicdragonworld.log;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
 import com.epicdragonworld.Config;
-import com.epicdragonworld.util.Util;
 
 /**
  * @author Pantelis Andrianakis
@@ -25,7 +26,9 @@ public class ConsoleLogFormatter extends Formatter
 		{
 			try
 			{
-				output.append(Util.getStackTrace(record.getThrown()) + Config.EOL);
+				final StringWriter sw = new StringWriter();
+				record.getThrown().printStackTrace(new PrintWriter(sw));
+				output.append(sw.toString() + Config.EOL);
 			}
 			catch (Exception ex)
 			{

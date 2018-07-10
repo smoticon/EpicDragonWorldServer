@@ -1,8 +1,5 @@
 package com.epicdragonworld.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 /**
  * @author Pantelis Andrianakis
  */
@@ -29,16 +26,4 @@ public final class Util
 		'(',
 		')'
 	};
-	
-	/**
-	 * Method to get the stack trace of a Throwable into a String
-	 * @param t Throwable to get the stacktrace from
-	 * @return stack trace from Throwable as String
-	 */
-	public static String getStackTrace(Throwable t)
-	{
-		final StringWriter sw = new StringWriter();
-		t.printStackTrace(new PrintWriter(sw));
-		return sw.toString();
-	}
 }
