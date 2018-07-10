@@ -1,5 +1,8 @@
 package com.epicdragonworld.gameserver.managers;
 
+/**
+ * @author Pantelis Andrianakis
+ */
 public class IdManager
 {
 	private static long _lastId = System.currentTimeMillis();
