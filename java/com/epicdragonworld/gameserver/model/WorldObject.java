@@ -7,18 +7,18 @@ import com.epicdragonworld.gameserver.managers.IdManager;
  */
 public class WorldObject
 {
-	private final long _objectId;
+	private final long _objectId = IdManager.getNextId();
+	private final long _spawnTime = System.currentTimeMillis();
 	private Location _location = new Location(0, -1000, 0, 0);
-	
-	public WorldObject()
-	{
-		// All object ids are generated upon object creation.
-		_objectId = IdManager.getInstance().getNextId();
-	}
 	
 	public long getObjectId()
 	{
 		return _objectId;
+	}
+	
+	public long getSpawnTime()
+	{
+		return _spawnTime;
 	}
 	
 	public Location getLocation()
