@@ -58,8 +58,16 @@ public final class Config
 		DATABASE_MAX_CONNECTIONS = serverConfigs.getInt("MaximumDbConnections", 100);
 		DATABASE_MAX_IDLE_TIME = serverConfigs.getInt("MaximumDbIdleTime", 0);
 		SCHEDULED_THREAD_POOL_COUNT = serverConfigs.getInt("ScheduledThreadPoolCount", -1);
+		if (SCHEDULED_THREAD_POOL_COUNT == -1)
+		{
+			SCHEDULED_THREAD_POOL_COUNT = Runtime.getRuntime().availableProcessors();
+		}
 		THREADS_PER_SCHEDULED_THREAD_POOL = serverConfigs.getInt("ThreadsPerScheduledThreadPool", 4);
 		INSTANT_THREAD_POOL_COUNT = serverConfigs.getInt("InstantThreadPoolCount", -1);
+		if (INSTANT_THREAD_POOL_COUNT == -1)
+		{
+			INSTANT_THREAD_POOL_COUNT = Runtime.getRuntime().availableProcessors();
+		}
 		THREADS_PER_INSTANT_THREAD_POOL = serverConfigs.getInt("ThreadsPerInstantThreadPool", 2);
 		IO_PACKET_THREAD_CORE_SIZE = serverConfigs.getInt("UrgentPacketThreadCoreSize", 2);
 		MAXIMUM_ONLINE_USERS = serverConfigs.getInt("MaximumOnlineUsers", 2000);
