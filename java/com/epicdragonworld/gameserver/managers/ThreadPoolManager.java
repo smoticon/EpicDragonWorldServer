@@ -70,17 +70,17 @@ public final class ThreadPoolManager
 	}
 	
 	/**
-	 * Creates and executes a periodic action that becomes enabled after a delay.
+	 * Creates and executes a periodic action that becomes enabled first after the given initial delay.
 	 * @param runnable : the task to execute.
-	 * @param delay : the time from now to delay execution.
+	 * @param initialDelay : the time to delay first execution.
 	 * @param period : the period between successive executions.
-	 * @return a ScheduledFuture representing pending completion of the task and whose get() method will throw an exception upon cancellation.
+	 * @return a ScheduledFuture representing pending completion of the task, and whose get() method will throw an exception upon cancellation.
 	 */
-	public static ScheduledFuture<?> scheduleAtFixedRate(Runnable runnable, long delay, long period)
+	public static ScheduledFuture<?> scheduleAtFixedRate(Runnable runnable, long initialDelay, long period)
 	{
 		try
 		{
-			return SCHEDULED_POOLS[SCHEDULED_THREAD_RANDOMIZER++ % Config.SCHEDULED_THREAD_POOL_COUNT].scheduleAtFixedRate(new TaskWrapper(runnable), delay, period, TimeUnit.MILLISECONDS);
+			return SCHEDULED_POOLS[SCHEDULED_THREAD_RANDOMIZER++ % Config.SCHEDULED_THREAD_POOL_COUNT].scheduleAtFixedRate(new TaskWrapper(runnable), initialDelay, period, TimeUnit.MILLISECONDS);
 		}
 		catch (Exception e)
 		{
