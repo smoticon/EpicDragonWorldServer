@@ -1,5 +1,6 @@
 package com.epicdragonworld;
 
+import com.epicdragonworld.gameserver.model.Location;
 import com.epicdragonworld.util.ConfigReader;
 
 /**
@@ -16,6 +17,7 @@ public final class Config
 	// Config File Definitions
 	// --------------------------------------------------
 	private static final String ACCOUNTS_CONFIG_FILE = "./config/Accounts.ini";
+	private static final String PLAYER_CONFIG_FILE = "./config/Player.ini";
 	private static final String SERVER_CONFIG_FILE = "./config/Server.ini";
 	
 	// --------------------------------------------------
@@ -23,6 +25,11 @@ public final class Config
 	// --------------------------------------------------
 	public static boolean ACCOUNT_AUTO_CREATE;
 	public static int ACCOUNT_MAX_CHARACTERS;
+	
+	// --------------------------------------------------
+	// Player
+	// --------------------------------------------------
+	public static Location STARTING_LOCATION;
 	
 	// --------------------------------------------------
 	// Server
@@ -47,6 +54,10 @@ public final class Config
 		final ConfigReader accountsConfigs = new ConfigReader(ACCOUNTS_CONFIG_FILE);
 		ACCOUNT_AUTO_CREATE = accountsConfigs.getBoolean("AccountAutoCreate", false);
 		ACCOUNT_MAX_CHARACTERS = accountsConfigs.getInt("AccountMaxCharacters", 5);
+		
+		final ConfigReader playerConfigs = new ConfigReader(PLAYER_CONFIG_FILE);
+		final String[] startingLocation = playerConfigs.getString("StartingLocation", "9945.9;9.2;10534.9").split(";");
+		STARTING_LOCATION = new Location(Float.parseFloat(startingLocation[0]), Float.parseFloat(startingLocation[1]), Float.parseFloat(startingLocation[2]), startingLocation.length > 3 ? Integer.parseInt(startingLocation[3]) : 0);
 		
 		final ConfigReader serverConfigs = new ConfigReader(SERVER_CONFIG_FILE);
 		GAMESERVER_PORT = serverConfigs.getInt("GameserverPort", 5055);

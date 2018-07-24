@@ -10,6 +10,11 @@ public class Location
 	float _z;
 	int _heading;
 	
+	public Location(float x, float y, float z)
+	{
+		this(x, y, z, 0);
+	}
+	
 	public Location(float x, float y, float z, int heading)
 	{
 		_x = x;
