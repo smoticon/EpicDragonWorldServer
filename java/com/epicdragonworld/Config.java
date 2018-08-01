@@ -16,7 +16,7 @@ public final class Config
 	// --------------------------------------------------
 	// Config File Definitions
 	// --------------------------------------------------
-	private static final String ACCOUNTS_CONFIG_FILE = "./config/Accounts.ini";
+	private static final String ACCOUNT_CONFIG_FILE = "./config/Account.ini";
 	private static final String PLAYER_CONFIG_FILE = "./config/Player.ini";
 	private static final String SERVER_CONFIG_FILE = "./config/Server.ini";
 	
@@ -51,9 +51,9 @@ public final class Config
 	
 	public static void load()
 	{
-		final ConfigReader accountsConfigs = new ConfigReader(ACCOUNTS_CONFIG_FILE);
-		ACCOUNT_AUTO_CREATE = accountsConfigs.getBoolean("AccountAutoCreate", false);
-		ACCOUNT_MAX_CHARACTERS = accountsConfigs.getInt("AccountMaxCharacters", 5);
+		final ConfigReader accountConfigs = new ConfigReader(ACCOUNT_CONFIG_FILE);
+		ACCOUNT_AUTO_CREATE = accountConfigs.getBoolean("AccountAutoCreate", false);
+		ACCOUNT_MAX_CHARACTERS = accountConfigs.getInt("AccountMaxCharacters", 5);
 		
 		final ConfigReader playerConfigs = new ConfigReader(PLAYER_CONFIG_FILE);
 		final String[] startingLocation = playerConfigs.getString("StartingLocation", "9945.9;9.2;10534.9").split(";");
