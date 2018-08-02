@@ -1,4 +1,4 @@
-package com.epicdragonworld.gameserver.model.actor.instance;
+package com.epicdragonworld.gameserver.model.actor;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,16 +6,15 @@ import java.sql.ResultSet;
 import java.util.logging.Logger;
 
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
-import com.epicdragonworld.gameserver.model.actor.Creature;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.SendablePacket;
 
 /**
  * @author Pantelis Andrianakis
  */
-public class PlayerInstance extends Creature
+public class Player extends Creature
 {
-	private static final Logger LOGGER = Logger.getLogger(PlayerInstance.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(Player.class.getName());
 	private static final String RESTORE_CHARACTER = "SELECT * FROM characters WHERE name=?";
 	private static final String STORE_CHARACTER = "UPDATE characters SET name=?, class_id=? WHERE account=? AND name=?";
 	
@@ -23,7 +22,7 @@ public class PlayerInstance extends Creature
 	private final String _name;
 	private int _classId = 0;
 	
-	public PlayerInstance(GameClient client, String name)
+	public Player(GameClient client, String name)
 	{
 		_client = client;
 		_name = name;

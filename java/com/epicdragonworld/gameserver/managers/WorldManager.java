@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.epicdragonworld.gameserver.model.WorldObject;
-import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
+import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.packets.sendable.DeleteObject;
 
@@ -28,7 +28,7 @@ public class WorldManager
 		{
 			if (object.isPlayer())
 			{
-				ONLINE_CLIENTS.add(((PlayerInstance) object).getClient());
+				ONLINE_CLIENTS.add(((Player) object).getClient());
 			}
 			GAME_OBJECTS.add(object);
 		}
@@ -40,7 +40,7 @@ public class WorldManager
 		{
 			if (obj.isPlayer())
 			{
-				((PlayerInstance) obj).channelSend(new DeleteObject(object));
+				((Player) obj).channelSend(new DeleteObject(object));
 			}
 		}
 		GAME_OBJECTS.remove(object);
@@ -78,7 +78,7 @@ public class WorldManager
 	
 	public void removeClient(GameClient client)
 	{
-		final PlayerInstance player = client.getActiveChar();
+		final Player player = client.getActiveChar();
 		if (player != null)
 		{
 			player.storeMe();

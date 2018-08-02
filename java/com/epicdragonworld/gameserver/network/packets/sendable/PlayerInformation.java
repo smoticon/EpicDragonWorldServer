@@ -1,6 +1,6 @@
 package com.epicdragonworld.gameserver.network.packets.sendable;
 
-import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
+import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.SendablePacket;
 
 /**
@@ -8,7 +8,7 @@ import com.epicdragonworld.gameserver.network.SendablePacket;
  */
 public class PlayerInformation extends SendablePacket
 {
-	public PlayerInformation(PlayerInstance player)
+	public PlayerInformation(Player player)
 	{
 		// Packet id.
 		writeShort(6);

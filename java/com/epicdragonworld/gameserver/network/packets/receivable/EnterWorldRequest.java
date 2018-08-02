@@ -2,7 +2,7 @@ package com.epicdragonworld.gameserver.network.packets.receivable;
 
 import com.epicdragonworld.gameserver.managers.WorldManager;
 import com.epicdragonworld.gameserver.model.WorldObject;
-import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
+import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.ReceivablePacket;
 import com.epicdragonworld.gameserver.network.packets.sendable.EnterWorldInformation;
@@ -19,7 +19,7 @@ public class EnterWorldRequest
 		final String characterName = packet.readString();
 		
 		// Create a new PlayerInstance.
-		final PlayerInstance player = new PlayerInstance(client, characterName);
+		final Player player = new Player(client, characterName);
 		// Add object to the world.
 		WorldManager.getInstance().addObject(player);
 		// Assign this player to client.
@@ -33,7 +33,7 @@ public class EnterWorldRequest
 			if (object.isPlayer())
 			{
 				// Send the information to the current player.
-				final PlayerInstance otherPlayer = (PlayerInstance) object;
+				final Player otherPlayer = (Player) object;
 				client.channelSend(new PlayerInformation(otherPlayer));
 				// Send information to the other player as well.
 				otherPlayer.channelSend(playerInfo);

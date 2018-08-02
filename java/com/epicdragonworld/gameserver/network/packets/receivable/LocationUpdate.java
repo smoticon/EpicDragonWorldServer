@@ -2,7 +2,7 @@ package com.epicdragonworld.gameserver.network.packets.receivable;
 
 import com.epicdragonworld.gameserver.managers.WorldManager;
 import com.epicdragonworld.gameserver.model.WorldObject;
-import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
+import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.ReceivablePacket;
 import com.epicdragonworld.gameserver.network.packets.sendable.MoveToLocation;
@@ -20,7 +20,7 @@ public class LocationUpdate
 		final float posZ = (float) packet.readDouble(); // TODO: Client WriteFloat
 		
 		// Update player location.
-		final PlayerInstance player = client.getActiveChar();
+		final Player player = client.getActiveChar();
 		if (player != null)
 		{
 			player.getLocation().setX(posX);
@@ -32,7 +32,7 @@ public class LocationUpdate
 			{
 				if (object.isPlayer())
 				{
-					((PlayerInstance) object).channelSend(new MoveToLocation(player));
+					((Player) object).channelSend(new MoveToLocation(player));
 				}
 				// TODO: Other objects.
 			}

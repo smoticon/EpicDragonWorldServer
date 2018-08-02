@@ -7,7 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 import com.epicdragonworld.gameserver.managers.WorldManager;
-import com.epicdragonworld.gameserver.model.actor.instance.PlayerInstance;
+import com.epicdragonworld.gameserver.model.actor.Player;
 
 /**
  * @author Pantelis Andrianakis
@@ -19,7 +19,7 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 	private Channel _channel;
 	private String _ip;
 	private String _accountName;
-	private PlayerInstance _activeChar;
+	private Player _activeChar;
 	
 	@Override
 	public void handlerAdded(ChannelHandlerContext ctx)
@@ -70,12 +70,12 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 		_accountName = accountName;
 	}
 	
-	public PlayerInstance getActiveChar()
+	public Player getActiveChar()
 	{
 		return _activeChar;
 	}
 	
-	public void setActiveChar(PlayerInstance activeChar)
+	public void setActiveChar(Player activeChar)
 	{
 		_activeChar = activeChar;
 	}
