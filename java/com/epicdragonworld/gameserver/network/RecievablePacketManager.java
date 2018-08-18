@@ -6,6 +6,7 @@ import com.epicdragonworld.gameserver.network.packets.receivable.CharacterDeleti
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelectUpdate;
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSelectionInfoRequest;
 import com.epicdragonworld.gameserver.network.packets.receivable.CharacterSlotUpdate;
+import com.epicdragonworld.gameserver.network.packets.receivable.ChatRequest;
 import com.epicdragonworld.gameserver.network.packets.receivable.EnterWorldRequest;
 import com.epicdragonworld.gameserver.network.packets.receivable.LocationUpdate;
 import com.epicdragonworld.gameserver.network.packets.receivable.ObjectInfoRequest;
@@ -62,6 +63,11 @@ public class RecievablePacketManager
 			case 9:
 			{
 				new ObjectInfoRequest(client, packet);
+				break;
+			}
+			case 10:
+			{
+				new ChatRequest(client, packet);
 				break;
 			}
 		}

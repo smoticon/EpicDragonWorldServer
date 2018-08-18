@@ -8,3 +8,4 @@ PacketId: Name
 7: EnterWorldRequest
 8: LocationUpdate
 9: ObjectInfoRequest
+10: ChatRequest

@@ -63,6 +63,23 @@ public class WorldManager
 		return result;
 	}
 	
+	public Player getPlayerByName(String name)
+	{
+		name = name.toLowerCase(); // Not case sensitive.
+		for (WorldObject obj : GAME_OBJECTS)
+		{
+			if ((obj == null) || !obj.isPlayer())
+			{
+				continue;
+			}
+			if (((Player) obj).getName().toLowerCase().equals(name)) // Not case sensitive.
+			{
+				return (Player) obj;
+			}
+		}
+		return null;
+	}
+	
 	public int getOnlineCount()
 	{
 		return ONLINE_CLIENTS.size();

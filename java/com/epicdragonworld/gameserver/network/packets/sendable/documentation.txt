@@ -8,3 +8,4 @@ PacketId: Name
 7: DeleteObject
 8: Logout
 9: MoveToLocation
+10: ChatResult
