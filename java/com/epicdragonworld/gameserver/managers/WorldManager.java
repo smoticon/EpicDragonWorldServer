@@ -14,16 +14,12 @@ import com.epicdragonworld.gameserver.network.packets.sendable.DeleteObject;
  */
 public class WorldManager
 {
-	private final List<GameClient> ONLINE_CLIENTS = new CopyOnWriteArrayList<>();
-	private final List<Player> PLAYER_OBJECTS = new CopyOnWriteArrayList<>();
-	private final List<WorldObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
-	private final int VISIBILITY_RANGE = 3000;
+	private static final List<GameClient> ONLINE_CLIENTS = new CopyOnWriteArrayList<>();
+	private static final List<Player> PLAYER_OBJECTS = new CopyOnWriteArrayList<>();
+	private static final List<WorldObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
+	private static final int VISIBILITY_RANGE = 3000;
 	
-	public WorldManager()
-	{
-	}
-	
-	public void addObject(WorldObject object)
+	public static void addObject(WorldObject object)
 	{
 		if (object.isPlayer())
 		{
@@ -39,7 +35,7 @@ public class WorldManager
 		}
 	}
 	
-	public void removeObject(WorldObject object)
+	public static void removeObject(WorldObject object)
 	{
 		for (Player player : getVisiblePlayers(object))
 		{
@@ -55,7 +51,7 @@ public class WorldManager
 		}
 	}
 	
-	public List<WorldObject> getVisibleObjects(WorldObject object)
+	public static List<WorldObject> getVisibleObjects(WorldObject object)
 	{
 		final List<WorldObject> result = new ArrayList<>();
 		for (Player player : PLAYER_OBJECTS)
@@ -83,7 +79,7 @@ public class WorldManager
 		return result;
 	}
 	
-	public List<Player> getVisiblePlayers(WorldObject object)
+	public static List<Player> getVisiblePlayers(WorldObject object)
 	{
 		final List<Player> result = new ArrayList<>();
 		for (Player player : PLAYER_OBJECTS)
@@ -100,7 +96,7 @@ public class WorldManager
 		return result;
 	}
 	
-	public Player getPlayerByName(String name)
+	public static Player getPlayerByName(String name)
 	{
 		for (Player player : PLAYER_OBJECTS)
 		{
@@ -116,12 +112,12 @@ public class WorldManager
 		return null;
 	}
 	
-	public int getOnlineCount()
+	public static int getOnlineCount()
 	{
 		return ONLINE_CLIENTS.size();
 	}
 	
-	public void addClient(GameClient client)
+	public static void addClient(GameClient client)
 	{
 		if (!ONLINE_CLIENTS.contains(client))
 		{
@@ -129,7 +125,7 @@ public class WorldManager
 		}
 	}
 	
-	public void removeClient(GameClient client)
+	public static void removeClient(GameClient client)
 	{
 		final Player player = client.getActiveChar();
 		if (player != null)
@@ -140,7 +136,7 @@ public class WorldManager
 		ONLINE_CLIENTS.remove(client);
 	}
 	
-	public void removeClientByAccountName(String accountName)
+	public static void removeClientByAccountName(String accountName)
 	{
 		for (GameClient client : ONLINE_CLIENTS)
 		{
@@ -152,7 +148,7 @@ public class WorldManager
 		}
 	}
 	
-	public GameClient getClientByAccountName(String accountName)
+	public static GameClient getClientByAccountName(String accountName)
 	{
 		for (GameClient client : ONLINE_CLIENTS)
 		{
@@ -162,15 +158,5 @@ public class WorldManager
 			}
 		}
 		return null;
-	}
-	
-	public static WorldManager getInstance()
-	{
-		return SingletonHolder.INSTANCE;
-	}
-	
-	private static class SingletonHolder
-	{
-		protected static final WorldManager INSTANCE = new WorldManager();
 	}
 }

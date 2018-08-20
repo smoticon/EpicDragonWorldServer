@@ -15,7 +15,7 @@ public class DatabaseManager
 	
 	private static final HikariDataSource _hds = new HikariDataSource();
 	
-	public DatabaseManager()
+	public static void init()
 	{
 		_hds.setDriverClassName(Config.DATABASE_DRIVER);
 		_hds.setJdbcUrl(Config.DATABASE_URL);
@@ -35,7 +35,7 @@ public class DatabaseManager
 		}
 	}
 	
-	public Connection getConnection()
+	public static Connection getConnection()
 	{
 		try
 		{
@@ -48,7 +48,7 @@ public class DatabaseManager
 		return null;
 	}
 	
-	public void close()
+	public static void close()
 	{
 		try
 		{
@@ -58,15 +58,5 @@ public class DatabaseManager
 		{
 			LOGGER.severe("DatabaseManager: There was a problem closing the data source. " + e);
 		}
-	}
-	
-	public static DatabaseManager getInstance()
-	{
-		return SingletonHolder.INSTANCE;
-	}
-	
-	private static class SingletonHolder
-	{
-		protected static final DatabaseManager INSTANCE = new DatabaseManager();
 	}
 }

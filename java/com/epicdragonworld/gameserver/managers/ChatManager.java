@@ -40,7 +40,7 @@ public class ChatManager
 				return;
 			}
 			
-			final Player receiver = WorldManager.getInstance().getPlayerByName(lowercaseMessageSplit[1]);
+			final Player receiver = WorldManager.getPlayerByName(lowercaseMessageSplit[1]);
 			if (receiver == null)
 			{
 				sender.channelSend(new ChatResult(CHAT_TYPE_SYSTEM, "", "Player was not found."));
@@ -55,7 +55,7 @@ public class ChatManager
 		}
 		else // Normal message.
 		{
-			for (Player player : WorldManager.getInstance().getVisiblePlayers(sender))
+			for (Player player : WorldManager.getVisiblePlayers(sender))
 			{
 				player.channelSend(new ChatResult(CHAT_TYPE_NORMAL, sender.getName(), message));
 			}

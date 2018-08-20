@@ -27,7 +27,7 @@ public class LocationUpdate
 			player.getLocation().setZ(posZ);
 			
 			// Broadcast movement.
-			for (Player nearby : WorldManager.getInstance().getVisiblePlayers(player))
+			for (Player nearby : WorldManager.getVisiblePlayers(player))
 			{
 				nearby.channelSend(new MoveToLocation(player));
 			}

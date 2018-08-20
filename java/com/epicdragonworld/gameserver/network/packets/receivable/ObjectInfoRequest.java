@@ -20,7 +20,7 @@ public class ObjectInfoRequest
 		// Get the acting player.
 		final Player player = client.getActiveChar();
 		// Send the information.
-		for (WorldObject object : WorldManager.getInstance().getVisibleObjects(player))
+		for (WorldObject object : WorldManager.getVisibleObjects(player))
 		{
 			if (object.getObjectId() == objectId)
 			{

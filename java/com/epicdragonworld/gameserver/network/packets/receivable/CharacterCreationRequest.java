@@ -63,7 +63,7 @@ public class CharacterCreationRequest
 		// Account character count database check.
 		int characterCount = 0;
 		int lastCharacterSlot = 0;
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(ACCOUNT_CHARACTER_QUERY))
 		{
 			ps.setString(1, client.getAccountName());
@@ -92,7 +92,7 @@ public class CharacterCreationRequest
 		
 		// Check database if name exists.
 		boolean characterExists = false;
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(NAME_EXISTS_QUERY))
 		{
 			ps.setString(1, characterName);
@@ -115,7 +115,7 @@ public class CharacterCreationRequest
 		}
 		
 		// Make existing characters selected value false.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_SELECTED_RESET_QUERY))
 		{
 			ps.setString(1, client.getAccountName());
@@ -127,7 +127,7 @@ public class CharacterCreationRequest
 		}
 		
 		// Create character.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_CREATE_QUERY))
 		{
 			ps.setString(1, client.getAccountName());

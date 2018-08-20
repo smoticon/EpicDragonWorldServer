@@ -26,7 +26,7 @@ public class CharacterSelectionInfoResult extends SendablePacket
 		final List<CharacterDataHolder> characterList = new ArrayList<>();
 		
 		// Get data from database.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_QUERY))
 		{
 			ps.setString(1, accountName);

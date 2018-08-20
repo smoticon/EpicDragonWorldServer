@@ -24,7 +24,7 @@ public class CharacterSlotUpdate
 		final byte newSlot = (byte) packet.readByte();
 		
 		// Database queries.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_SLOT_UPDATE_QUERY))
 		{
 			ps.setInt(1, 0);
@@ -37,7 +37,7 @@ public class CharacterSlotUpdate
 			LOGGER.warning(e.getMessage());
 		}
 		
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_SLOT_UPDATE_QUERY))
 		{
 			ps.setInt(1, oldSlot);
@@ -50,7 +50,7 @@ public class CharacterSlotUpdate
 			LOGGER.warning(e.getMessage());
 		}
 		
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_SLOT_UPDATE_QUERY))
 		{
 			ps.setInt(1, newSlot);

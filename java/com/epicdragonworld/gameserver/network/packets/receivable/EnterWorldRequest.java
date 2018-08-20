@@ -20,14 +20,14 @@ public class EnterWorldRequest
 		// Create a new PlayerInstance.
 		final Player player = new Player(client, characterName);
 		// Add object to the world.
-		WorldManager.getInstance().addObject(player);
+		WorldManager.addObject(player);
 		// Assign this player to client.
 		client.setActiveChar(player);
 		// Send active player information to client.
 		client.channelSend(new EnterWorldInformation(player));
 		// Send and receive visible object information.
 		final PlayerInformation playerInfo = new PlayerInformation(player);
-		for (Player nearby : WorldManager.getInstance().getVisiblePlayers(player))
+		for (Player nearby : WorldManager.getVisiblePlayers(player))
 		{
 			// Send the information to the current player.
 			client.channelSend(new PlayerInformation(nearby));

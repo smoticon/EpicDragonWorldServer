@@ -50,10 +50,10 @@ public class GameServer
 		Config.load();
 		
 		printSection("Database");
-		DatabaseManager.getInstance();
+		DatabaseManager.init();
 		
 		printSection("Encryption");
-		Encryption.getInstance();
+		Encryption.init();
 		
 		printSection("ThreadPool");
 		ThreadPoolManager.init();

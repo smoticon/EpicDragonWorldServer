@@ -28,7 +28,7 @@ public class Player extends Creature
 		_name = name;
 		
 		// Load information from database.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(RESTORE_CHARACTER))
 		{
 			ps.setString(1, name);
@@ -51,7 +51,7 @@ public class Player extends Creature
 	
 	public void storeMe()
 	{
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(STORE_CHARACTER))
 		{
 			ps.setString(1, _name);

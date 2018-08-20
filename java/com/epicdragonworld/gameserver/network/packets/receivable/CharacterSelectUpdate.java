@@ -24,7 +24,7 @@ public class CharacterSelectUpdate
 		final int slot = packet.readByte();
 		
 		// Make existing characters selected value false.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_SELECTED_RESET_QUERY))
 		{
 			ps.setString(1, client.getAccountName());
@@ -36,7 +36,7 @@ public class CharacterSelectUpdate
 		}
 		
 		// Set character selected.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_SELECTED_UPDATE_QUERY))
 		{
 			ps.setString(1, client.getAccountName());

@@ -29,7 +29,7 @@ public class CharacterDeletionRequest
 		final byte slot = (byte) packet.readByte();
 		
 		// Delete character.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_DELETION_QUERY))
 		{
 			ps.setString(1, client.getAccountName());
@@ -43,7 +43,7 @@ public class CharacterDeletionRequest
 		
 		// Get remaining character names.
 		final List<String> characterNames = new ArrayList<>();
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(ACCOUNT_CHARACTER_QUERY))
 		{
 			ps.setString(1, client.getAccountName());
@@ -65,7 +65,7 @@ public class CharacterDeletionRequest
 		for (String characterName : characterNames)
 		{
 			counter++;
-			try (Connection con = DatabaseManager.getInstance().getConnection();
+			try (Connection con = DatabaseManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(CHARACTER_SLOT_UPDATE_QUERY))
 			{
 				ps.setByte(1, counter);

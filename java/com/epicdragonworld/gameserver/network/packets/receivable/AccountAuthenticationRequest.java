@@ -52,7 +52,7 @@ public class AccountAuthenticationRequest
 		}
 		
 		// Get data from database.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(ACCOUNT_INFO_QUERY))
 		{
 			ps.setString(1, accountName);
@@ -74,7 +74,7 @@ public class AccountAuthenticationRequest
 		if ((status == 0) && Config.ACCOUNT_AUTO_CREATE)
 		{
 			// Create account.
-			try (Connection con = DatabaseManager.getInstance().getConnection();
+			try (Connection con = DatabaseManager.getConnection();
 				PreparedStatement ps = con.prepareStatement(ACCOUNT_CREATE_QUERY))
 			{
 				ps.setString(1, accountName);
@@ -105,7 +105,7 @@ public class AccountAuthenticationRequest
 		}
 		
 		// Kick existing logged client.
-		final GameClient existingClient = WorldManager.getInstance().getClientByAccountName(accountName);
+		final GameClient existingClient = WorldManager.getClientByAccountName(accountName);
 		if (existingClient != null)
 		{
 			existingClient.channelSend(new Logout(accountName));
@@ -114,19 +114,19 @@ public class AccountAuthenticationRequest
 		}
 		
 		// Too many online users.
-		if (WorldManager.getInstance().getOnlineCount() >= Config.MAXIMUM_ONLINE_USERS)
+		if (WorldManager.getOnlineCount() >= Config.MAXIMUM_ONLINE_USERS)
 		{
 			client.channelSend(new AccountAuthenticationResult(STATUS_TOO_MANY_ONLINE));
 			return;
 		}
 		
 		// Authentication was successful.
-		WorldManager.getInstance().addClient(client);
+		WorldManager.addClient(client);
 		client.setAccountName(accountName);
 		client.channelSend(new AccountAuthenticationResult(STATUS_AUTHENTICATED));
 		
 		// Update last login date and IP address.
-		try (Connection con = DatabaseManager.getInstance().getConnection();
+		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(ACCOUNT_INFO_UPDATE_QUERY))
 		{
 			ps.setLong(1, System.currentTimeMillis());

@@ -14,6 +14,6 @@ public class Logout extends SendablePacket
 		writeShort(8); // Packet id.
 		
 		// Extreme case precaution in case of client crash or forced close.
-		WorldManager.getInstance().removeClientByAccountName(accountName);
+		WorldManager.removeClientByAccountName(accountName);
 	}
 }

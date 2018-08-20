@@ -51,7 +51,7 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 	public void channelInactive(ChannelHandlerContext ctx)
 	{
 		// Disconnected.
-		WorldManager.getInstance().removeClient(this);
+		WorldManager.removeClient(this);
 		LOGGER.finer("Client Disconnected: " + ctx.channel());
 	}
 	

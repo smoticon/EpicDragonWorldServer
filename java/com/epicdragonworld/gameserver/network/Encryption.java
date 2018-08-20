@@ -23,7 +23,7 @@ public class Encryption
 	private static SecretKey _key;
 	private static IvParameterSpec _ivParameterSpec;
 	
-	public Encryption()
+	public static void init()
 	{
 		try
 		{
@@ -61,15 +61,5 @@ public class Encryption
 		{
 			return null;
 		}
-	}
-	
-	public static Encryption getInstance()
-	{
-		return SingletonHolder.INSTANCE;
-	}
-	
-	private static class SingletonHolder
-	{
-		protected static final Encryption INSTANCE = new Encryption();
 	}
 }
