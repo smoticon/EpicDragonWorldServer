@@ -14,41 +14,61 @@ import com.epicdragonworld.gameserver.network.packets.sendable.DeleteObject;
  */
 public class WorldManager
 {
-	private final List<WorldObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
 	private final List<GameClient> ONLINE_CLIENTS = new CopyOnWriteArrayList<>();
+	private final List<Player> PLAYER_OBJECTS = new CopyOnWriteArrayList<>();
+	private final List<WorldObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
 	private final int VISIBILITY_RANGE = 3000;
 	
 	public WorldManager()
 	{
 	}
 	
-	public synchronized void addObject(WorldObject object)
+	public void addObject(WorldObject object)
 	{
-		if (!GAME_OBJECTS.contains(object))
+		if (object.isPlayer())
 		{
-			if (object.isPlayer())
+			if (!PLAYER_OBJECTS.contains(object))
 			{
 				ONLINE_CLIENTS.add(((Player) object).getClient());
+				PLAYER_OBJECTS.add((Player) object);
 			}
+		}
+		else if (!GAME_OBJECTS.contains(object))
+		{
 			GAME_OBJECTS.add(object);
 		}
 	}
 	
 	public void removeObject(WorldObject object)
 	{
-		for (WorldObject obj : getVisibleObjects(object))
+		for (Player player : getVisiblePlayers(object))
 		{
-			if (obj.isPlayer())
-			{
-				((Player) obj).channelSend(new DeleteObject(object));
-			}
+			player.channelSend(new DeleteObject(object));
 		}
-		GAME_OBJECTS.remove(object);
+		if (object.isPlayer())
+		{
+			PLAYER_OBJECTS.remove(object);
+		}
+		else
+		{
+			GAME_OBJECTS.remove(object);
+		}
 	}
 	
 	public List<WorldObject> getVisibleObjects(WorldObject object)
 	{
 		final List<WorldObject> result = new ArrayList<>();
+		for (Player player : PLAYER_OBJECTS)
+		{
+			if (player == object)
+			{
+				continue;
+			}
+			if (object.calculateDistance(player) < VISIBILITY_RANGE)
+			{
+				result.add(player);
+			}
+		}
 		for (WorldObject obj : GAME_OBJECTS)
 		{
 			if (obj == object)
@@ -63,18 +83,35 @@ public class WorldManager
 		return result;
 	}
 	
+	public List<Player> getVisiblePlayers(WorldObject object)
+	{
+		final List<Player> result = new ArrayList<>();
+		for (Player player : PLAYER_OBJECTS)
+		{
+			if (player == object)
+			{
+				continue;
+			}
+			if (object.calculateDistance(player) < VISIBILITY_RANGE)
+			{
+				result.add(player);
+			}
+		}
+		return result;
+	}
+	
 	public Player getPlayerByName(String name)
 	{
 		name = name.toLowerCase(); // Not case sensitive.
-		for (WorldObject obj : GAME_OBJECTS)
+		for (Player obj : PLAYER_OBJECTS)
 		{
 			if ((obj == null) || !obj.isPlayer())
 			{
 				continue;
 			}
-			if (((Player) obj).getName().toLowerCase().equals(name)) // Not case sensitive.
+			if (obj.getName().toLowerCase().equals(name)) // Not case sensitive.
 			{
-				return (Player) obj;
+				return obj;
 			}
 		}
 		return null;

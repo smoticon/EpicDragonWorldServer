@@ -1,7 +1,6 @@
 package com.epicdragonworld.gameserver.network.packets.receivable;
 
 import com.epicdragonworld.gameserver.managers.WorldManager;
-import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.ReceivablePacket;
@@ -28,17 +27,12 @@ public class EnterWorldRequest
 		client.channelSend(new EnterWorldInformation(player));
 		// Send and receive visible object information.
 		final PlayerInformation playerInfo = new PlayerInformation(player);
-		for (WorldObject object : WorldManager.getInstance().getVisibleObjects(player))
+		for (Player nearby : WorldManager.getInstance().getVisiblePlayers(player))
 		{
-			if (object.isPlayer())
-			{
-				// Send the information to the current player.
-				final Player otherPlayer = (Player) object;
-				client.channelSend(new PlayerInformation(otherPlayer));
-				// Send information to the other player as well.
-				otherPlayer.channelSend(playerInfo);
-			}
-			// TODO: Other objects.
+			// Send the information to the current player.
+			client.channelSend(new PlayerInformation(nearby));
+			// Send information to the other player as well.
+			nearby.channelSend(playerInfo);
 		}
 	}
 }

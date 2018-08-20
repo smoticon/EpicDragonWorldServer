@@ -33,7 +33,7 @@ public class ObjectInfoRequest
 					final PlayerInformation playerInfo = new PlayerInformation(player);
 					otherPlayer.channelSend(playerInfo);
 				}
-				// TODO: Other objects.
+				// TODO: Other objects - NpcInformation?
 				break;
 			}
 		}

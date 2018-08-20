@@ -1,7 +1,6 @@
 package com.epicdragonworld.gameserver.network.packets.receivable;
 
 import com.epicdragonworld.gameserver.managers.WorldManager;
-import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.ReceivablePacket;
@@ -28,13 +27,9 @@ public class LocationUpdate
 			player.getLocation().setZ(posZ);
 			
 			// Broadcast movement.
-			for (WorldObject object : WorldManager.getInstance().getVisibleObjects(player))
+			for (Player nearby : WorldManager.getInstance().getVisiblePlayers(player))
 			{
-				if (object.isPlayer())
-				{
-					((Player) object).channelSend(new MoveToLocation(player));
-				}
-				// TODO: Other objects.
+				nearby.channelSend(new MoveToLocation(player));
 			}
 		}
 	}

@@ -1,7 +1,6 @@
 package com.epicdragonworld.gameserver.managers;
 
 import com.epicdragonworld.gameserver.model.Location;
-import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.packets.sendable.ChatResult;
 
@@ -56,12 +55,9 @@ public class ChatManager
 		}
 		else // Normal message.
 		{
-			for (WorldObject object : WorldManager.getInstance().getVisibleObjects(sender))
+			for (Player player : WorldManager.getInstance().getVisiblePlayers(sender))
 			{
-				if (object.isPlayer())
-				{
-					((Player) object).channelSend(new ChatResult(CHAT_TYPE_NORMAL, sender.getName(), message));
-				}
+				player.channelSend(new ChatResult(CHAT_TYPE_NORMAL, sender.getName(), message));
 			}
 		}
 	}
