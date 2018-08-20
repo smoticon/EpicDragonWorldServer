@@ -100,10 +100,6 @@ public class WorldManager
 	{
 		for (Player player : PLAYER_OBJECTS)
 		{
-			if (player == null)
-			{
-				continue;
-			}
 			if (player.getName().equalsIgnoreCase(name))
 			{
 				return player;
