@@ -102,16 +102,15 @@ public class WorldManager
 	
 	public Player getPlayerByName(String name)
 	{
-		name = name.toLowerCase(); // Not case sensitive.
-		for (Player obj : PLAYER_OBJECTS)
+		for (Player player : PLAYER_OBJECTS)
 		{
-			if ((obj == null) || !obj.isPlayer())
+			if (player == null)
 			{
 				continue;
 			}
-			if (obj.getName().toLowerCase().equals(name)) // Not case sensitive.
+			if (player.getName().equalsIgnoreCase(name))
 			{
-				return obj;
+				return player;
 			}
 		}
 		return null;
