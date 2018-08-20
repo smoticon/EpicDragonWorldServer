@@ -37,15 +37,19 @@ public class DatabaseManager
 	
 	public static Connection getConnection()
 	{
-		try
+		Connection con = null;
+		while (con == null)
 		{
-			return _hds.getConnection();
+			try
+			{
+				con = _hds.getConnection();
+			}
+			catch (Exception e)
+			{
+				LOGGER.severe("DatabaseManager: Cound not get a connection. " + e);
+			}
 		}
-		catch (Exception e)
-		{
-			LOGGER.severe("DatabaseManager: There was a problem getting the connection. " + e);
-		}
-		return null;
+		return con;
 	}
 	
 	public static void close()
