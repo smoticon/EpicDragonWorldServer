@@ -26,12 +26,7 @@ public class ObjectInfoRequest
 			{
 				if (object.isPlayer())
 				{
-					// Send the information to the current player.
-					final Player otherPlayer = (Player) object;
-					client.channelSend(new PlayerInformation(otherPlayer));
-					// Send information to the other player as well.
-					final PlayerInformation playerInfo = new PlayerInformation(player);
-					otherPlayer.channelSend(playerInfo);
+					client.channelSend(new PlayerInformation(object.asPlayer()));
 				}
 				// TODO: Other objects - NpcInformation?
 				break;

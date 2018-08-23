@@ -88,6 +88,12 @@ public class Player extends Creature
 		return true;
 	}
 	
+	@Override
+	public Player asPlayer()
+	{
+		return this;
+	}
+	
 	public void channelSend(SendablePacket packet)
 	{
 		_client.channelSend(packet);

@@ -28,8 +28,8 @@ public class WorldManager
 		{
 			if (!PLAYER_OBJECTS.contains(object))
 			{
-				ONLINE_CLIENTS.add(((Player) object).getClient());
-				PLAYER_OBJECTS.add((Player) object);
+				ONLINE_CLIENTS.add(object.asPlayer().getClient());
+				PLAYER_OBJECTS.add(object.asPlayer());
 			}
 		}
 		else if (!GAME_OBJECTS.contains(object))
@@ -51,7 +51,7 @@ public class WorldManager
 		{
 			PLAYER_OBJECTS.remove(object);
 			// Store player.
-			((Player) object).storeMe();
+			object.asPlayer().storeMe();
 		}
 		else
 		{
