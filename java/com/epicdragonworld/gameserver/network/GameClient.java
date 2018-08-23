@@ -25,15 +25,17 @@ public class GameClient extends SimpleChannelInboundHandler<byte[]>
 	public void handlerAdded(ChannelHandlerContext ctx)
 	{
 		// Connected.
-		final Channel incoming = ctx.channel();
-		_channel = incoming;
-		_ip = incoming.remoteAddress().toString();
+		_channel = ctx.channel();
+		_ip = _channel.remoteAddress().toString();
 		_ip = _ip.substring(1, _ip.lastIndexOf(':')); // Trim out /127.0.0.1:12345
 	}
 	
 	public void channelSend(SendablePacket packet)
 	{
-		_channel.writeAndFlush(packet.getSendableBytes());
+		if (_channel.isActive())
+		{
+			_channel.writeAndFlush(packet.getSendableBytes());
+		}
 	}
 	
 	@Override
