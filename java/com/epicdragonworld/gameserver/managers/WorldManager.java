@@ -37,10 +37,13 @@ public class WorldManager
 	
 	public static void removeObject(WorldObject object)
 	{
+		// Broadcast deletion to nearby players.
 		for (Player player : getVisiblePlayers(object))
 		{
 			player.channelSend(new DeleteObject(object));
 		}
+		
+		// Remove from list.
 		if (object.isPlayer())
 		{
 			PLAYER_OBJECTS.remove(object);
@@ -49,6 +52,9 @@ public class WorldManager
 		{
 			GAME_OBJECTS.remove(object);
 		}
+		
+		// Explicitly set object to null.
+		object = null;
 	}
 	
 	public static List<WorldObject> getVisibleObjects(WorldObject object)
@@ -123,13 +129,19 @@ public class WorldManager
 	
 	public static void removeClient(GameClient client)
 	{
+		// Store and remove player.
 		final Player player = client.getActiveChar();
 		if (player != null)
 		{
 			player.storeMe();
 			removeObject(player);
 		}
+		
+		// Remove from list.
 		ONLINE_CLIENTS.remove(client);
+		
+		// Explicitly set client to null.
+		client = null;
 	}
 	
 	public static void removeClientByAccountName(String accountName)
