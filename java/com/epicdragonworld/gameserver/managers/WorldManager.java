@@ -8,6 +8,7 @@ import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.packets.sendable.DeleteObject;
+import com.epicdragonworld.gameserver.tasks.ExplicitlyNullifyTask;
 
 /**
  * @author Pantelis Andrianakis
@@ -18,6 +19,8 @@ public class WorldManager
 	private static final List<Player> PLAYER_OBJECTS = new CopyOnWriteArrayList<>();
 	private static final List<WorldObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
 	private static final int VISIBILITY_RANGE = 3000;
+	private static final int OBJECT_NULLIFY_DELAY = 10000;
+	private static final int CLIENT_NULLIFY_DELAY = 15000;
 	
 	public static void addObject(WorldObject object)
 	{
@@ -43,18 +46,20 @@ public class WorldManager
 			player.channelSend(new DeleteObject(object));
 		}
 		
-		// Remove from list.
+		// Remove from list and take necessary actions.
 		if (object.isPlayer())
 		{
 			PLAYER_OBJECTS.remove(object);
+			// Store player.
+			((Player) object).storeMe();
 		}
 		else
 		{
 			GAME_OBJECTS.remove(object);
 		}
 		
-		// Explicitly set object to null.
-		object = null;
+		// Explicitly set object to null after 10 seconds.
+		ThreadPoolManager.schedule(new ExplicitlyNullifyTask(object), OBJECT_NULLIFY_DELAY);
 	}
 	
 	public static List<WorldObject> getVisibleObjects(WorldObject object)
@@ -133,15 +138,14 @@ public class WorldManager
 		final Player player = client.getActiveChar();
 		if (player != null)
 		{
-			player.storeMe();
 			removeObject(player);
 		}
 		
 		// Remove from list.
 		ONLINE_CLIENTS.remove(client);
 		
-		// Explicitly set client to null.
-		client = null;
+		// Explicitly set object to null after 15 seconds.
+		ThreadPoolManager.schedule(new ExplicitlyNullifyTask(client), CLIENT_NULLIFY_DELAY);
 	}
 	
 	public static void removeClientByAccountName(String accountName)

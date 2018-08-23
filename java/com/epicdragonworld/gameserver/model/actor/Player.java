@@ -90,9 +90,6 @@ public class Player extends Creature
 	
 	public void channelSend(SendablePacket packet)
 	{
-		if (_client != null)
-		{
-			_client.channelSend(packet);
-		}
+		_client.channelSend(packet);
 	}
 }
