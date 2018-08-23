@@ -8,7 +8,6 @@ import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.packets.sendable.DeleteObject;
-import com.epicdragonworld.gameserver.tasks.ExplicitlyNullifyTask;
 
 /**
  * @author Pantelis Andrianakis
@@ -19,8 +18,6 @@ public class WorldManager
 	private static final List<Player> PLAYER_OBJECTS = new CopyOnWriteArrayList<>();
 	private static final List<WorldObject> GAME_OBJECTS = new CopyOnWriteArrayList<>();
 	private static final int VISIBILITY_RANGE = 3000;
-	private static final int OBJECT_NULLIFY_DELAY = 10000;
-	private static final int CLIENT_NULLIFY_DELAY = 15000;
 	
 	public static void addObject(WorldObject object)
 	{
@@ -57,9 +54,6 @@ public class WorldManager
 		{
 			GAME_OBJECTS.remove(object);
 		}
-		
-		// Explicitly set object to null after 10 seconds.
-		ThreadPoolManager.schedule(new ExplicitlyNullifyTask(object), OBJECT_NULLIFY_DELAY);
 	}
 	
 	public static List<WorldObject> getVisibleObjects(WorldObject object)
@@ -143,9 +137,6 @@ public class WorldManager
 		
 		// Remove from list.
 		ONLINE_CLIENTS.remove(client);
-		
-		// Explicitly set object to null after 15 seconds.
-		ThreadPoolManager.schedule(new ExplicitlyNullifyTask(client), CLIENT_NULLIFY_DELAY);
 	}
 	
 	public static void removeClientByAccountName(String accountName)
