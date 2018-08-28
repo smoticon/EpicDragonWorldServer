@@ -48,6 +48,7 @@ public final class Config
 	public static int THREADS_PER_INSTANT_THREAD_POOL;
 	public static int IO_PACKET_THREAD_CORE_SIZE;
 	public static int MAXIMUM_ONLINE_USERS;
+	public static double CLIENT_VERSION;
 	
 	public static void load()
 	{
@@ -82,5 +83,6 @@ public final class Config
 		THREADS_PER_INSTANT_THREAD_POOL = serverConfigs.getInt("ThreadsPerInstantThreadPool", 2);
 		IO_PACKET_THREAD_CORE_SIZE = serverConfigs.getInt("UrgentPacketThreadCoreSize", 2);
 		MAXIMUM_ONLINE_USERS = serverConfigs.getInt("MaximumOnlineUsers", 2000);
+		CLIENT_VERSION = serverConfigs.getDouble("ClientVersion", 1.0);
 	}
 }

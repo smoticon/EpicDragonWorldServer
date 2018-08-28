@@ -28,23 +28,30 @@ public class AccountAuthenticationRequest
 	private static final int STATUS_WRONG_PASSWORD = 3;
 	private static final int STATUS_ALREADY_ONLINE = 4;
 	private static final int STATUS_TOO_MANY_ONLINE = 5;
+	private static final int STATUS_INCORRECT_CLIENT = 6;
 	private static final int STATUS_AUTHENTICATED = 100;
 	
 	public AccountAuthenticationRequest(GameClient client, ReceivablePacket packet)
 	{
 		// Read data.
+		final double clientVersion = packet.readDouble();
 		String accountName = packet.readString().toLowerCase();
 		final String passwordHash = packet.readString();
 		
-		// Local data.
+		// Client version check.
+		if (clientVersion != Config.CLIENT_VERSION)
+		{
+			client.channelSend(new AccountAuthenticationResult(STATUS_INCORRECT_CLIENT));
+			return;
+		}
+		
+		// Replace illegal characters.
 		for (char c : Util.ILLEGAL_CHARACTERS)
 		{
 			accountName = accountName.replace(c, '\'');
 		}
-		String storedPassword = "";
-		int status = STATUS_NOT_FOUND;
 		
-		// Checks.
+		// Account name checks.
 		if ((accountName.length() < 2) || (accountName.length() > 20) || accountName.contains("'") || (passwordHash.length() == 0)) // 20 should not happen, checking it here in case of client cheat.
 		{
 			client.channelSend(new AccountAuthenticationResult(STATUS_NOT_FOUND));
@@ -52,6 +59,8 @@ public class AccountAuthenticationRequest
 		}
 		
 		// Get data from database.
+		String storedPassword = "";
+		int status = STATUS_NOT_FOUND;
 		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(ACCOUNT_INFO_QUERY))
 		{
