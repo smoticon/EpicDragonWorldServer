@@ -66,7 +66,7 @@ public final class Config
 		final ConfigReader serverConfigs = new ConfigReader(SERVER_CONFIG_FILE);
 		GAMESERVER_PORT = serverConfigs.getInt("GameserverPort", 5055);
 		GAMESERVER_HOSTNAME = serverConfigs.getString("GameserverHostname", "0.0.0.0");
-		DATABASE_DRIVER = serverConfigs.getString("Driver", "com.mysql.jdbc.Driver");
+		DATABASE_DRIVER = serverConfigs.getString("Driver", "org.mariadb.jdbc.Driver");
 		DATABASE_URL = serverConfigs.getString("URL", "jdbc:mysql://localhost/edws");
 		DATABASE_LOGIN = serverConfigs.getString("Login", "root");
 		DATABASE_PASSWORD = serverConfigs.getString("Password", "");
