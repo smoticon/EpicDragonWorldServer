@@ -1,5 +1,7 @@
 package com.epicdragonworld;
 
+import java.util.logging.Logger;
+
 import com.epicdragonworld.gameserver.model.Location;
 import com.epicdragonworld.util.ConfigReader;
 
@@ -11,6 +13,7 @@ public final class Config
 	// --------------------------------------------------
 	// Constants
 	// --------------------------------------------------
+	private static final Logger LOGGER = Logger.getLogger(Config.class.getName());
 	public static final String EOL = System.lineSeparator();
 	
 	// --------------------------------------------------
@@ -84,5 +87,7 @@ public final class Config
 		IO_PACKET_THREAD_CORE_SIZE = serverConfigs.getInt("UrgentPacketThreadCoreSize", 2);
 		MAXIMUM_ONLINE_USERS = serverConfigs.getInt("MaximumOnlineUsers", 2000);
 		CLIENT_VERSION = serverConfigs.getDouble("ClientVersion", 1.0);
+		
+		LOGGER.info("Configs: Initialized.");
 	}
 }

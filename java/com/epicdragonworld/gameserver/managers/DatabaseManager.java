@@ -28,10 +28,11 @@ public class DatabaseManager
 		try
 		{
 			_hds.getConnection().close();
+			LOGGER.info("Database: Initialized.");
 		}
 		catch (Exception e)
 		{
-			System.exit(1); // Close server.
+			e.printStackTrace();
 		}
 	}
 	
