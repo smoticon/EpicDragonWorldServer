@@ -67,7 +67,7 @@ public final class Config
 		GAMESERVER_PORT = serverConfigs.getInt("GameserverPort", 5055);
 		GAMESERVER_HOSTNAME = serverConfigs.getString("GameserverHostname", "0.0.0.0");
 		DATABASE_DRIVER = serverConfigs.getString("Driver", "org.mariadb.jdbc.Driver");
-		DATABASE_URL = serverConfigs.getString("URL", "jdbc:mysql://localhost/edws");
+		DATABASE_URL = serverConfigs.getString("URL", "jdbc:mariadb://localhost/edws");
 		DATABASE_LOGIN = serverConfigs.getString("Login", "root");
 		DATABASE_PASSWORD = serverConfigs.getString("Password", "");
 		DATABASE_MAX_CONNECTIONS = serverConfigs.getInt("MaximumDbConnections", 100);
