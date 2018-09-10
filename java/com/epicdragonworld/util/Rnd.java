@@ -7,12 +7,14 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public final class Rnd
 {
+	final static ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
+	
 	/**
 	 * @return a pseudorandom boolean value.
 	 */
 	public static boolean getBoolean()
 	{
-		return ThreadLocalRandom.current().nextBoolean();
+		return RANDOM.nextBoolean();
 	}
 	
 	/**
@@ -21,7 +23,7 @@ public final class Rnd
 	 */
 	public static int get(int bound)
 	{
-		return ThreadLocalRandom.current().nextInt(bound);
+		return RANDOM.nextInt(bound);
 	}
 	
 	/**
@@ -31,7 +33,7 @@ public final class Rnd
 	 */
 	public static int get(int origin, int bound)
 	{
-		return ThreadLocalRandom.current().nextInt(origin, bound);
+		return RANDOM.nextInt(origin, bound);
 	}
 	
 	/**
@@ -40,7 +42,7 @@ public final class Rnd
 	 */
 	public static long get(long bound)
 	{
-		return ThreadLocalRandom.current().nextLong(bound);
+		return RANDOM.nextLong(bound);
 	}
 	
 	/**
@@ -50,7 +52,7 @@ public final class Rnd
 	 */
 	public static long get(long origin, long bound)
 	{
-		return ThreadLocalRandom.current().nextLong(origin, bound);
+		return RANDOM.nextLong(origin, bound);
 	}
 	
 	/**
@@ -59,7 +61,7 @@ public final class Rnd
 	 */
 	public static double get(double bound)
 	{
-		return ThreadLocalRandom.current().nextDouble(bound);
+		return RANDOM.nextDouble(bound);
 	}
 	
 	/**
@@ -69,6 +71,47 @@ public final class Rnd
 	 */
 	public static double get(double origin, double bound)
 	{
-		return ThreadLocalRandom.current().nextDouble(origin, bound);
+		return RANDOM.nextDouble(origin, bound);
+	}
+	
+	/**
+	 * @return a pseudorandom boolean value.
+	 */
+	public static boolean nextBoolean()
+	{
+		return RANDOM.nextBoolean();
+	}
+	
+	/**
+	 * Generates random bytes and places them into a user-supplied byte array. The number of random bytes produced is equal to the length of the byte array.
+	 * @param bytes the byte array to fill with random bytes.
+	 */
+	public static void nextBytes(byte[] bytes)
+	{
+		RANDOM.nextBytes(bytes);
+	}
+	
+	/**
+	 * @return a pseudorandom int value.
+	 */
+	public static int nextInt()
+	{
+		return RANDOM.nextInt();
+	}
+	
+	/**
+	 * @return a pseudorandom double value between zero (inclusive) and one (exclusive).
+	 */
+	public static double nextDouble()
+	{
+		return RANDOM.nextDouble();
+	}
+	
+	/**
+	 * @return the next pseudorandom, Gaussian ("normally") distributed double value with mean 0.0 and standard deviation 1.0 from this random number generator's sequence.
+	 */
+	public static double nextGaussian()
+	{
+		return RANDOM.nextGaussian();
 	}
 }
