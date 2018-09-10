@@ -12,9 +12,18 @@ public final class Rnd
 	/**
 	 * @return a pseudorandom boolean value.
 	 */
-	public static boolean getBoolean()
+	public static boolean nextBoolean()
 	{
 		return RANDOM.nextBoolean();
+	}
+	
+	/**
+	 * Generates random bytes and places them into a user-supplied byte array. The number of random bytes produced is equal to the length of the byte array.
+	 * @param bytes the byte array to fill with random bytes.
+	 */
+	public static void nextBytes(byte[] bytes)
+	{
+		RANDOM.nextBytes(bytes);
 	}
 	
 	/**
@@ -37,6 +46,14 @@ public final class Rnd
 	}
 	
 	/**
+	 * @return a pseudorandom int value.
+	 */
+	public static int nextInt()
+	{
+		return RANDOM.nextInt();
+	}
+	
+	/**
 	 * @param bound (long)
 	 * @return a pseudorandom long value between zero (inclusive) and the specified bound (exclusive).
 	 */
@@ -56,6 +73,14 @@ public final class Rnd
 	}
 	
 	/**
+	 * @return a pseudorandom long value.
+	 */
+	public static long nextLong()
+	{
+		return RANDOM.nextLong();
+	}
+	
+	/**
 	 * @param bound (double)
 	 * @return a pseudorandom double value between zero (inclusive) and the specified bound (exclusive).
 	 */
@@ -72,31 +97,6 @@ public final class Rnd
 	public static double get(double origin, double bound)
 	{
 		return RANDOM.nextDouble(origin, bound);
-	}
-	
-	/**
-	 * @return a pseudorandom boolean value.
-	 */
-	public static boolean nextBoolean()
-	{
-		return RANDOM.nextBoolean();
-	}
-	
-	/**
-	 * Generates random bytes and places them into a user-supplied byte array. The number of random bytes produced is equal to the length of the byte array.
-	 * @param bytes the byte array to fill with random bytes.
-	 */
-	public static void nextBytes(byte[] bytes)
-	{
-		RANDOM.nextBytes(bytes);
-	}
-	
-	/**
-	 * @return a pseudorandom int value.
-	 */
-	public static int nextInt()
-	{
-		return RANDOM.nextInt();
 	}
 	
 	/**
