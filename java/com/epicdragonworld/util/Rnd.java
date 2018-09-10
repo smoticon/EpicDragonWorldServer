@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public final class Rnd
 {
-	final static ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
+	static volatile ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
 	
 	/**
 	 * @return a pseudorandom boolean value.
