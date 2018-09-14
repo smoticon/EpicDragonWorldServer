@@ -1,20 +1,19 @@
 package com.epicdragonworld.util;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 /**
  * @author Pantelis Andrianakis
  */
 public final class Rnd
 {
-	static volatile ThreadLocalRandom RANDOM = ThreadLocalRandom.current();
-	
 	/**
 	 * @return a pseudorandom boolean value.
 	 */
 	public static boolean nextBoolean()
 	{
-		return RANDOM.nextBoolean();
+		final Random random = new Random();
+		return random.nextBoolean();
 	}
 	
 	/**
@@ -23,7 +22,8 @@ public final class Rnd
 	 */
 	public static void nextBytes(byte[] bytes)
 	{
-		RANDOM.nextBytes(bytes);
+		final Random random = new Random();
+		random.nextBytes(bytes);
 	}
 	
 	/**
@@ -32,7 +32,8 @@ public final class Rnd
 	 */
 	public static int get(int bound)
 	{
-		return RANDOM.nextInt(bound);
+		final Random random = new Random();
+		return random.nextInt(bound);
 	}
 	
 	/**
@@ -42,7 +43,8 @@ public final class Rnd
 	 */
 	public static int get(int origin, int bound)
 	{
-		return RANDOM.nextInt(origin, bound);
+		final Random random = new Random();
+		return origin + random.nextInt((bound - origin) + 1);
 	}
 	
 	/**
@@ -50,7 +52,8 @@ public final class Rnd
 	 */
 	public static int nextInt()
 	{
-		return RANDOM.nextInt();
+		final Random random = new Random();
+		return random.nextInt();
 	}
 	
 	/**
@@ -59,7 +62,8 @@ public final class Rnd
 	 */
 	public static long get(long bound)
 	{
-		return RANDOM.nextLong(bound);
+		final Random random = new Random();
+		return (long) (random.nextDouble() * bound);
 	}
 	
 	/**
@@ -69,7 +73,8 @@ public final class Rnd
 	 */
 	public static long get(long origin, long bound)
 	{
-		return RANDOM.nextLong(origin, bound);
+		final Random random = new Random();
+		return origin + (long) ((bound - origin) * random.nextDouble());
 	}
 	
 	/**
@@ -77,7 +82,8 @@ public final class Rnd
 	 */
 	public static long nextLong()
 	{
-		return RANDOM.nextLong();
+		final Random random = new Random();
+		return random.nextLong();
 	}
 	
 	/**
@@ -86,7 +92,8 @@ public final class Rnd
 	 */
 	public static double get(double bound)
 	{
-		return RANDOM.nextDouble(bound);
+		final Random random = new Random();
+		return random.nextDouble() * bound;
 	}
 	
 	/**
@@ -96,7 +103,8 @@ public final class Rnd
 	 */
 	public static double get(double origin, double bound)
 	{
-		return RANDOM.nextDouble(origin, bound);
+		final Random random = new Random();
+		return origin + ((bound - origin) * random.nextDouble());
 	}
 	
 	/**
@@ -104,7 +112,8 @@ public final class Rnd
 	 */
 	public static double nextDouble()
 	{
-		return RANDOM.nextDouble();
+		final Random random = new Random();
+		return random.nextDouble();
 	}
 	
 	/**
@@ -112,6 +121,7 @@ public final class Rnd
 	 */
 	public static double nextGaussian()
 	{
-		return RANDOM.nextGaussian();
+		final Random random = new Random();
+		return random.nextGaussian();
 	}
 }
