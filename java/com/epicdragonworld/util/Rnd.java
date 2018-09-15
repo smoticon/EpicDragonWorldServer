@@ -8,12 +8,24 @@ import java.util.Random;
 public final class Rnd
 {
 	/**
-	 * @return a pseudorandom boolean value.
+	 * Thread-specific random number generator.<br>
+	 * Each is seeded with the thread ID, so the sequence of random numbers are unique between threads.
+	 */
+	private static ThreadLocal<Random> RANDOM = new ThreadLocal<>()
+	{
+		@Override
+		protected Random initialValue()
+		{
+			return new Random(System.nanoTime() + Thread.currentThread().getId());
+		}
+	};
+	
+	/**
+	 * @return a random boolean value.
 	 */
 	public static boolean nextBoolean()
 	{
-		final Random random = new Random();
-		return random.nextBoolean();
+		return RANDOM.get().nextBoolean();
 	}
 	
 	/**
@@ -22,106 +34,95 @@ public final class Rnd
 	 */
 	public static void nextBytes(byte[] bytes)
 	{
-		final Random random = new Random();
-		random.nextBytes(bytes);
+		RANDOM.get().nextBytes(bytes);
 	}
 	
 	/**
 	 * @param bound (int)
-	 * @return a pseudorandom int value between zero (inclusive) and the specified bound (exclusive).
+	 * @return a random int value between zero (inclusive) and the specified bound (exclusive).
 	 */
 	public static int get(int bound)
 	{
-		final Random random = new Random();
-		return random.nextInt(bound);
+		return (int) (RANDOM.get().nextDouble() * bound);
 	}
 	
 	/**
 	 * @param origin (int)
 	 * @param bound (int)
-	 * @return a pseudorandom int value between the specified origin (inclusive) and the specified bound (exclusive).
+	 * @return a random int value between the specified origin (inclusive) and the specified bound (inclusive).
 	 */
 	public static int get(int origin, int bound)
 	{
-		final Random random = new Random();
-		return origin + random.nextInt((bound - origin) + 1);
+		return origin + (int) (((bound - origin) + 1) * RANDOM.get().nextDouble());
 	}
 	
 	/**
-	 * @return a pseudorandom int value.
+	 * @return a random int value.
 	 */
 	public static int nextInt()
 	{
-		final Random random = new Random();
-		return random.nextInt();
+		return RANDOM.get().nextInt();
 	}
 	
 	/**
 	 * @param bound (long)
-	 * @return a pseudorandom long value between zero (inclusive) and the specified bound (exclusive).
+	 * @return a random long value between zero (inclusive) and the specified bound (exclusive).
 	 */
 	public static long get(long bound)
 	{
-		final Random random = new Random();
-		return (long) (random.nextDouble() * bound);
+		return (long) (RANDOM.get().nextDouble() * bound);
 	}
 	
 	/**
 	 * @param origin (long)
 	 * @param bound (long)
-	 * @return a pseudorandom long value between the specified origin (inclusive) and the specified bound (exclusive).
+	 * @return a random long value between the specified origin (inclusive) and the specified bound (inclusive).
 	 */
 	public static long get(long origin, long bound)
 	{
-		final Random random = new Random();
-		return origin + (long) ((bound - origin) * random.nextDouble());
+		return origin + (long) (((bound - origin) + 1) * RANDOM.get().nextDouble());
 	}
 	
 	/**
-	 * @return a pseudorandom long value.
+	 * @return a random long value.
 	 */
 	public static long nextLong()
 	{
-		final Random random = new Random();
-		return random.nextLong();
+		return RANDOM.get().nextLong();
 	}
 	
 	/**
 	 * @param bound (double)
-	 * @return a pseudorandom double value between zero (inclusive) and the specified bound (exclusive).
+	 * @return a random double value between zero (inclusive) and the specified bound (exclusive).
 	 */
 	public static double get(double bound)
 	{
-		final Random random = new Random();
-		return random.nextDouble() * bound;
+		return RANDOM.get().nextDouble() * bound;
 	}
 	
 	/**
 	 * @param origin (double)
 	 * @param bound (double)
-	 * @return a pseudorandom double value between the specified origin (inclusive) and the specified bound (exclusive).
+	 * @return a random double value between the specified origin (inclusive) and the specified bound (inclusive).
 	 */
 	public static double get(double origin, double bound)
 	{
-		final Random random = new Random();
-		return origin + ((bound - origin) * random.nextDouble());
+		return origin + (((bound - origin) + 1) * RANDOM.get().nextDouble());
 	}
 	
 	/**
-	 * @return a pseudorandom double value between zero (inclusive) and one (exclusive).
+	 * @return a random double value between zero (inclusive) and one (exclusive).
 	 */
 	public static double nextDouble()
 	{
-		final Random random = new Random();
-		return random.nextDouble();
+		return RANDOM.get().nextDouble();
 	}
 	
 	/**
-	 * @return the next pseudorandom, Gaussian ("normally") distributed double value with mean 0.0 and standard deviation 1.0 from this random number generator's sequence.
+	 * @return the next random, Gaussian ("normally") distributed double value with mean 0.0 and standard deviation 1.0 from this random number generator's sequence.
 	 */
 	public static double nextGaussian()
 	{
-		final Random random = new Random();
-		return random.nextGaussian();
+		return RANDOM.get().nextGaussian();
 	}
 }
