@@ -24,6 +24,8 @@ public class Player extends Creature
 	
 	public Player(GameClient client, String name)
 	{
+		super();
+		
 		_client = client;
 		_name = name;
 		
@@ -40,6 +42,10 @@ public class Player extends Creature
 					getLocation().setX(rset.getFloat("x"));
 					getLocation().setY(rset.getFloat("y"));
 					getLocation().setZ(rset.getFloat("z"));
+					// TODO: Restore player stats (STA/STR/DEX/INT).
+					// TODO: Restore player level.
+					// TODO: Restore player Current HP.
+					// TODO: Restore player Current MP.
 				}
 			}
 		}

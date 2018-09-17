@@ -5,6 +5,13 @@ package com.epicdragonworld.gameserver.model.actor;
  */
 public class Monster extends Creature
 {
+	public Monster()
+	{
+		// TODO: Monster templates.
+		// TODO: Set monster stats (STA/STR/DEX/INT).
+		// TODO: Set monster level.
+	}
+	
 	@Override
 	public boolean isMonster()
 	{
