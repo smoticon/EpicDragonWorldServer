@@ -24,8 +24,6 @@ public class Player extends Creature
 	
 	public Player(GameClient client, String name)
 	{
-		super();
-		
 		_client = client;
 		_name = name;
 		
