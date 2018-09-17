@@ -2,6 +2,8 @@ package com.epicdragonworld.gameserver.model;
 
 import com.epicdragonworld.gameserver.managers.IdManager;
 import com.epicdragonworld.gameserver.model.actor.Creature;
+import com.epicdragonworld.gameserver.model.actor.Monster;
+import com.epicdragonworld.gameserver.model.actor.Npc;
 import com.epicdragonworld.gameserver.model.actor.Player;
 
 /**
@@ -85,6 +87,40 @@ public class WorldObject
 	 * @return {@link Player} instance if current object is such, {@code null} otherwise.
 	 */
 	public Player asPlayer()
+	{
+		return null;
+	}
+	
+	/**
+	 * Verify if object is instance of Monster.
+	 * @return {@code true} if object is instance of Monster, {@code false} otherwise.
+	 */
+	public boolean isMonster()
+	{
+		return false;
+	}
+	
+	/**
+	 * @return {@link Monster} instance if current object is such, {@code null} otherwise.
+	 */
+	public Monster asMonster()
+	{
+		return null;
+	}
+	
+	/**
+	 * Verify if object is instance of Npc.
+	 * @return {@code true} if object is instance of Npc, {@code false} otherwise.
+	 */
+	public boolean isNpc()
+	{
+		return false;
+	}
+	
+	/**
+	 * @return {@link Npc} instance if current object is such, {@code null} otherwise.
+	 */
+	public Npc asNpc()
 	{
 		return null;
 	}
