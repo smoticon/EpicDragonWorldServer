@@ -55,7 +55,7 @@ public class Player extends Creature
 		}
 		
 		// Initialize inventory.
-		_inventory = new Inventory(this);
+		_inventory = new Inventory(_name);
 	}
 	
 	public void storeMe()
@@ -80,7 +80,7 @@ public class Player extends Creature
 		}
 		
 		// Save inventory.
-		_inventory.store(this);
+		_inventory.store(_name);
 	}
 	
 	public GameClient getClient()

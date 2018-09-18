@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
-import com.epicdragonworld.gameserver.model.actor.Player;
 
 /**
  * @author Pantelis Andrianakis
@@ -23,13 +22,13 @@ public class Inventory
 	
 	private final Map<Integer, Integer> _items = new ConcurrentHashMap<>();
 	
-	public Inventory(Player owner)
+	public Inventory(String owner)
 	{
 		// Restore information from database.
 		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(RESTORE_INVENTORY))
 		{
-			ps.setString(1, owner.getName());
+			ps.setString(1, owner);
 			try (ResultSet rset = ps.executeQuery())
 			{
 				while (rset.next())
@@ -46,12 +45,10 @@ public class Inventory
 	
 	/**
 	 * Only used when player exists the game.
-	 * @param owner
+	 * @param ownerName
 	 */
-	public void store(Player owner)
+	public void store(String ownerName)
 	{
-		final String ownerName = owner.getName();
-		
 		// Delete old records.
 		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(DELETE_INVENTORY))
