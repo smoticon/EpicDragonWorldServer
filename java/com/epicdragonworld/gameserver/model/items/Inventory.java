@@ -17,7 +17,7 @@ public class Inventory
 {
 	private static final Logger LOGGER = Logger.getLogger(Inventory.class.getName());
 	private static final String RESTORE_INVENTORY = "SELECT * FROM character_items WHERE name=?";
-	private static final String DELETE_INVENTORY = "DELETE * FROM character_items WHERE name=?";
+	private static final String DELETE_INVENTORY = "DELETE FROM character_items WHERE name=?";
 	private static final String STORE_ITEM = "INSERT INTO character_items (name, slot, item) values (?, ?, ?)";
 	
 	private final Map<Integer, Integer> _items = new ConcurrentHashMap<>();
