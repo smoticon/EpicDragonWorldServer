@@ -48,13 +48,6 @@ public class CharacterSelectionInfoResult extends SendablePacket
 					characterData.setHp(rset.getLong("hp"));
 					characterData.setMp(rset.getLong("mp"));
 					characterData.setAccessLevel(rset.getByte("access_level"));
-					characterData.setItemHead(rset.getInt("item_head"));
-					characterData.setItemChest(rset.getInt("item_chest"));
-					characterData.setItemGloves(rset.getInt("item_gloves"));
-					characterData.setItemLegs(rset.getInt("item_legs"));
-					characterData.setItemBoots(rset.getInt("item_boots"));
-					characterData.setItemRightHand(rset.getInt("item_right_hand"));
-					characterData.setItemLeftHand(rset.getInt("item_left_hand"));
 					characterList.add(characterData);
 				}
 			}
@@ -82,13 +75,6 @@ public class CharacterSelectionInfoResult extends SendablePacket
 			writeLong(characterData.getHp());
 			writeLong(characterData.getMp());
 			writeByte(characterData.getAccessLevel());
-			writeInt(characterData.getItemHead());
-			writeInt(characterData.getItemChest());
-			writeInt(characterData.getItemGloves());
-			writeInt(characterData.getItemLegs());
-			writeInt(characterData.getItemBoots());
-			writeInt(characterData.getItemRightHand());
-			writeInt(characterData.getItemLeftHand());
 		}
 	}
 }
