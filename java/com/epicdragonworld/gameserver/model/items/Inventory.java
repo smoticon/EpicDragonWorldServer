@@ -16,9 +16,10 @@ import com.epicdragonworld.gameserver.managers.DatabaseManager;
 public class Inventory
 {
 	private static final Logger LOGGER = Logger.getLogger(Inventory.class.getName());
+	
 	private static final String RESTORE_INVENTORY = "SELECT * FROM character_items WHERE owner=?";
 	private static final String DELETE_INVENTORY = "DELETE FROM character_items WHERE owner=?";
-	private static final String STORE_ITEM = "INSERT INTO character_items (owner, slot, item) values (?, ?, ?)";
+	private static final String STORE_ITEM = "INSERT INTO character_items (owner, slot_id, item_id) values (?, ?, ?)";
 	
 	private final Map<Integer, Integer> _items = new ConcurrentHashMap<>();
 	
@@ -33,7 +34,7 @@ public class Inventory
 			{
 				while (rset.next())
 				{
-					_items.put(rset.getInt("slot"), rset.getInt("item"));
+					_items.put(rset.getInt("slot_id"), rset.getInt("item_id"));
 				}
 			}
 		}
@@ -89,18 +90,26 @@ public class Inventory
 		_items.clear();
 	}
 	
-	public int getSlot(int slot)
+	public int getSlot(int slotId)
 	{
-		return _items.get(slot);
+		return _items.get(slotId);
 	}
 	
-	public void setSlot(int slot, int item)
+	public void setSlot(int slotId, int itemId)
 	{
-		_items.put(slot, item);
+		_items.put(slotId, itemId);
 	}
 	
-	public void removeSlot(int slot)
+	public void removeSlot(int slotId)
 	{
-		_items.remove(slot);
+		_items.remove(slotId);
+	}
+	
+	/**
+	 * @return a Map that contains all (slotId, itemId) information.
+	 */
+	public Map<Integer, Integer> getItems()
+	{
+		return _items;
 	}
 }

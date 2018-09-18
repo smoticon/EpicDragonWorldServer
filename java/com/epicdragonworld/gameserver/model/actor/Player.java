@@ -56,6 +56,7 @@ public class Player extends Creature
 		
 		// Initialize inventory.
 		_inventory = new Inventory(_name);
+		// TODO: Send inventory slotId/itemId list packet (InventoryInformation) to client.
 	}
 	
 	public void storeMe()
