@@ -22,13 +22,13 @@ public class Inventory
 	
 	private final Map<Integer, Integer> _items = new ConcurrentHashMap<>();
 	
-	public Inventory(String owner)
+	public Inventory(String ownerName)
 	{
 		// Restore information from database.
 		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(RESTORE_INVENTORY))
 		{
-			ps.setString(1, owner);
+			ps.setString(1, ownerName);
 			try (ResultSet rset = ps.executeQuery())
 			{
 				while (rset.next())
