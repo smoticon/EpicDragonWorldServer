@@ -22,7 +22,7 @@ public class CharacterCreationRequest
 	private static final String ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE account=?";
 	private static final String NAME_EXISTS_QUERY = "SELECT * FROM characters WHERE name=?";
 	private static final String CHARACTER_SELECTED_RESET_QUERY = "UPDATE characters SET selected=0 WHERE account=?";
-	private static final String CHARACTER_CREATE_QUERY = "INSERT INTO characters (account, name, slot, selected, class_id, location_name, x, y, z, heading, experience, hp, mp, item_head, item_chest, item_gloves, item_legs, item_boots, item_right_hand, item_left_hand) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String CHARACTER_CREATE_QUERY = "INSERT INTO characters (account, name, slot, selected, class_id, location_name, x, y, z, heading, experience, hp, mp) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private static final int INVALID_NAME = 0;
 	private static final int NAME_IS_TOO_SHORT = 1;
@@ -143,13 +143,6 @@ public class CharacterCreationRequest
 			ps.setLong(11, 0); // TODO: Starting level experience.
 			ps.setLong(12, 1); // TODO: Character stats HP.
 			ps.setLong(13, 1); // TODO: Character stats MP.
-			ps.setInt(14, 0); // TODO: Starting items.
-			ps.setInt(15, 0); // TODO: Starting items.
-			ps.setInt(16, 0); // TODO: Starting items.
-			ps.setInt(17, 0); // TODO: Starting items.
-			ps.setInt(18, 0); // TODO: Starting items.
-			ps.setInt(19, 0); // TODO: Starting items.
-			ps.setInt(20, 0); // TODO: Starting items.
 			ps.execute();
 		}
 		catch (Exception e)
