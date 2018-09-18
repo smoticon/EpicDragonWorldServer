@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.logging.Logger;
 
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
+import com.epicdragonworld.gameserver.model.items.Inventory;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.SendablePacket;
 
@@ -21,6 +22,7 @@ public class Player extends Creature
 	private final GameClient _client;
 	private final String _name;
 	private int _classId = 0;
+	private final Inventory _inventory;
 	
 	public Player(GameClient client, String name)
 	{
@@ -51,6 +53,9 @@ public class Player extends Creature
 		{
 			LOGGER.warning(e.getMessage());
 		}
+		
+		// Initialize inventory.
+		_inventory = new Inventory(this);
 	}
 	
 	public void storeMe()
@@ -61,6 +66,10 @@ public class Player extends Creature
 			ps.setString(1, _name);
 			ps.setInt(2, _classId);
 			// TODO: Save location.
+			// TODO: Save player stats (STA/STR/DEX/INT).
+			// TODO: Save player level.
+			// TODO: Save player Current HP.
+			// TODO: Save player Current MP.
 			ps.setString(3, _client.getAccountName());
 			ps.setString(4, _name);
 			ps.execute();
@@ -69,6 +78,9 @@ public class Player extends Creature
 		{
 			LOGGER.warning(e.getMessage());
 		}
+		
+		// Save inventory.
+		_inventory.store(this);
 	}
 	
 	public GameClient getClient()
@@ -86,6 +98,16 @@ public class Player extends Creature
 		return _classId;
 	}
 	
+	public Inventory getInventory()
+	{
+		return _inventory;
+	}
+	
+	public void channelSend(SendablePacket packet)
+	{
+		_client.channelSend(packet);
+	}
+	
 	@Override
 	public boolean isPlayer()
 	{
@@ -96,10 +118,5 @@ public class Player extends Creature
 	public Player asPlayer()
 	{
 		return this;
-	}
-	
-	public void channelSend(SendablePacket packet)
-	{
-		_client.channelSend(packet);
 	}
 }
