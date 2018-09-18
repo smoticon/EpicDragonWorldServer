@@ -19,30 +19,19 @@ public class CharacterDeletionRequest
 {
 	private static final Logger LOGGER = Logger.getLogger(CharacterDeletionRequest.class.getName());
 	
-	private static final String CHARACTER_DELETION_QUERY = "DELETE FROM characters WHERE account=? AND slot=?";
 	private static final String ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE account=? ORDER BY slot ASC";
 	private static final String CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=?, selected=? WHERE name=?";
+	private static final String CHARACTER_DELETION_QUERY = "DELETE FROM characters WHERE account=? AND name=?";
+	private static final String CHARACTER_ITEM_DELETION_QUERY = "DELETE FROM character_items WHERE owner=?";
 	
 	public CharacterDeletionRequest(GameClient client, ReceivablePacket packet)
 	{
 		// Read data.
 		final byte slot = (byte) packet.readByte();
 		
-		// Delete character.
-		try (Connection con = DatabaseManager.getConnection();
-			PreparedStatement ps = con.prepareStatement(CHARACTER_DELETION_QUERY))
-		{
-			ps.setString(1, client.getAccountName());
-			ps.setByte(2, slot);
-			ps.execute();
-		}
-		catch (Exception e)
-		{
-			LOGGER.warning(e.getMessage());
-		}
-		
 		// Get remaining character names.
 		final List<String> characterNames = new ArrayList<>();
+		String deletedCharacterName = "";
 		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(ACCOUNT_CHARACTER_QUERY))
 		{
@@ -51,9 +40,41 @@ public class CharacterDeletionRequest
 			{
 				while (rset.next())
 				{
-					characterNames.add(rset.getString("name"));
+					if (rset.getInt("slot") == slot)
+					{
+						deletedCharacterName = rset.getString("name");
+					}
+					else
+					{
+						characterNames.add(rset.getString("name"));
+					}
 				}
 			}
+		}
+		catch (Exception e)
+		{
+			LOGGER.warning(e.getMessage());
+		}
+		
+		// Delete character.
+		try (Connection con = DatabaseManager.getConnection();
+			PreparedStatement ps = con.prepareStatement(CHARACTER_DELETION_QUERY))
+		{
+			ps.setString(1, client.getAccountName());
+			ps.setString(2, deletedCharacterName);
+			ps.execute();
+		}
+		catch (Exception e)
+		{
+			LOGGER.warning(e.getMessage());
+		}
+		
+		// Delete character items.
+		try (Connection con = DatabaseManager.getConnection();
+			PreparedStatement ps = con.prepareStatement(CHARACTER_ITEM_DELETION_QUERY))
+		{
+			ps.setString(1, deletedCharacterName);
+			ps.execute();
 		}
 		catch (Exception e)
 		{
