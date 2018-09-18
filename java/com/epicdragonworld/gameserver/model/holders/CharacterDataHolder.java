@@ -18,13 +18,6 @@ public class CharacterDataHolder
 	private long _hp = 0;
 	private long _mp = 0;
 	private byte _accessLevel = 0;
-	private int _itemHead = 0;
-	private int _itemChest = 0;
-	private int _itemGloves = 0;
-	private int _itemLegs = 0;
-	private int _itemBoots = 0;
-	private int _itemRightHand = 0;
-	private int _itemLeftHand = 0;
 	
 	public String getName()
 	{
@@ -154,75 +147,5 @@ public class CharacterDataHolder
 	public void setAccessLevel(byte accessLevel)
 	{
 		_accessLevel = accessLevel;
-	}
-	
-	public int getItemHead()
-	{
-		return _itemHead;
-	}
-	
-	public void setItemHead(int itemHead)
-	{
-		_itemHead = itemHead;
-	}
-	
-	public int getItemChest()
-	{
-		return _itemChest;
-	}
-	
-	public void setItemChest(int itemChest)
-	{
-		_itemChest = itemChest;
-	}
-	
-	public int getItemGloves()
-	{
-		return _itemGloves;
-	}
-	
-	public void setItemGloves(int itemGloves)
-	{
-		_itemGloves = itemGloves;
-	}
-	
-	public int getItemLegs()
-	{
-		return _itemLegs;
-	}
-	
-	public void setItemLegs(int itemLegs)
-	{
-		_itemLegs = itemLegs;
-	}
-	
-	public int getItemBoots()
-	{
-		return _itemBoots;
-	}
-	
-	public void setItemBoots(int itemBoots)
-	{
-		_itemBoots = itemBoots;
-	}
-	
-	public int getItemRightHand()
-	{
-		return _itemRightHand;
-	}
-	
-	public void setItemRightHand(int itemRightHand)
-	{
-		_itemRightHand = itemRightHand;
-	}
-	
-	public int getItemLeftHand()
-	{
-		return _itemLeftHand;
-	}
-	
-	public void setItemLeftHand(int itemLeftHand)
-	{
-		_itemLeftHand = itemLeftHand;
 	}
 }

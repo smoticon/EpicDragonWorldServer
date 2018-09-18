@@ -12,12 +12,5 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `experience` int(8) DEFAULT '0',
   `hp` int(8) DEFAULT '1',
   `mp` int(8) DEFAULT '1',
-  `access_level` int(2) DEFAULT '0',
-  `item_head` int(4) DEFAULT '0',
-  `item_chest` int(4) DEFAULT '0',
-  `item_gloves` int(4) DEFAULT '0',
-  `item_legs` int(4) DEFAULT '0',
-  `item_boots` int(4) DEFAULT '0',
-  `item_right_hand` int(4) DEFAULT '0',
-  `item_left_hand` int(4) DEFAULT '0'
+  `access_level` int(2) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
