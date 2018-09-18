@@ -44,7 +44,7 @@ public class Inventory
 	}
 	
 	/**
-	 * Only used when player exists the game.
+	 * Only used when player exits the game.
 	 * @param ownerName
 	 */
 	public void store(String ownerName)
