@@ -14,6 +14,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import com.epicdragonworld.Config;
+import com.epicdragonworld.gameserver.data.NpcData;
+import com.epicdragonworld.gameserver.data.SpawnData;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
 import com.epicdragonworld.gameserver.managers.ThreadPoolManager;
 import com.epicdragonworld.gameserver.network.ClientInitializer;
@@ -57,6 +59,14 @@ public class GameServer
 		
 		printSection("ThreadPool");
 		ThreadPoolManager.init();
+		
+		// TODO: SkillData.
+		
+		// TODO: ItemData.
+		
+		printSection("NPCs");
+		NpcData.init();
+		SpawnData.init();
 		
 		// Post info.
 		printSection("Info");

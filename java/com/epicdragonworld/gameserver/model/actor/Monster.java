@@ -1,15 +1,19 @@
 package com.epicdragonworld.gameserver.model.actor;
 
+import com.epicdragonworld.gameserver.model.holders.NpcTemplateHolder;
+import com.epicdragonworld.gameserver.model.holders.SpawnHolder;
+
 /**
  * @author Pantelis Andrianakis
  */
-public class Monster extends Creature
+public class Monster extends Npc
 {
-	public Monster()
+	public Monster(NpcTemplateHolder template, SpawnHolder spawn)
 	{
-		// TODO: Monster templates.
-		// TODO: Set monster stats (STA/STR/DEX/INT).
-		// TODO: Set monster level.
+		super(template, spawn);
+		
+		// TODO: AI Tasks.
+		// TODO: Loot corpse.
 	}
 	
 	@Override

@@ -109,6 +109,14 @@ public class Player extends Creature
 	}
 	
 	@Override
+	public void onDeath()
+	{
+		super.onDeath();
+		
+		// TODO: Send player confirm dialog to go at nearest re-spawn location.
+	}
+	
+	@Override
 	public boolean isPlayer()
 	{
 		return true;

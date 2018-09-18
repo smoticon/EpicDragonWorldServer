@@ -25,6 +25,7 @@ public class Creature extends WorldObject
 	private int _str = 10;
 	private int _dex = 10;
 	private int _int = 10;
+	private boolean _isAlive = true;
 	
 	public Creature()
 	{
@@ -39,8 +40,8 @@ public class Creature extends WorldObject
 	{
 		_level = level;
 		// TODO: If player - Send Level status update to client.
-		calculateHp();
-		calculateMp();
+		calculateHP();
+		calculateMP();
 	}
 	
 	public int getHP()
@@ -48,9 +49,31 @@ public class Creature extends WorldObject
 		return _hp;
 	}
 	
+	public synchronized void setHP(int value)
+	{
+		if (_hp < 1)
+		{
+			_hp = 0;
+			if (_isAlive)
+			{
+				_isAlive = false;
+				onDeath();
+			}
+		}
+		else
+		{
+			_hp = value;
+		}
+	}
+	
 	public int getMP()
 	{
 		return _mp;
+	}
+	
+	public synchronized void setMP(int value)
+	{
+		_mp = value;
 	}
 	
 	public int getSTA()
@@ -61,7 +84,7 @@ public class Creature extends WorldObject
 	public void setSTA(int value)
 	{
 		_sta = value;
-		calculateHp();
+		calculateHP();
 	}
 	
 	public int getSTR()
@@ -92,17 +115,17 @@ public class Creature extends WorldObject
 	public void setINT(int value)
 	{
 		_int = value;
-		calculateMp();
+		calculateMP();
 	}
 	
-	private void calculateHp()
+	private void calculateHP()
 	{
 		final float hpModifier = _level * LEVEL_HP_MODIFIER;
 		_hp = (int) (BASE_HP + (_sta * hpModifier));
 		// TODO: If player - Send HP status update to client.
 	}
 	
-	private void calculateMp()
+	private void calculateMP()
 	{
 		final float mpModifier = _level * LEVEL_MP_MODIFIER;
 		_mp = (int) (BASE_MP + (_int * mpModifier));
@@ -145,6 +168,16 @@ public class Creature extends WorldObject
 	{
 		final float skillModifier = _level * MELEE_SKILL_DAMAGE_MODIFIER;
 		return (int) ((_str * skillModifier) + Rnd.get(-skillModifier, skillModifier));
+	}
+	
+	public boolean isAlive()
+	{
+		return _isAlive;
+	}
+	
+	public void onDeath()
+	{
+		// TODO: Send death animation.
 	}
 	
 	@Override
