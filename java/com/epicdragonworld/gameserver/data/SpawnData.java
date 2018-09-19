@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Logger;
 
+import com.epicdragonworld.gameserver.enums.NpcType;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
 import com.epicdragonworld.gameserver.model.Location;
 import com.epicdragonworld.gameserver.model.actor.Monster;
@@ -40,8 +41,7 @@ public class SpawnData
 					else
 					{
 						final SpawnHolder spawn = new SpawnHolder(new Location(rset.getFloat("x"), rset.getFloat("y"), rset.getFloat("z"), rset.getInt("heading")), rset.getInt("respawn_time"));
-						final String type = template.getType();
-						if (type.equals("Monster"))
+						if (template.getNpcType() == NpcType.MONSTER)
 						{
 							new Monster(template, spawn);
 						}

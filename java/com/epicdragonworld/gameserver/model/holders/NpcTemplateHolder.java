@@ -1,5 +1,7 @@
 package com.epicdragonworld.gameserver.model.holders;
 
+import com.epicdragonworld.gameserver.enums.NpcType;
+
 /**
  * @author Pantelis Andrianakis
  */
@@ -7,17 +9,17 @@ public class NpcTemplateHolder
 {
 	private final int _npcId;
 	private final int _level;
-	private final String _type;
+	private final NpcType _npcType;
 	private final int _sta;
 	private final int _str;
 	private final int _dex;
 	private final int _int;
 	
-	public NpcTemplateHolder(int npcId, int level, String type, int stamina, int strength, int dexterity, int intelect)
+	public NpcTemplateHolder(int npcId, int level, NpcType npcType, int stamina, int strength, int dexterity, int intelect)
 	{
 		_npcId = npcId;
 		_level = level;
-		_type = type;
+		_npcType = npcType;
 		_sta = stamina;
 		_str = strength;
 		_dex = dexterity;
@@ -34,9 +36,9 @@ public class NpcTemplateHolder
 		return _level;
 	}
 	
-	public String getType()
+	public NpcType getNpcType()
 	{
-		return _type;
+		return _npcType;
 	}
 	
 	public int getSTA()

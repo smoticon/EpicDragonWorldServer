@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+import com.epicdragonworld.gameserver.enums.NpcType;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
 import com.epicdragonworld.gameserver.model.holders.NpcTemplateHolder;
 
@@ -16,6 +17,7 @@ import com.epicdragonworld.gameserver.model.holders.NpcTemplateHolder;
 public class NpcData
 {
 	private static final Logger LOGGER = Logger.getLogger(NpcData.class.getName());
+	
 	private static final String RESTORE_NPCS = "SELECT * FROM npcs";
 	
 	private static final Map<Integer, NpcTemplateHolder> _npcs = new ConcurrentHashMap<>();
@@ -30,7 +32,7 @@ public class NpcData
 				while (rset.next())
 				{
 					final int npcId = rset.getInt("npc_id");
-					_npcs.put(npcId, new NpcTemplateHolder(npcId, rset.getInt("level"), rset.getString("type"), rset.getInt("stamina"), rset.getInt("strength"), rset.getInt("dexterity"), rset.getInt("intelect")));
+					_npcs.put(npcId, new NpcTemplateHolder(npcId, rset.getInt("level"), Enum.valueOf(NpcType.class, rset.getString("type")), rset.getInt("stamina"), rset.getInt("strength"), rset.getInt("dexterity"), rset.getInt("intelect")));
 				}
 			}
 		}
