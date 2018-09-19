@@ -15,6 +15,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import com.epicdragonworld.Config;
 import com.epicdragonworld.gameserver.data.NpcData;
+import com.epicdragonworld.gameserver.data.SkillData;
 import com.epicdragonworld.gameserver.data.SpawnData;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
 import com.epicdragonworld.gameserver.managers.ThreadPoolManager;
@@ -60,7 +61,8 @@ public class GameServer
 		printSection("ThreadPool");
 		ThreadPoolManager.init();
 		
-		// TODO: SkillData.
+		printSection("Skills");
+		SkillData.init();
 		
 		// TODO: ItemData.
 		

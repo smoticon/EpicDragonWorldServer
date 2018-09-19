@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS `skills` (
+  `skill_id` int(4) DEFAULT '0',
+  `level` int(4) DEFAULT '1',
+  `type` enum('DUMMY','DAMAGE','RESTORE_HP','RESTORE_MP') DEFAULT 'DUMMY' NOT NULL,
+  `param_1` int(4) DEFAULT '0',
+  `param_2` int(4) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
