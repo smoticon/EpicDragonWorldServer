@@ -175,6 +175,11 @@ public class Creature extends WorldObject
 		return _isAlive;
 	}
 	
+	public void setAlive(boolean value)
+	{
+		_isAlive = value;
+	}
+	
 	public void onDeath()
 	{
 		// TODO: Send death animation.

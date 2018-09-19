@@ -29,7 +29,7 @@ public class Npc extends Creature
 		setSTR(_template.getSTR());
 		setDEX(_template.getDEX());
 		setINT(_template.getINT());
-		
+		setAlive(true);
 		WorldManager.addObject(this);
 	}
 	
