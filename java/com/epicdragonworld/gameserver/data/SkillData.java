@@ -20,7 +20,7 @@ public class SkillData
 	
 	private static final String RESTORE_SKILLS = "SELECT * FROM skills";
 	
-	private static final Map<Integer, SkillHolder> _skills = new ConcurrentHashMap<>();
+	private static final Map<Long, SkillHolder> _skills = new ConcurrentHashMap<>();
 	
 	public static void init()
 	{
@@ -34,7 +34,8 @@ public class SkillData
 				while (rset.next())
 				{
 					final int skillId = rset.getInt("skill_id");
-					_skills.put(skillId, new SkillHolder(skillId, rset.getInt("level"), Enum.valueOf(SkillType.class, rset.getString("type")), rset.getInt("param_1"), rset.getInt("param_2")));
+					final int skillLevel = rset.getInt("level");
+					_skills.put(getSkillHashCode(skillId, skillLevel), new SkillHolder(skillId, skillLevel, Enum.valueOf(SkillType.class, rset.getString("type")), rset.getInt("param_1"), rset.getInt("param_2")));
 				}
 			}
 		}
@@ -46,8 +47,13 @@ public class SkillData
 		LOGGER.info("SkillData: Loaded " + _skills.size() + " skills.");
 	}
 	
-	public static SkillHolder getSkill(int skillId)
+	private static long getSkillHashCode(int skillId, int skillLevel)
 	{
-		return _skills.get(skillId);
+		return (skillId * 100000) + skillLevel;
+	}
+	
+	public static SkillHolder getSkill(int skillId, int skillLevel)
+	{
+		return _skills.get(getSkillHashCode(skillId, skillLevel));
 	}
 }

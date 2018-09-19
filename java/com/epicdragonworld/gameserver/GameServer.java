@@ -14,6 +14,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import com.epicdragonworld.Config;
+import com.epicdragonworld.gameserver.data.ItemData;
 import com.epicdragonworld.gameserver.data.NpcData;
 import com.epicdragonworld.gameserver.data.SkillData;
 import com.epicdragonworld.gameserver.data.SpawnData;
@@ -64,7 +65,8 @@ public class GameServer
 		printSection("Skills");
 		SkillData.init();
 		
-		// TODO: ItemData.
+		printSection("Items");
+		ItemData.init();
 		
 		printSection("NPCs");
 		NpcData.init();
