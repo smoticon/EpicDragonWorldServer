@@ -24,6 +24,8 @@ public class NpcData
 	
 	public static void init()
 	{
+		_npcs.clear();
+		
 		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(RESTORE_NPCS))
 		{
