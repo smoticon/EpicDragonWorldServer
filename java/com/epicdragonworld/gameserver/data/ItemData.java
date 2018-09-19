@@ -3,8 +3,8 @@ package com.epicdragonworld.gameserver.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import com.epicdragonworld.gameserver.enums.ItemType;
@@ -21,7 +21,7 @@ public class ItemData
 	
 	private static final String RESTORE_ITEMS = "SELECT * FROM items";
 	
-	private static final Map<Integer, ItemHolder> _items = new ConcurrentHashMap<>();
+	private static final Map<Integer, ItemHolder> _items = new HashMap<>();
 	
 	public static void init()
 	{

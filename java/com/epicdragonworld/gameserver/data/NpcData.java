@@ -3,8 +3,8 @@ package com.epicdragonworld.gameserver.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import com.epicdragonworld.gameserver.enums.NpcType;
@@ -20,7 +20,7 @@ public class NpcData
 	
 	private static final String RESTORE_NPCS = "SELECT * FROM npcs";
 	
-	private static final Map<Integer, NpcTemplateHolder> _npcs = new ConcurrentHashMap<>();
+	private static final Map<Integer, NpcTemplateHolder> _npcs = new HashMap<>();
 	
 	public static void init()
 	{

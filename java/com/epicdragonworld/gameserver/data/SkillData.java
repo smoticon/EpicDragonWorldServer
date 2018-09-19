@@ -3,8 +3,8 @@ package com.epicdragonworld.gameserver.data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import com.epicdragonworld.gameserver.enums.SkillType;
@@ -20,7 +20,7 @@ public class SkillData
 	
 	private static final String RESTORE_SKILLS = "SELECT * FROM skills";
 	
-	private static final Map<Long, SkillHolder> _skills = new ConcurrentHashMap<>();
+	private static final Map<Long, SkillHolder> _skills = new HashMap<>();
 	
 	public static void init()
 	{
