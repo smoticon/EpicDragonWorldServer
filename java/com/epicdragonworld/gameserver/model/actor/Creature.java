@@ -26,6 +26,7 @@ public class Creature extends WorldObject
 	private int _dex = 10;
 	private int _int = 10;
 	private boolean _isAlive = true;
+	private WorldObject _target;
 	
 	public Creature()
 	{
@@ -178,6 +179,16 @@ public class Creature extends WorldObject
 	public void setAlive(boolean value)
 	{
 		_isAlive = value;
+	}
+	
+	public WorldObject getTarget()
+	{
+		return _target;
+	}
+	
+	public void setTarget(WorldObject target)
+	{
+		_target = target;
 	}
 	
 	public void onDeath()
