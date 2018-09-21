@@ -35,7 +35,7 @@ public class SkillData
 				{
 					final int skillId = rset.getInt("skill_id");
 					final int skillLevel = rset.getInt("level");
-					_skills.put(getSkillHashCode(skillId, skillLevel), new SkillHolder(skillId, skillLevel, Enum.valueOf(SkillType.class, rset.getString("type")), rset.getInt("param_1"), rset.getInt("param_2")));
+					_skills.put(getSkillHashCode(skillId, skillLevel), new SkillHolder(skillId, skillLevel, Enum.valueOf(SkillType.class, rset.getString("type")), rset.getInt("range"), rset.getInt("param_1"), rset.getInt("param_2")));
 				}
 			}
 		}
