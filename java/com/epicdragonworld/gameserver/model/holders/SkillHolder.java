@@ -10,15 +10,17 @@ public class SkillHolder
 	private final int _skillId;
 	private final int _level;
 	private final SkillType _skillType;
+	private final int _reuse;
 	private final int _range;
 	private final int _param1;
 	private final int _param2;
 	
-	public SkillHolder(int skillId, int level, SkillType skillType, int range, int param1, int param2)
+	public SkillHolder(int skillId, int level, SkillType skillType, int reuse, int range, int param1, int param2)
 	{
 		_skillId = skillId;
 		_level = level;
 		_skillType = skillType;
+		_reuse = reuse;
 		_range = range;
 		_param1 = param1;
 		_param2 = param2;
@@ -37,6 +39,11 @@ public class SkillHolder
 	public SkillType getSkillType()
 	{
 		return _skillType;
+	}
+	
+	public int getReuse()
+	{
+		return _reuse;
 	}
 	
 	public int getRange()
