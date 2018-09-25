@@ -17,6 +17,9 @@ public class LocationUpdate
 		final float posX = (float) packet.readDouble(); // TODO: Client WriteFloat
 		final float posY = (float) packet.readDouble(); // TODO: Client WriteFloat
 		final float posZ = (float) packet.readDouble(); // TODO: Client WriteFloat
+		final float angleY = (float) packet.readDouble(); // TODO: Client WriteFloat
+		final int animState = packet.readShort();
+		final int waterState = packet.readShort();
 		
 		// Update player location.
 		final Player player = client.getActiveChar();
@@ -29,7 +32,7 @@ public class LocationUpdate
 			// Broadcast movement.
 			for (Player nearby : WorldManager.getVisiblePlayers(player))
 			{
-				nearby.channelSend(new MoveToLocation(player));
+				nearby.channelSend(new MoveToLocation(player, angleY, animState, waterState));
 			}
 		}
 	}
