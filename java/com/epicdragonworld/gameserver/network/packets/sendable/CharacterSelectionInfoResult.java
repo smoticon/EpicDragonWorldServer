@@ -18,7 +18,7 @@ public class CharacterSelectionInfoResult extends SendablePacket
 {
 	private static final Logger LOGGER = Logger.getLogger(CharacterSelectionInfoResult.class.getName());
 	
-	private static final String CHARACTER_QUERY = "SELECT * FROM characters WHERE account=? ORDER BY slot ASC";
+	private static final String CHARACTER_QUERY = "SELECT * FROM characters WHERE account=? AND access_level>'-1' ORDER BY slot ASC";
 	
 	public CharacterSelectionInfoResult(String accountName)
 	{

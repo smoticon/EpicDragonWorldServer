@@ -20,9 +20,9 @@ public class CharacterDeletionRequest
 	private static final Logger LOGGER = Logger.getLogger(CharacterDeletionRequest.class.getName());
 	
 	private static final String ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE account=? ORDER BY slot ASC";
-	private static final String CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=?, selected=? WHERE name=?";
-	private static final String CHARACTER_DELETION_QUERY = "DELETE FROM characters WHERE account=? AND name=?";
-	private static final String CHARACTER_ITEM_DELETION_QUERY = "DELETE FROM character_items WHERE owner=?";
+	private static final String CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=?, selected=? WHERE account=? AND name=?";
+	private static final String CHARACTER_DELETION_QUERY = "UPDATE characters SET name=?, access_level='-1' WHERE account=? AND name=?";
+	private static final String CHARACTER_ITEM_DELETION_QUERY = "UPDATE character_items SET owner=? WHERE owner=?";
 	
 	public CharacterDeletionRequest(GameClient client, ReceivablePacket packet)
 	{
@@ -56,12 +56,14 @@ public class CharacterDeletionRequest
 			LOGGER.warning(e.getMessage());
 		}
 		
-		// Delete character.
+		// Delete character. (Prefer to set access level to -1 and rename to name + deletion time.)
+		final long deleteTime = System.currentTimeMillis();
 		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_DELETION_QUERY))
 		{
-			ps.setString(1, client.getAccountName());
-			ps.setString(2, deletedCharacterName);
+			ps.setString(1, deletedCharacterName + deleteTime);
+			ps.setString(2, client.getAccountName());
+			ps.setString(3, deletedCharacterName);
 			ps.execute();
 		}
 		catch (Exception e)
@@ -69,11 +71,12 @@ public class CharacterDeletionRequest
 			LOGGER.warning(e.getMessage());
 		}
 		
-		// Delete character items.
+		// Delete character items. (Same as above, change item owner to name + deletion time.)
 		try (Connection con = DatabaseManager.getConnection();
 			PreparedStatement ps = con.prepareStatement(CHARACTER_ITEM_DELETION_QUERY))
 		{
-			ps.setString(1, deletedCharacterName);
+			ps.setString(1, deletedCharacterName + deleteTime);
+			ps.setString(2, deletedCharacterName);
 			ps.execute();
 		}
 		catch (Exception e)
@@ -91,7 +94,8 @@ public class CharacterDeletionRequest
 			{
 				ps.setByte(1, counter);
 				ps.setInt(2, ((counter == 1) && (slot == 1)) || (counter == (slot - 1)) ? 1 : 0);
-				ps.setString(3, characterName);
+				ps.setString(3, client.getAccountName());
+				ps.setString(4, characterName);
 				ps.execute();
 			}
 			catch (Exception e)

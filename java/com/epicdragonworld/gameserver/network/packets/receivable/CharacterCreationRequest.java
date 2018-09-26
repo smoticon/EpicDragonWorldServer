@@ -19,7 +19,7 @@ public class CharacterCreationRequest
 {
 	private static final Logger LOGGER = Logger.getLogger(CharacterCreationRequest.class.getName());
 	
-	private static final String ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE account=?";
+	private static final String ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE access_level>'-1' AND account=?";
 	private static final String NAME_EXISTS_QUERY = "SELECT * FROM characters WHERE name=?";
 	private static final String CHARACTER_SELECTED_RESET_QUERY = "UPDATE characters SET selected=0 WHERE account=?";
 	private static final String CHARACTER_CREATE_QUERY = "INSERT INTO characters (account, name, slot, selected, class_id, location_name, x, y, z, heading, experience, hp, mp) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

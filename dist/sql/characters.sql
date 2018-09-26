@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `characters` (
   `account` varchar(20) DEFAULT NULL,
-  `name` varchar(12) DEFAULT NULL,
+  `name` varchar(25) DEFAULT NULL,
   `slot` int(2) DEFAULT '0',
   `selected` tinyint(1) DEFAULT '1',
   `class_id` int(2) DEFAULT '0',
