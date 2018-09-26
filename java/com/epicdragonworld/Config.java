@@ -20,6 +20,7 @@ public final class Config
 	// Config File Definitions
 	// --------------------------------------------------
 	private static final String ACCOUNT_CONFIG_FILE = "./config/Account.ini";
+	private static final String LOGGING_CONFIG_FILE = "./config/Logging.ini";
 	private static final String PLAYER_CONFIG_FILE = "./config/Player.ini";
 	private static final String SERVER_CONFIG_FILE = "./config/Server.ini";
 	
@@ -28,6 +29,11 @@ public final class Config
 	// --------------------------------------------------
 	public static boolean ACCOUNT_AUTO_CREATE;
 	public static int ACCOUNT_MAX_CHARACTERS;
+	
+	// --------------------------------------------------
+	// Logging
+	// --------------------------------------------------
+	public static boolean LOG_CHAT;
 	
 	// --------------------------------------------------
 	// Player
@@ -58,6 +64,9 @@ public final class Config
 		final ConfigReader accountConfigs = new ConfigReader(ACCOUNT_CONFIG_FILE);
 		ACCOUNT_AUTO_CREATE = accountConfigs.getBoolean("AccountAutoCreate", false);
 		ACCOUNT_MAX_CHARACTERS = accountConfigs.getInt("AccountMaxCharacters", 5);
+		
+		final ConfigReader loggingConfigs = new ConfigReader(LOGGING_CONFIG_FILE);
+		LOG_CHAT = loggingConfigs.getBoolean("LogChat", true);
 		
 		final ConfigReader playerConfigs = new ConfigReader(PLAYER_CONFIG_FILE);
 		final String[] startingLocation = playerConfigs.getString("StartingLocation", "9945.9;9.2;10534.9").split(";");

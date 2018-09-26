@@ -1,5 +1,8 @@
 package com.epicdragonworld.gameserver.managers;
 
+import java.util.logging.Logger;
+
+import com.epicdragonworld.Config;
 import com.epicdragonworld.gameserver.model.Location;
 import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.packets.sendable.ChatResult;
@@ -9,6 +12,8 @@ import com.epicdragonworld.gameserver.network.packets.sendable.ChatResult;
  */
 public class ChatManager
 {
+	private static Logger LOGGER_CHAT = Logger.getLogger("chat");
+	
 	private static final byte CHAT_TYPE_SYSTEM = 0;
 	private static final byte CHAT_TYPE_NORMAL = 1;
 	private static final byte CHAT_TYPE_MESSAGE = 2;
@@ -53,6 +58,11 @@ public class ChatManager
 				message = message.substring(lowercaseMessageSplit[1].length(), message.length()).trim(); // Remove receiver name.
 				sender.channelSend(new ChatResult(CHAT_TYPE_MESSAGE, MSG_TO + receiver.getName(), message));
 				receiver.channelSend(new ChatResult(CHAT_TYPE_MESSAGE, sender.getName(), message));
+				// Log chat.
+				if (Config.LOG_CHAT)
+				{
+					LOGGER_CHAT.info("[" + sender.getName() + "] to [" + receiver.getName() + "] " + message);
+				}
 			}
 		}
 		else // Normal message.
@@ -61,6 +71,11 @@ public class ChatManager
 			for (Player player : WorldManager.getVisiblePlayers(sender))
 			{
 				player.channelSend(new ChatResult(CHAT_TYPE_NORMAL, sender.getName(), message));
+			}
+			// Log chat.
+			if (Config.LOG_CHAT)
+			{
+				LOGGER_CHAT.info("[" + sender.getName() + "] " + message);
 			}
 		}
 	}
