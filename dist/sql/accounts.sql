@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `email` varchar(100) NOT NULL DEFAULT '',
   `first_name` varchar(45) NOT NULL DEFAULT '',
   `last_name` varchar(45) NOT NULL DEFAULT '',
-  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_active` bigint(13) unsigned NOT NULL DEFAULT '0',
   `status` int(2) NOT NULL, # 1 banned, 2 requires activation, 3 active
   `membership` int(2) NOT NULL DEFAULT '0', # special status

@@ -12,5 +12,6 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `experience` int(8) DEFAULT '0',
   `hp` int(8) DEFAULT '1',
   `mp` int(8) DEFAULT '1',
-  `access_level` int(2) DEFAULT '0'
+  `access_level` int(2) DEFAULT '0',
+  `creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
