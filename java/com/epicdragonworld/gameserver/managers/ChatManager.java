@@ -12,7 +12,7 @@ import com.epicdragonworld.gameserver.network.packets.sendable.ChatResult;
  */
 public class ChatManager
 {
-	private static Logger LOGGER_CHAT = Logger.getLogger("chat");
+	private static final Logger LOGGER_CHAT = Logger.getLogger("chat");
 	
 	private static final byte CHAT_TYPE_SYSTEM = 0;
 	private static final byte CHAT_TYPE_NORMAL = 1;

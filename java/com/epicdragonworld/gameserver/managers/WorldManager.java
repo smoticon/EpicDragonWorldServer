@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Logger;
 
+import com.epicdragonworld.Config;
 import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.GameClient;
@@ -16,6 +18,8 @@ import com.epicdragonworld.gameserver.network.packets.sendable.DeleteObject;
  */
 public class WorldManager
 {
+	private static final Logger LOGGER_WORLD_ACCESS = Logger.getLogger("world");
+	
 	private static final List<GameClient> ONLINE_CLIENTS = new CopyOnWriteArrayList<>();
 	private static final Map<Long, Player> PLAYER_OBJECTS = new ConcurrentHashMap<>();
 	private static final Map<Long, WorldObject> GAME_OBJECTS = new ConcurrentHashMap<>();
@@ -29,6 +33,12 @@ public class WorldManager
 			{
 				ONLINE_CLIENTS.add(object.asPlayer().getClient());
 				PLAYER_OBJECTS.put(object.getObjectId(), object.asPlayer());
+				
+				// Log world access.
+				if (Config.LOG_WORLD)
+				{
+					LOGGER_WORLD_ACCESS.info("Player [" + object.asPlayer().getName() + "] Account [" + object.asPlayer().getClient().getAccountName() + "] Entered the world.");
+				}
 			}
 		}
 		else if (!GAME_OBJECTS.values().contains(object))
@@ -51,6 +61,12 @@ public class WorldManager
 			PLAYER_OBJECTS.remove(object.getObjectId());
 			// Store player.
 			object.asPlayer().storeMe();
+			
+			// Log world access.
+			if (Config.LOG_WORLD)
+			{
+				LOGGER_WORLD_ACCESS.info("Player [" + object.asPlayer().getName() + "] Account [" + object.asPlayer().getClient().getAccountName() + "] Left the world.");
+			}
 		}
 		else
 		{

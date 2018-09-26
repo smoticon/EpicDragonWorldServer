@@ -16,6 +16,7 @@ import com.epicdragonworld.gameserver.network.SendablePacket;
 public class Player extends Creature
 {
 	private static final Logger LOGGER = Logger.getLogger(Player.class.getName());
+	
 	private static final String RESTORE_CHARACTER = "SELECT * FROM characters WHERE name=?";
 	private static final String STORE_CHARACTER = "UPDATE characters SET name=?, class_id=? WHERE account=? AND name=?";
 	
@@ -55,7 +56,7 @@ public class Player extends Creature
 		}
 		
 		// Initialize inventory.
-		_inventory = new Inventory(_name);
+		_inventory = new Inventory(name);
 		// TODO: Send inventory slotId/itemId list packet (InventoryInformation) to client.
 	}
 	

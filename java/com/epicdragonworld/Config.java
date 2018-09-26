@@ -34,6 +34,7 @@ public final class Config
 	// Logging
 	// --------------------------------------------------
 	public static boolean LOG_CHAT;
+	public static boolean LOG_WORLD;
 	
 	// --------------------------------------------------
 	// Player
@@ -67,6 +68,7 @@ public final class Config
 		
 		final ConfigReader loggingConfigs = new ConfigReader(LOGGING_CONFIG_FILE);
 		LOG_CHAT = loggingConfigs.getBoolean("LogChat", true);
+		LOG_WORLD = loggingConfigs.getBoolean("LogWorld", true);
 		
 		final ConfigReader playerConfigs = new ConfigReader(PLAYER_CONFIG_FILE);
 		final String[] startingLocation = playerConfigs.getString("StartingLocation", "9945.9;9.2;10534.9").split(";");
