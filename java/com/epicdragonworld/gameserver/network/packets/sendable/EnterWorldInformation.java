@@ -12,6 +12,7 @@ public class EnterWorldInformation extends SendablePacket
 	{
 		// Packet id.
 		writeShort(5);
-		// TODO: Send player information.
+		writeLong(player.getObjectId());
+		// TODO: Send more player information.
 	}
 }
