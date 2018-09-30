@@ -8,7 +8,7 @@ import com.epicdragonworld.gameserver.network.SendablePacket;
  */
 public class MoveToLocation extends SendablePacket
 {
-	public MoveToLocation(WorldObject object, float angleY, int animState, int waterState)
+	public MoveToLocation(WorldObject object, float heading, int animState, int waterState)
 	{
 		// Send the data.
 		writeShort(9); // Packet id.
@@ -16,7 +16,7 @@ public class MoveToLocation extends SendablePacket
 		writeFloat(object.getLocation().getX());
 		writeFloat(object.getLocation().getY());
 		writeFloat(object.getLocation().getZ());
-		writeFloat(angleY);
+		writeFloat(heading);
 		writeShort(animState);
 		writeShort(waterState);
 	}

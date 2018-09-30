@@ -1,7 +1,6 @@
 package com.epicdragonworld.gameserver.network.packets.receivable;
 
 import com.epicdragonworld.gameserver.managers.WorldManager;
-import com.epicdragonworld.gameserver.model.WorldObject;
 import com.epicdragonworld.gameserver.model.actor.Player;
 import com.epicdragonworld.gameserver.network.GameClient;
 import com.epicdragonworld.gameserver.network.ReceivablePacket;
@@ -15,7 +14,6 @@ public class LocationUpdate
 	public LocationUpdate(GameClient client, ReceivablePacket packet)
 	{
 		// Read data.
-		final long objectId = packet.readLong();
 		final float posX = (float) packet.readDouble(); // TODO: Client WriteFloat
 		final float posY = (float) packet.readDouble(); // TODO: Client WriteFloat
 		final float posZ = (float) packet.readDouble(); // TODO: Client WriteFloat
@@ -24,17 +22,17 @@ public class LocationUpdate
 		final int waterState = packet.readShort();
 		
 		// Update player location.
-		final WorldObject object = WorldManager.getObject(objectId);
-		if (object != null)
+		final Player player = client.getActiveChar();
+		if (player != null)
 		{
-			object.getLocation().setX(posX);
-			object.getLocation().setY(posY);
-			object.getLocation().setZ(posZ);
-			
+			player.getLocation().setX(posX);
+			player.getLocation().setY(posY);
+			player.getLocation().setZ(posZ);
+			player.getLocation().setHeading(heading);
 			// Broadcast movement.
-			for (Player nearby : WorldManager.getVisiblePlayers(object))
+			for (Player nearby : WorldManager.getVisiblePlayers(player))
 			{
-				nearby.channelSend(new MoveToLocation(object, heading, animState, waterState));
+				nearby.channelSend(new MoveToLocation(player, heading, animState, waterState));
 			}
 		}
 	}

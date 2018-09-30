@@ -13,7 +13,7 @@ public class CharacterDataHolder
 	private float _x = 0;
 	private float _y = 0;
 	private float _z = 0;
-	private int _heading = 0;
+	private float _heading = 0;
 	private long _experience = 0;
 	private long _hp = 0;
 	private long _mp = 0;
@@ -99,12 +99,12 @@ public class CharacterDataHolder
 		_z = z;
 	}
 	
-	public int getHeading()
+	public float getHeading()
 	{
 		return _heading;
 	}
 	
-	public void setHeading(int heading)
+	public void setHeading(float heading)
 	{
 		_heading = heading;
 	}

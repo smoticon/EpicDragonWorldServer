@@ -43,7 +43,7 @@ public class CharacterSelectionInfoResult extends SendablePacket
 					characterData.setX(rset.getFloat("x"));
 					characterData.setY(rset.getFloat("y"));
 					characterData.setZ(rset.getFloat("z"));
-					characterData.setHeading(rset.getInt("heading"));
+					characterData.setHeading(rset.getFloat("heading"));
 					characterData.setExperience(rset.getLong("experience"));
 					characterData.setHp(rset.getLong("hp"));
 					characterData.setMp(rset.getLong("mp"));
@@ -70,7 +70,7 @@ public class CharacterSelectionInfoResult extends SendablePacket
 			writeFloat(characterData.getX());
 			writeFloat(characterData.getY());
 			writeFloat(characterData.getZ());
-			writeInt(characterData.getHeading());
+			writeFloat(characterData.getHeading());
 			writeLong(characterData.getExperience());
 			writeLong(characterData.getHp());
 			writeLong(characterData.getMp());

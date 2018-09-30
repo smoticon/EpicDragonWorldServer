@@ -19,6 +19,6 @@ public class PlayerInformation extends SendablePacket
 		writeFloat(player.getLocation().getX());
 		writeFloat(player.getLocation().getY());
 		writeFloat(player.getLocation().getZ());
-		writeInt(player.getLocation().getHeading());
+		writeFloat(player.getLocation().getHeading());
 	}
 }

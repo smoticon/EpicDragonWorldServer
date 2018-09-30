@@ -8,14 +8,14 @@ public class Location
 	float _x;
 	float _y;
 	float _z;
-	int _heading;
+	float _heading;
 	
 	public Location(float x, float y, float z)
 	{
 		this(x, y, z, 0);
 	}
 	
-	public Location(float x, float y, float z, int heading)
+	public Location(float x, float y, float z, float heading)
 	{
 		_x = x;
 		_y = y;
@@ -53,12 +53,12 @@ public class Location
 		_z = z;
 	}
 	
-	public int getHeading()
+	public float getHeading()
 	{
 		return _heading;
 	}
 	
-	public void setHeading(int heading)
+	public void setHeading(float heading)
 	{
 		_heading = heading;
 	}

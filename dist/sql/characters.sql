@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `x` float DEFAULT '9945.9',
   `y` float DEFAULT '9.2',
   `z` float DEFAULT '10534.9',
-  `heading` int(4) DEFAULT '0',
+  `heading` float DEFAULT '0',
   `experience` int(8) DEFAULT '0',
   `hp` int(8) DEFAULT '1',
   `mp` int(8) DEFAULT '1',

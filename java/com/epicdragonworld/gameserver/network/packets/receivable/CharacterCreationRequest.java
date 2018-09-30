@@ -139,7 +139,7 @@ public class CharacterCreationRequest
 			ps.setFloat(7, Config.STARTING_LOCATION.getX());
 			ps.setFloat(8, Config.STARTING_LOCATION.getY());
 			ps.setFloat(9, Config.STARTING_LOCATION.getZ());
-			ps.setInt(10, Config.STARTING_LOCATION.getHeading());
+			ps.setFloat(10, Config.STARTING_LOCATION.getHeading());
 			ps.setLong(11, 0); // TODO: Starting level experience.
 			ps.setLong(12, 1); // TODO: Character stats HP.
 			ps.setLong(13, 1); // TODO: Character stats MP.
