@@ -43,7 +43,7 @@ public class NpcData
 			LOGGER.warning(e.getMessage());
 		}
 		
-		LOGGER.info("NpcData: Loaded " + _npcs.size() + " templates.");
+		LOGGER.info("NpcData: Loaded " + _npcs.size() + " npcs.");
 	}
 	
 	public static NpcHolder getNpcHolder(int npcId)
