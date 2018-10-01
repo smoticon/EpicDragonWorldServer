@@ -5,7 +5,7 @@ import com.epicdragonworld.gameserver.enums.NpcType;
 /**
  * @author Pantelis Andrianakis
  */
-public class NpcTemplateHolder
+public class NpcHolder
 {
 	private final int _npcId;
 	private final int _level;
@@ -15,7 +15,7 @@ public class NpcTemplateHolder
 	private final int _dex;
 	private final int _int;
 	
-	public NpcTemplateHolder(int npcId, int level, NpcType npcType, int stamina, int strength, int dexterity, int intelect)
+	public NpcHolder(int npcId, int level, NpcType npcType, int stamina, int strength, int dexterity, int intelect)
 	{
 		_npcId = npcId;
 		_level = level;

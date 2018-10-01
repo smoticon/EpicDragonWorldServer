@@ -52,7 +52,7 @@ public class SkillData
 		return (skillId * 100000) + skillLevel;
 	}
 	
-	public static SkillHolder getSkill(int skillId, int skillLevel)
+	public static SkillHolder getSkillHolder(int skillId, int skillLevel)
 	{
 		return _skills.get(getSkillHashCode(skillId, skillLevel));
 	}

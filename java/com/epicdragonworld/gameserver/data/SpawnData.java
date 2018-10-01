@@ -10,7 +10,7 @@ import com.epicdragonworld.gameserver.managers.DatabaseManager;
 import com.epicdragonworld.gameserver.model.Location;
 import com.epicdragonworld.gameserver.model.actor.Monster;
 import com.epicdragonworld.gameserver.model.actor.Npc;
-import com.epicdragonworld.gameserver.model.holders.NpcTemplateHolder;
+import com.epicdragonworld.gameserver.model.holders.NpcHolder;
 import com.epicdragonworld.gameserver.model.holders.SpawnHolder;
 
 /**
@@ -33,21 +33,21 @@ public class SpawnData
 				while (rset.next())
 				{
 					final int npcId = rset.getInt("npc_id");
-					final NpcTemplateHolder template = NpcData.getTemplate(npcId);
-					if (template == null)
+					final NpcHolder npcHolder = NpcData.getNpcHolder(npcId);
+					if (npcHolder == null)
 					{
 						LOGGER.warning("SpawnData: Could not find NPC template with id " + npcId + ".");
 					}
 					else
 					{
 						final SpawnHolder spawn = new SpawnHolder(new Location(rset.getFloat("x"), rset.getFloat("y"), rset.getFloat("z"), rset.getInt("heading")), rset.getInt("respawn_time"));
-						if (template.getNpcType() == NpcType.MONSTER)
+						if (npcHolder.getNpcType() == NpcType.MONSTER)
 						{
-							new Monster(template, spawn);
+							new Monster(npcHolder, spawn);
 						}
 						else
 						{
-							new Npc(template, spawn);
+							new Npc(npcHolder, spawn);
 						}
 						spawnCount++;
 					}

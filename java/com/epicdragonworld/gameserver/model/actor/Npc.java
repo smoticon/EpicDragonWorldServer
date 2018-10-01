@@ -2,7 +2,7 @@ package com.epicdragonworld.gameserver.model.actor;
 
 import com.epicdragonworld.gameserver.managers.ThreadPoolManager;
 import com.epicdragonworld.gameserver.managers.WorldManager;
-import com.epicdragonworld.gameserver.model.holders.NpcTemplateHolder;
+import com.epicdragonworld.gameserver.model.holders.NpcHolder;
 import com.epicdragonworld.gameserver.model.holders.SpawnHolder;
 
 /**
@@ -10,37 +10,37 @@ import com.epicdragonworld.gameserver.model.holders.SpawnHolder;
  */
 public class Npc extends Creature
 {
-	private final NpcTemplateHolder _template;
-	private final SpawnHolder _spawn;
+	private final NpcHolder _npcHolder;
+	private final SpawnHolder _spawnHolder;
 	
-	public Npc(NpcTemplateHolder template, SpawnHolder spawn)
+	public Npc(NpcHolder npcHolder, SpawnHolder spawnHolder)
 	{
-		_template = template;
-		_spawn = spawn;
+		_npcHolder = npcHolder;
+		_spawnHolder = spawnHolder;
 		
 		initialize();
 	}
 	
 	private void initialize()
 	{
-		setLocation(_spawn.getLocation());
-		setLevel(_template.getLevel());
-		setSTA(_template.getSTA());
-		setSTR(_template.getSTR());
-		setDEX(_template.getDEX());
-		setINT(_template.getINT());
+		setLocation(_spawnHolder.getLocation());
+		setLevel(_npcHolder.getLevel());
+		setSTA(_npcHolder.getSTA());
+		setSTR(_npcHolder.getSTR());
+		setDEX(_npcHolder.getDEX());
+		setINT(_npcHolder.getINT());
 		setAlive(true);
 		WorldManager.addObject(this);
 	}
 	
-	public NpcTemplateHolder getTemplate()
+	public NpcHolder getNpcHolder()
 	{
-		return _template;
+		return _npcHolder;
 	}
 	
 	public SpawnHolder getSpawn()
 	{
-		return _spawn;
+		return _spawnHolder;
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class Npc extends Creature
 		super.onDeath();
 		
 		// Create a re-spawn task.
-		final int respawnTime = _spawn.getRespawnTime();
+		final int respawnTime = _spawnHolder.getRespawnTime();
 		if (respawnTime > 0)
 		{
 			ThreadPoolManager.schedule(() ->

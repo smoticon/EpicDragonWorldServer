@@ -37,7 +37,7 @@ public class ItemData
 					final int itemId = rset.getInt("item_id");
 					final int skillId = rset.getInt("skill_id");
 					final int skillLevel = rset.getInt("skill_level");
-					final SkillHolder skillHolder = SkillData.getSkill(skillId, skillLevel);
+					final SkillHolder skillHolder = SkillData.getSkillHolder(skillId, skillLevel);
 					if ((skillId > 0) && (skillHolder == null))
 					{
 						LOGGER.warning("ItemData: Could not find skill with id " + skillId + " and level " + skillLevel + " for item " + itemId + ".");
@@ -57,7 +57,7 @@ public class ItemData
 		LOGGER.info("ItemData: Loaded " + _items.size() + " items.");
 	}
 	
-	public static ItemHolder getItem(int itemId)
+	public static ItemHolder getItemHolder(int itemId)
 	{
 		return _items.get(itemId);
 	}

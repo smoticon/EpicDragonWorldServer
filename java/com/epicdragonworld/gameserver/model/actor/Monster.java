@@ -1,6 +1,6 @@
 package com.epicdragonworld.gameserver.model.actor;
 
-import com.epicdragonworld.gameserver.model.holders.NpcTemplateHolder;
+import com.epicdragonworld.gameserver.model.holders.NpcHolder;
 import com.epicdragonworld.gameserver.model.holders.SpawnHolder;
 
 /**
@@ -8,9 +8,9 @@ import com.epicdragonworld.gameserver.model.holders.SpawnHolder;
  */
 public class Monster extends Npc
 {
-	public Monster(NpcTemplateHolder template, SpawnHolder spawn)
+	public Monster(NpcHolder npcHolder, SpawnHolder spawnHolder)
 	{
-		super(template, spawn);
+		super(npcHolder, spawnHolder);
 		
 		// TODO: AI Tasks.
 		// TODO: Loot corpse.

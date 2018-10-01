@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 import com.epicdragonworld.gameserver.enums.NpcType;
 import com.epicdragonworld.gameserver.managers.DatabaseManager;
-import com.epicdragonworld.gameserver.model.holders.NpcTemplateHolder;
+import com.epicdragonworld.gameserver.model.holders.NpcHolder;
 
 /**
  * @author Pantelis Andrianakis
@@ -20,7 +20,7 @@ public class NpcData
 	
 	private static final String RESTORE_NPCS = "SELECT * FROM npcs";
 	
-	private static final Map<Integer, NpcTemplateHolder> _npcs = new HashMap<>();
+	private static final Map<Integer, NpcHolder> _npcs = new HashMap<>();
 	
 	public static void init()
 	{
@@ -34,7 +34,7 @@ public class NpcData
 				while (rset.next())
 				{
 					final int npcId = rset.getInt("npc_id");
-					_npcs.put(npcId, new NpcTemplateHolder(npcId, rset.getInt("level"), Enum.valueOf(NpcType.class, rset.getString("type")), rset.getInt("stamina"), rset.getInt("strength"), rset.getInt("dexterity"), rset.getInt("intelect")));
+					_npcs.put(npcId, new NpcHolder(npcId, rset.getInt("level"), Enum.valueOf(NpcType.class, rset.getString("type")), rset.getInt("stamina"), rset.getInt("strength"), rset.getInt("dexterity"), rset.getInt("intelect")));
 				}
 			}
 		}
@@ -46,7 +46,7 @@ public class NpcData
 		LOGGER.info("NpcData: Loaded " + _npcs.size() + " templates.");
 	}
 	
-	public static NpcTemplateHolder getTemplate(int npcId)
+	public static NpcHolder getNpcHolder(int npcId)
 	{
 		return _npcs.get(npcId);
 	}
