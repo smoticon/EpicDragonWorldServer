@@ -23,7 +23,7 @@ public class WorldManager
 	private static final List<GameClient> ONLINE_CLIENTS = new CopyOnWriteArrayList<>();
 	private static final Map<Long, Player> PLAYER_OBJECTS = new ConcurrentHashMap<>();
 	private static final Map<Long, WorldObject> GAME_OBJECTS = new ConcurrentHashMap<>();
-	private static final int VISIBILITY_RANGE = 3000;
+	private static final int VISIBILITY_RADIUS = 10050; // Needs to be slightly bigger than the client limit.
 	
 	public static void addObject(WorldObject object)
 	{
@@ -83,7 +83,7 @@ public class WorldManager
 			{
 				continue;
 			}
-			if (object.calculateDistance(player) < VISIBILITY_RANGE)
+			if (object.calculateDistance(player) < VISIBILITY_RADIUS)
 			{
 				result.add(player);
 			}
@@ -94,7 +94,7 @@ public class WorldManager
 			{
 				continue;
 			}
-			if (object.calculateDistance(obj) < VISIBILITY_RANGE)
+			if (object.calculateDistance(obj) < VISIBILITY_RADIUS)
 			{
 				result.add(obj);
 			}
@@ -111,7 +111,7 @@ public class WorldManager
 			{
 				continue;
 			}
-			if (object.calculateDistance(player) < VISIBILITY_RANGE)
+			if (object.calculateDistance(player) < VISIBILITY_RADIUS)
 			{
 				result.add(player);
 			}
