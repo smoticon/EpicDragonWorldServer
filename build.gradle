@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'eclipse'
 
 defaultTasks('clean', 'build')
 
@@ -45,21 +44,3 @@ task zip(type: Zip, dependsOn: build) {
 }
 
 build.finalizedBy(zip)
-
-eclipse {
-	project {
-		name = 'EpicDragonWorldServer'
-		comment 'Epic Dragon World Server'
-		natures 'org.eclipse.buildship.core.gradleprojectbuilde'
-	}
-	jdt {
-		file {
-			whenMerged {jdt ->
-				def propertiesField = org.gradle.plugins.ide.internal.generator.PropertiesPersistableConfigurationObject.getDeclaredField('properties')
-				propertiesField.accessible = true
-				Properties properties = propertiesField.get(jdt)
-				properties.setProperty 'org.eclipse.jdt.core.compiler.problem.incompleteEnumSwitch', 'ignore'
-			}
-		}
-	}
-}
