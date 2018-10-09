@@ -6,36 +6,32 @@ sourceCompatibility = JavaVersion.VERSION_1_10
 targetCompatibility = JavaVersion.VERSION_1_10
 buildDir = '../build/'
 
-configurations.all {
-    transitive = false
+sourceSets {
+	main {
+		java {
+			srcDir 'java'
+		}
+	}
 }
 
 dependencies {
 	compile fileTree(dir: 'dist/libs', include: '*.jar')
 }
 
-def generalManifest = manifest {
-	attributes('Built-By': System.getProperty('user.name'),
-			'Built-Date': new Date().format("yyyy-MM-dd HH:mm:ss"),
-			'Implementation-URL': 'http://www.epicdragonworld.com/',
-			'Class-Path': configurations.runtime.collect { '../libs/' + it.name }.join(' '))
-}
-
 jar {
 	archiveName = 'GameServer.jar'
 	manifest {
-		from(generalManifest)
-		attributes('Main-Class': 'com.epicdragonworld.gameserver.GameServer')
+		attributes('Built-By': System.getProperty('user.name'),
+				'Built-Date': new Date().format("yyyy-MM-dd HH:mm:ss"),
+				'Implementation-URL': 'http://www.epicdragonworld.com/',
+				'Class-Path': configurations.runtime.collect { '../libs/' + it.name }.join(' '),
+				'Main-Class': 'com.epicdragonworld.gameserver.GameServer')
 	}
 }
 
 task zip(type: Zip, dependsOn: build) {
 	from('dist') {
-		exclude('libs')
 		exclude('gameserver/log')
-	}
-	into('libs') {
-		from(configurations.runtime)
 	}
 	into('gameserver') {
 		from(jar)
