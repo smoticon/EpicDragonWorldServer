@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<project name="Epic_Dragon_World_Server" default="cleanup" basedir=".">
+<project name="EpicDragonWorldServer" default="cleanup" basedir=".">
 	<property name="build" location="../build" />
 	<property name="build.bin" location="${build}/bin" />
 	<property name="build.dist" location="${build}/dist" />
@@ -64,11 +64,11 @@
 	</target>
 
 	<target name="adding-core" depends="jar" description="Adding the compiled jars to the Zip file.">
-		<zip destfile="${build}/Epic_Dragon_World_Server.zip" basedir="${build.dist}" level="9" />
+		<zip destfile="${build}/EpicDragonWorldServer.zip" basedir="${build.dist}" level="9" />
 	</target>
 
 	<target name="adding-datapack" depends="adding-core" description="Updating the Zip file with datapack content.">
-		<zip destfile="${build}/Epic_Dragon_World_Server.zip" basedir="${datapack}" update="true" level="9" />
+		<zip destfile="${build}/EpicDragonWorldServer.zip" basedir="${datapack}" update="true" level="9" />
 	</target>
 
 	<target name="cleanup" depends="adding-datapack" description="Cleaning the build folder.">
