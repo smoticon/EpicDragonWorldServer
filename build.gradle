@@ -1,0 +1,65 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+defaultTasks('clean', 'build')
+
+sourceCompatibility = JavaVersion.VERSION_1_10
+targetCompatibility = JavaVersion.VERSION_1_10
+buildDir = '../build/'
+
+configurations.all {
+    transitive = false
+}
+
+dependencies {
+	compile fileTree(dir: 'dist/libs', include: '*.jar')
+}
+
+def generalManifest = manifest {
+	attributes('Built-By': System.getProperty('user.name'),
+			'Built-Date': new Date().format("yyyy-MM-dd HH:mm:ss"),
+			'Implementation-URL': 'http://www.epicdragonworld.com/',
+			'Class-Path': configurations.runtime.collect { '../libs/' + it.name }.join(' '))
+}
+
+jar {
+	archiveName = 'GameServer.jar'
+	manifest {
+		from(generalManifest)
+		attributes('Main-Class': 'com.epicdragonworld.gameserver.GameServer')
+	}
+}
+
+task zip(type: Zip, dependsOn: build) {
+	from('dist') {
+		exclude('libs')
+		exclude('gameserver/log')
+	}
+	into('libs') {
+		from(configurations.runtime)
+	}
+	into('gameserver') {
+		from(jar)
+	}
+	println 'Build complete.'
+}
+
+build.finalizedBy(zip)
+
+eclipse {
+	project {
+		name = 'EpicDragonWorldServer'
+		comment 'Epic Dragon World Server'
+		natures 'org.eclipse.buildship.core.gradleprojectbuilde'
+	}
+	jdt {
+		file {
+			whenMerged {jdt ->
+				def propertiesField = org.gradle.plugins.ide.internal.generator.PropertiesPersistableConfigurationObject.getDeclaredField('properties')
+				propertiesField.accessible = true
+				Properties properties = propertiesField.get(jdt)
+				properties.setProperty 'org.eclipse.jdt.core.compiler.problem.incompleteEnumSwitch', 'ignore'
+			}
+		}
+	}
+}

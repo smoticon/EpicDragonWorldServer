@@ -8,6 +8,7 @@
 <listEntry value="1"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.buildship.core.classpathprovider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.epicdragonworld.gameserver.GameServer"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="EpicDragonWorldServer"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dorg.slf4j.simpleLogger.log.com.zaxxer.hikari=error"/>
