@@ -20,7 +20,7 @@ public class LocationUpdate
 		final float posZ = (float) packet.readDouble(); // TODO: Client WriteFloat
 		final float heading = (float) packet.readDouble(); // TODO: Client WriteFloat
 		final int animState = packet.readShort();
-		final int waterState = packet.readShort();
+		final int waterState = packet.readByte();
 		
 		// Update player location.
 		final Player player = client.getActiveChar();

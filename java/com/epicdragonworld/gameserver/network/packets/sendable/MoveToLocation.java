@@ -18,6 +18,6 @@ public class MoveToLocation extends SendablePacket
 		writeFloat(object.getLocation().getZ());
 		writeFloat(heading);
 		writeShort(animState);
-		writeShort(waterState);
+		writeByte(waterState);
 	}
 }
