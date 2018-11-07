@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy /E /Y /C &quot;$(ProjectDir)\Config&quot; &quot;$(TargetDir)\Config\*&quot;" />
+    <Exec Command="xcopy /E /Y /C /S &quot;$(ProjectDir)\Dist\*&quot; &quot;$(TargetDir)\*&quot;" />
   </Target>
 
 </Project>
