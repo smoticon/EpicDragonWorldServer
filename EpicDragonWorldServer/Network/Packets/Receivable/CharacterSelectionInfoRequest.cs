@@ -1,0 +1,17 @@
+﻿/**
+ * @author Pantelis Andrianakis
+ */
+public class CharacterSelectionInfoRequest
+{
+    public CharacterSelectionInfoRequest(GameClient client, ReceivablePacket packet)
+    {
+        // Read data.
+        string accountName = packet.ReadString().ToLowerInvariant();
+
+        // If account has logged send the information.
+        if (client.GetAccountName().Equals(accountName))
+        {
+            client.ChannelSend(new CharacterSelectionInfoResult(accountName));
+        }
+    }
+}
