@@ -1,7 +1,7 @@
 ﻿/**
  * @author Pantelis Andrianakis
  */
-public class RecievablePacketManager
+public class GameClientPacketHandler
 {
     public static void Handle(GameClient client, ReceivablePacket packet)
     {

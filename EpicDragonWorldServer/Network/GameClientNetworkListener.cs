@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 /**
  * @author Pantelis Andrianakis
  */
-public class NetworkManager
+public class GameClientNetworkListener
 {
     static readonly object taskLock = new object(); // Task lock.
     static readonly List<Task> connections = new List<Task>(); // Pending connections.
 
     internal static void Init()
     {
-        new NetworkManager().StartListener().Wait();
+        new GameClientNetworkListener().StartListener().Wait();
     }
 
     // The core server task.
@@ -92,7 +92,7 @@ public class NetworkManager
                 bufferData = new byte[length];
                 await networkStream.ReadAsync(bufferData, 0, length);
                 // Handle packet.
-                RecievablePacketManager.Handle(gameClient, new ReceivablePacket(Encryption.Decrypt(bufferData)));
+                GameClientPacketHandler.Handle(gameClient, new ReceivablePacket(Encryption.Decrypt(bufferData)));
             }
             catch (Exception)
             {

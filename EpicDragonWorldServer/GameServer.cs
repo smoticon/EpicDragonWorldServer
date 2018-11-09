@@ -13,7 +13,7 @@ public class GameServer
     static void Main(string[] args)
     {
         // Set console title.
-        Console.Title = "Epic Dragon World Server";
+        Console.Title = "Epic Dragon World - Game Server";
 
         // Keep start time for later.
         DateTime serverLoadStart = DateTime.Now;
@@ -29,7 +29,7 @@ public class GameServer
         LogManager.Log("Server loaded in " + (DateTime.Now - serverLoadStart).TotalSeconds + " seconds.");
 
         // Initialize async network listening.
-        Task.Run(() => NetworkManager.Init());
+        Task.Run(() => GameClientNetworkListener.Init());
 
         // Wait.
         Console.CancelKeyPress += (sender, eArgs) =>
