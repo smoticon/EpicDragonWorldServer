@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 /**
  * AES Rijndael encryption.
  * Author: Pantelis Andrianakis
- * Date: December 23th 2017
+ * Date: December 23rd 2017
  */
 public class Encryption
 {
