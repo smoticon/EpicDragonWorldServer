@@ -1,7 +1,8 @@
 ﻿using System.Globalization;
 
 /**
- * @author Pantelis Andrianakis
+ * Author: Pantelis Andrianakis
+ * Date: November 7th 2018
  */
 public class Config
 {

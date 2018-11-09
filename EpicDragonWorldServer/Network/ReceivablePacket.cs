@@ -3,7 +3,8 @@ using System.IO;
 using System.Text;
 
 /**
- * @author Pantelis Andrianakis
+ * Author: Pantelis Andrianakis
+ * Date: December 23th 2017
  */
 public class ReceivablePacket
 {

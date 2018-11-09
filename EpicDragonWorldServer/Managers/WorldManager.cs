@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 /**
- * @author Pantelis Andrianakis
+ * Author: Pantelis Andrianakis
+ * Date: November 7th 2018
  */
 public class WorldManager
 {

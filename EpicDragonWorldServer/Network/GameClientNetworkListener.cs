@@ -4,7 +4,8 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 
 /**
- * @author Pantelis Andrianakis
+ * Author: Pantelis Andrianakis
+ * Date: November 7th 2018
  */
 public class GameClientNetworkListener
 {
