@@ -47,11 +47,11 @@ public class DatabaseManager
                 if (connections[connectionCounter].State == ConnectionState.Closed)
                 {
                     connection = connections[connectionCounter];
+                    connection.Open();
                 }
                 connectionCounter++;
             }
         }
-        connection.Open();
         return connection;
     }
 }
