@@ -53,26 +53,20 @@ public class CharacterCreationRequest
         int lastCharacterSlot = 0;
         try
         {
-            using (SqlConnection con = new SqlConnection())
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(ACCOUNT_CHARACTER_QUERY, con);
+            cmd.Parameters.AddWithValue("account", client.GetAccountName());
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(ACCOUNT_CHARACTER_QUERY, con.Connection))
+                characterCount++;
+                int slot = reader.GetInt32("slot");
+                if (slot > lastCharacterSlot)
                 {
-                    cmd.Parameters.AddWithValue("account", client.GetAccountName());
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            characterCount++;
-                            int slot = reader.GetInt32("slot");
-                            if (slot > lastCharacterSlot)
-                            {
-                                lastCharacterSlot = slot;
-                            }
-                        }
-                    }
+                    lastCharacterSlot = slot;
                 }
             }
+            con.Close();
         }
         catch (Exception e)
         {
@@ -88,21 +82,17 @@ public class CharacterCreationRequest
         bool characterExists = false;
         try
         {
-            using (SqlConnection con = new SqlConnection())
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(NAME_EXISTS_QUERY, con);
             {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(NAME_EXISTS_QUERY, con.Connection))
+                cmd.Parameters.AddWithValue("name", characterName);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    cmd.Parameters.AddWithValue("name", characterName);
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            characterExists = true;
-                        }
-                    }
+                    characterExists = true;
                 }
             }
+            con.Close();
         }
         catch (Exception e)
         {
@@ -117,15 +107,11 @@ public class CharacterCreationRequest
         // Make existing characters selected value false.
         try
         {
-            using (SqlConnection con = new SqlConnection())
-            {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(CHARACTER_SELECTED_RESET_QUERY, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("account", client.GetAccountName());
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(CHARACTER_SELECTED_RESET_QUERY, con);
+            cmd.Parameters.AddWithValue("account", client.GetAccountName());
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
         catch (Exception e)
         {
@@ -135,27 +121,23 @@ public class CharacterCreationRequest
         // Create character.
         try
         {
-            using (SqlConnection con = new SqlConnection())
-            {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(CHARACTER_SELECTED_RESET_QUERY, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("account", client.GetAccountName());
-                    cmd.Parameters.AddWithValue("name", characterName);
-                    cmd.Parameters.AddWithValue("slot", lastCharacterSlot + 1);
-                    cmd.Parameters.AddWithValue("selected", 1); // Selected character.
-                    cmd.Parameters.AddWithValue("class_id", classId);
-                    cmd.Parameters.AddWithValue("location_name", "Start Location");
-                    cmd.Parameters.AddWithValue("x", Config.STARTING_LOCATION.GetX());
-                    cmd.Parameters.AddWithValue("y", Config.STARTING_LOCATION.GetY());
-                    cmd.Parameters.AddWithValue("z", Config.STARTING_LOCATION.GetZ());
-                    cmd.Parameters.AddWithValue("heading", Config.STARTING_LOCATION.GetHeading());
-                    cmd.Parameters.AddWithValue("experience", 0); // TODO: Starting level experience.
-                    cmd.Parameters.AddWithValue("hp", 1); // TODO: Character stats HP.
-                    cmd.Parameters.AddWithValue("mp", 1); // TODO: Character stats MP.
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(CHARACTER_SELECTED_RESET_QUERY, con);
+            cmd.Parameters.AddWithValue("account", client.GetAccountName());
+            cmd.Parameters.AddWithValue("name", characterName);
+            cmd.Parameters.AddWithValue("slot", lastCharacterSlot + 1);
+            cmd.Parameters.AddWithValue("selected", 1); // Selected character.
+            cmd.Parameters.AddWithValue("class_id", classId);
+            cmd.Parameters.AddWithValue("location_name", "Start Location");
+            cmd.Parameters.AddWithValue("x", Config.STARTING_LOCATION.GetX());
+            cmd.Parameters.AddWithValue("y", Config.STARTING_LOCATION.GetY());
+            cmd.Parameters.AddWithValue("z", Config.STARTING_LOCATION.GetZ());
+            cmd.Parameters.AddWithValue("heading", Config.STARTING_LOCATION.GetHeading());
+            cmd.Parameters.AddWithValue("experience", 0); // TODO: Starting level experience.
+            cmd.Parameters.AddWithValue("hp", 1); // TODO: Character stats HP.
+            cmd.Parameters.AddWithValue("mp", 1); // TODO: Character stats MP.
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
         catch (Exception e)
         {

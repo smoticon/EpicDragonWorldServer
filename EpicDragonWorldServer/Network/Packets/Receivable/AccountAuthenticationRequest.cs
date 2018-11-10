@@ -49,22 +49,16 @@ public class AccountAuthenticationRequest
         int status = STATUS_NOT_FOUND;
         try
         {
-            using (SqlConnection con = new SqlConnection())
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(ACCOUNT_INFO_QUERY, con);
+            cmd.Parameters.AddWithValue("account", accountName);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(ACCOUNT_INFO_QUERY, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("account", accountName);
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            storedPassword = reader.GetString("password");
-                            status = reader.GetInt32("status");
-                        }
-                    }
-                }
+                storedPassword = reader.GetString("password");
+                status = reader.GetInt32("status");
             }
+            con.Close();
         }
         catch (Exception e)
         {
@@ -77,16 +71,12 @@ public class AccountAuthenticationRequest
             // Create account.
             try
             {
-                using (SqlConnection con = new SqlConnection())
-                {
-                    con.Connection.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(ACCOUNT_CREATE_QUERY, con.Connection))
-                    {
-                        cmd.Parameters.AddWithValue("account", accountName);
-                        cmd.Parameters.AddWithValue("password", passwordHash);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                MySqlConnection con = DatabaseManager.GetConnection();
+                MySqlCommand cmd = new MySqlCommand(ACCOUNT_CREATE_QUERY, con);
+                cmd.Parameters.AddWithValue("account", accountName);
+                cmd.Parameters.AddWithValue("password", passwordHash);
+                cmd.ExecuteNonQuery();
+                con.Close();
             }
             catch (Exception e)
             {
@@ -135,17 +125,13 @@ public class AccountAuthenticationRequest
         // Update last login date and IP address.
         try
         {
-            using (SqlConnection con = new SqlConnection())
-            {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(ACCOUNT_INFO_UPDATE_QUERY, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("last_active", DateTimeOffset.Now.ToUnixTimeSeconds());
-                    cmd.Parameters.AddWithValue("ip", client.GetIp());
-                    cmd.Parameters.AddWithValue("account", accountName);
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(ACCOUNT_INFO_UPDATE_QUERY, con);
+            cmd.Parameters.AddWithValue("last_active", DateTimeOffset.Now.ToUnixTimeSeconds());
+            cmd.Parameters.AddWithValue("ip", client.GetIp());
+            cmd.Parameters.AddWithValue("account", accountName);
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
         catch (Exception e)
         {

@@ -23,28 +23,22 @@ public class CharacterDeletionRequest
         string deletedCharacterName = "";
         try
         {
-            using (SqlConnection con = new SqlConnection())
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(ACCOUNT_CHARACTER_QUERY, con);
+            cmd.Parameters.AddWithValue("account", client.GetAccountName());
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(ACCOUNT_CHARACTER_QUERY, con.Connection))
+                if ((byte)reader.GetInt16("slot") == slot)  // TODO: Remove cast?
                 {
-                    cmd.Parameters.AddWithValue("account", client.GetAccountName());
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            if ((byte)reader.GetInt16("slot") == slot)  // TODO: Remove cast?
-                            {
-                                deletedCharacterName = reader.GetString("name");
-                            }
-                            else
-                            {
-                                characterNames.Add(reader.GetString("name"));
-                            }
-                        }
-                    }
+                    deletedCharacterName = reader.GetString("name");
+                }
+                else
+                {
+                    characterNames.Add(reader.GetString("name"));
                 }
             }
+            con.Close();
         }
         catch (Exception e)
         {
@@ -56,17 +50,13 @@ public class CharacterDeletionRequest
         long deleteTime = DateTimeOffset.Now.ToUnixTimeSeconds();
         try
         {
-            using (SqlConnection con = new SqlConnection())
-            {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(CHARACTER_DELETION_QUERY, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("name", deletedCharacterName + deleteTime);
-                    cmd.Parameters.AddWithValue("account", client.GetAccountName());
-                    cmd.Parameters.AddWithValue("oldname", deletedCharacterName);
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(CHARACTER_DELETION_QUERY, con);
+            cmd.Parameters.AddWithValue("name", deletedCharacterName + deleteTime);
+            cmd.Parameters.AddWithValue("account", client.GetAccountName());
+            cmd.Parameters.AddWithValue("oldname", deletedCharacterName);
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
         catch (Exception e)
         {
@@ -76,16 +66,12 @@ public class CharacterDeletionRequest
         // Delete character items. (Same as above, change item owner to name + deletion time.)
         try
         {
-            using (SqlConnection con = new SqlConnection())
-            {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(CHARACTER_ITEM_DELETION_QUERY, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("owner", deletedCharacterName + deleteTime);
-                    cmd.Parameters.AddWithValue("oldowner", deletedCharacterName);
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(CHARACTER_ITEM_DELETION_QUERY, con);
+            cmd.Parameters.AddWithValue("owner", deletedCharacterName + deleteTime);
+            cmd.Parameters.AddWithValue("oldowner", deletedCharacterName);
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
         catch (Exception e)
         {
@@ -99,18 +85,14 @@ public class CharacterDeletionRequest
             counter++;
             try
             {
-                using (SqlConnection con = new SqlConnection())
-                {
-                    con.Connection.Open();
-                    using (MySqlCommand cmd = new MySqlCommand(CHARACTER_SLOT_UPDATE_QUERY, con.Connection))
-                    {
-                        cmd.Parameters.AddWithValue("slot", counter);
-                        cmd.Parameters.AddWithValue("selected", ((counter == 1) && (slot == 1)) || (counter == (slot - 1)) ? 1 : 0);
-                        cmd.Parameters.AddWithValue("account", client.GetAccountName());
-                        cmd.Parameters.AddWithValue("name", characterName);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+                MySqlConnection con = DatabaseManager.GetConnection();
+                MySqlCommand cmd = new MySqlCommand(CHARACTER_SLOT_UPDATE_QUERY, con);
+                cmd.Parameters.AddWithValue("slot", counter);
+                cmd.Parameters.AddWithValue("selected", ((counter == 1) && (slot == 1)) || (counter == (slot - 1)) ? 1 : 0);
+                cmd.Parameters.AddWithValue("account", client.GetAccountName());
+                cmd.Parameters.AddWithValue("name", characterName);
+                cmd.ExecuteNonQuery();
+                con.Close();
             }
             catch (Exception e)
             {

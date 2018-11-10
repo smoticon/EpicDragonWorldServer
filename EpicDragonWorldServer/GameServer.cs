@@ -25,6 +25,9 @@ public class GameServer
         PrintSection("Configs");
         Config.Load();
 
+        PrintSection("Database");
+        DatabaseManager.Init();
+
         // Post info.
         PrintSection("Info");
         LogManager.Log("Server loaded in " + (DateTime.Now - serverLoadStart).TotalSeconds + " seconds.");

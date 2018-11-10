@@ -22,28 +22,22 @@ public class Player : Creature
         // Load information from database.
         try
         {
-            using (SqlConnection con = new SqlConnection())
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(RESTORE_CHARACTER, con);
+            cmd.Parameters.AddWithValue("name", name);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(RESTORE_CHARACTER, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("name", name);
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            classId = reader.GetInt32("class_id");
-                            GetLocation().SetX(reader.GetFloat("x"));
-                            GetLocation().SetY(reader.GetFloat("y"));
-                            GetLocation().SetZ(reader.GetFloat("z"));
-                            // TODO: Restore player stats (STA/STR/DEX/INT).
-                            // TODO: Restore player level.
-                            // TODO: Restore player Current HP.
-                            // TODO: Restore player Current MP.
-                        }
-                    }
-                }
+                classId = reader.GetInt32("class_id");
+                GetLocation().SetX(reader.GetFloat("x"));
+                GetLocation().SetY(reader.GetFloat("y"));
+                GetLocation().SetZ(reader.GetFloat("z"));
+                // TODO: Restore player stats (STA/STR/DEX/INT).
+                // TODO: Restore player level.
+                // TODO: Restore player Current HP.
+                // TODO: Restore player Current MP.
             }
+            con.Close();
         }
         catch (Exception e)
         {
@@ -55,24 +49,20 @@ public class Player : Creature
     {
         try
         {
-            using (SqlConnection con = new SqlConnection())
-            {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(STORE_CHARACTER, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("name", name);
-                    cmd.Parameters.AddWithValue("class_id", classId);
-                    // TODO: Save location.
-                    // TODO: Save player stats (STA/STR/DEX/INT).
-                    // TODO: Save player level.
-                    // TODO: Save player Current HP.
-                    // TODO: Save player Current MP.
-                    cmd.Parameters.AddWithValue("account", client.GetAccountName());
-                    // Parameter already added above?
-                    // cmd.Parameters.AddWithValue("name", _name);
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(STORE_CHARACTER, con);
+            cmd.Parameters.AddWithValue("name", name);
+            cmd.Parameters.AddWithValue("class_id", classId);
+            // TODO: Save location.
+            // TODO: Save player stats (STA/STR/DEX/INT).
+            // TODO: Save player level.
+            // TODO: Save player Current HP.
+            // TODO: Save player Current MP.
+            cmd.Parameters.AddWithValue("account", client.GetAccountName());
+            // Parameter already added above?
+            // cmd.Parameters.AddWithValue("name", _name);
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
         catch (Exception e)
         {

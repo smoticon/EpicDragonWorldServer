@@ -18,35 +18,29 @@ public class CharacterSelectionInfoResult : SendablePacket
         // Get data from database.
         try
         {
-            using (SqlConnection con = new SqlConnection())
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(CHARACTER_QUERY, con);
+            cmd.Parameters.AddWithValue("account", accountName);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
             {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(CHARACTER_QUERY, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("account", accountName);
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            CharacterDataHolder characterData = new CharacterDataHolder();
-                            characterData.SetName(reader.GetString("name"));
-                            characterData.SetSlot((byte)reader.GetInt16("slot")); // TODO: Remove cast?
-                            characterData.SetSelected(reader.GetBoolean("selected"));
-                            characterData.SetClassId((byte)reader.GetInt16("class_id")); // TODO: Remove cast?
-                            characterData.SetLocationName(reader.GetString("location_name"));
-                            characterData.SetX(reader.GetFloat("x"));
-                            characterData.SetY(reader.GetFloat("y"));
-                            characterData.SetZ(reader.GetFloat("z"));
-                            characterData.SetHeading(reader.GetFloat("heading"));
-                            characterData.SetExperience(reader.GetInt64("experience"));
-                            characterData.SetHp(reader.GetInt64("hp"));
-                            characterData.SetMp(reader.GetInt64("mp"));
-                            characterData.SetAccessLevel((byte)reader.GetInt16("access_level")); // TODO: Remove cast?
-                            characterList.Add(characterData);
-                        }
-                    }
-                }
+                CharacterDataHolder characterData = new CharacterDataHolder();
+                characterData.SetName(reader.GetString("name"));
+                characterData.SetSlot((byte)reader.GetInt16("slot")); // TODO: Remove cast?
+                characterData.SetSelected(reader.GetBoolean("selected"));
+                characterData.SetClassId((byte)reader.GetInt16("class_id")); // TODO: Remove cast?
+                characterData.SetLocationName(reader.GetString("location_name"));
+                characterData.SetX(reader.GetFloat("x"));
+                characterData.SetY(reader.GetFloat("y"));
+                characterData.SetZ(reader.GetFloat("z"));
+                characterData.SetHeading(reader.GetFloat("heading"));
+                characterData.SetExperience(reader.GetInt64("experience"));
+                characterData.SetHp(reader.GetInt64("hp"));
+                characterData.SetMp(reader.GetInt64("mp"));
+                characterData.SetAccessLevel((byte)reader.GetInt16("access_level")); // TODO: Remove cast?
+                characterList.Add(characterData);
             }
+            con.Close();
         }
         catch (Exception e)
         {

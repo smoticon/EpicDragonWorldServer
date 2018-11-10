@@ -35,7 +35,8 @@ public class Config
     // Server
     // --------------------------------------------------
     public static int SERVER_PORT;
-    public static string SQL_CONNECTION_PARAMETERS;
+    public static string DATABASE_CONNECTION_PARAMETERS;
+    public static int DATABASE_MAX_CONNECTIONS;
     public static int MAXIMUM_ONLINE_USERS;
     public static double CLIENT_VERSION;
 
@@ -55,7 +56,8 @@ public class Config
 
         ConfigReader serverConfigs = new ConfigReader(SERVER_CONFIG_FILE);
         SERVER_PORT = serverConfigs.GetInt("ServerPort", 5055);
-        SQL_CONNECTION_PARAMETERS = serverConfigs.GetString("ConnectionParameters", "Server=127.0.0.1;User ID=root;Password=;Database=edws");
+        DATABASE_CONNECTION_PARAMETERS = serverConfigs.GetString("DbConnectionParameters", "Server=127.0.0.1;User ID=root;Password=;Database=edws");
+        DATABASE_MAX_CONNECTIONS = serverConfigs.GetInt("MaximumDbConnections", 50);
         MAXIMUM_ONLINE_USERS = serverConfigs.GetInt("MaximumOnlineUsers", 2000);
         CLIENT_VERSION = serverConfigs.GetDouble("ClientVersion", 1.0);
 

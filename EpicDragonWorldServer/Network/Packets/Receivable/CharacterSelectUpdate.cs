@@ -18,15 +18,11 @@ public class CharacterSelectUpdate
         // Make existing characters selected value false.
         try
         {
-            using (SqlConnection con = new SqlConnection())
-            {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(CHARACTER_SELECTED_RESET_QUERY, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("account", client.GetAccountName());
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(CHARACTER_SELECTED_RESET_QUERY, con);
+            cmd.Parameters.AddWithValue("account", client.GetAccountName());
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
         catch (Exception e)
         {
@@ -36,16 +32,12 @@ public class CharacterSelectUpdate
         // Set character selected.
         try
         {
-            using (SqlConnection con = new SqlConnection())
-            {
-                con.Connection.Open();
-                using (MySqlCommand cmd = new MySqlCommand(CHARACTER_SELECTED_UPDATE_QUERY, con.Connection))
-                {
-                    cmd.Parameters.AddWithValue("account", client.GetAccountName());
-                    cmd.Parameters.AddWithValue("slot", slot);
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(CHARACTER_SELECTED_UPDATE_QUERY, con);
+            cmd.Parameters.AddWithValue("account", client.GetAccountName());
+            cmd.Parameters.AddWithValue("slot", slot);
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
         catch (Exception e)
         {
