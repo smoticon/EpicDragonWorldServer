@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 /**
  * Author: Pantelis Andrianakis
@@ -7,15 +8,16 @@ using System.IO;
  */
 public class LogManager
 {
-    private static readonly string LOG_PATH = "Log\\";
-    private static readonly string LOG_FILE_CONSOLE = "Console ";
-    private static readonly string LOG_FILE_WORLD = "World ";
-    private static readonly string LOG_FILE_CHAT = "Chat ";
-    private static readonly string LOG_FILE_EXT = ".txt";
-    private static readonly string LOG_DATE_FORMAT = "{0:dd/MM HH:mm:ss}";
-    private static readonly string LOG_FILE_NAME_FORMAT = "{0:yyyy-MM-dd}";
+    static readonly string LOG_PATH = "Log\\";
+    static readonly string LOG_FILE_CONSOLE = "Console ";
+    static readonly string LOG_FILE_WORLD = "World ";
+    static readonly string LOG_FILE_CHAT = "Chat ";
+    static readonly string LOG_FILE_EXT = ".txt";
+    static readonly string LOG_DATE_FORMAT = "{0:dd/MM HH:mm:ss}";
+    static readonly string LOG_FILE_NAME_FORMAT = "{0:yyyy-MM-dd}";
 
-    internal static void Log(string message)
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public static void Log(string message)
     {
         DateTime currentTime = DateTime.Now;
         message = "[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message;
@@ -28,7 +30,8 @@ public class LogManager
         }
     }
 
-    internal static void LogWorld(string message)
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public static void LogWorld(string message)
     {
         DateTime currentTime = DateTime.Now;
         // Append to "log\World yyyy-MM-dd.txt" file.
@@ -38,7 +41,8 @@ public class LogManager
         }
     }
 
-    internal static void LogChat(string message)
+    [MethodImpl(MethodImplOptions.Synchronized)]
+    public static void LogChat(string message)
     {
         DateTime currentTime = DateTime.Now;
         // Append to "log\Chat yyyy-MM-dd.txt" file.
