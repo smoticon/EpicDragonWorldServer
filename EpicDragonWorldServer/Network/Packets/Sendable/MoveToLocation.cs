@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class MoveToLocation : SendablePacket
+class MoveToLocation : SendablePacket
 {
     public MoveToLocation(WorldObject obj, float heading, int animState, int waterState)
     {

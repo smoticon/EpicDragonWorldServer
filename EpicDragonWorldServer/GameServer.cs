@@ -7,7 +7,7 @@ using System.Threading.Tasks;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class GameServer
+class GameServer
 {
     static readonly ManualResetEvent quitEvent = new ManualResetEvent(false);
 

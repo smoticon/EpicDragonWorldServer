@@ -5,9 +5,9 @@ using System;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class CharacterSlotUpdate
+class CharacterSlotUpdate
 {
-    private static readonly string CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=@slot WHERE account=@account AND slot=@oldslot";
+    static readonly string CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=@slot WHERE account=@account AND slot=@oldslot";
 
     public CharacterSlotUpdate(GameClient client, ReceivablePacket packet)
     {

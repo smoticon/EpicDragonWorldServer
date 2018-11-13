@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class GameClientPacketHandler
+class GameClientPacketHandler
 {
     public static void Handle(GameClient client, ReceivablePacket packet)
     {

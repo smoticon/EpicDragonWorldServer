@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class Creature : WorldObject
+class Creature : WorldObject
 {
     public override bool IsCreature()
     {

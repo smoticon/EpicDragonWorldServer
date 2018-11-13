@@ -4,11 +4,11 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class WorldObject
+class WorldObject
 {
-    private readonly long objectId = IdManager.GetNextId();
-    private readonly DateTime spawnTime = DateTime.Now;
-    private LocationHolder location = new LocationHolder(0, -1000, 0);
+    readonly long objectId = IdManager.GetNextId();
+    readonly DateTime spawnTime = DateTime.Now;
+    LocationHolder location = new LocationHolder(0, -1000, 0);
 
     public long GetObjectId()
     {

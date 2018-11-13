@@ -2,21 +2,21 @@
  * Author: Pantelis Andrianakis
  * Date: December 28th 2017
  */
-public class CharacterDataHolder
+class CharacterDataHolder
 {
-    private string name = "";
-    private byte slot = 0;
-    private bool selected = false;
-    private byte classId = 0;
-    private string locationName = "";
-    private float x = 0;
-    private float y = 0;
-    private float z = 0;
-    private float heading = 0;
-    private long experience = 0;
-    private long hp = 0;
-    private long mp = 0;
-    private byte accessLevel = 0;
+    string name = "";
+    byte slot = 0;
+    bool selected = false;
+    byte classId = 0;
+    string locationName = "";
+    float x = 0;
+    float y = 0;
+    float z = 0;
+    float heading = 0;
+    long experience = 0;
+    long hp = 0;
+    long mp = 0;
+    byte accessLevel = 0;
 
     public string GetName()
     {

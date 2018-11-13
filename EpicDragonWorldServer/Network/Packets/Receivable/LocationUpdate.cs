@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class LocationUpdate
+class LocationUpdate
 {
     public LocationUpdate(GameClient client, ReceivablePacket packet)
     {

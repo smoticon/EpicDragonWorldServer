@@ -5,12 +5,12 @@ using System.Net.Sockets;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class GameClient
+class GameClient
 {
-    private readonly NetworkStream networkStream;
-    private readonly string ip;
-    private string accountName = "";
-    private Player activeChar;
+    readonly NetworkStream networkStream;
+    readonly string ip;
+    string accountName = "";
+    Player activeChar;
 
     public GameClient(NetworkStream stream, string address)
     {
@@ -21,7 +21,7 @@ public class GameClient
         ip = ip.Substring(start, ip.Length - start);
     }
 
-    internal async void ChannelSend(SendablePacket packet)
+    public async void ChannelSend(SendablePacket packet)
     {
         try
         {

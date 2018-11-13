@@ -6,12 +6,12 @@ using System.Collections.Generic;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class CharacterDeletionRequest
+class CharacterDeletionRequest
 {
-    private static readonly string ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE account=@account ORDER BY slot ASC";
-    private static readonly string CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=@slot, selected=@selected WHERE account=@account AND name=@name";
-    private static readonly string CHARACTER_DELETION_QUERY = "UPDATE characters SET name=@name, access_level='-1' WHERE account=@account AND name=@oldname";
-    private static readonly string CHARACTER_ITEM_DELETION_QUERY = "UPDATE character_items SET owner=@owner WHERE owner=@oldowner";
+    static readonly string ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE account=@account ORDER BY slot ASC";
+    static readonly string CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=@slot, selected=@selected WHERE account=@account AND name=@name";
+    static readonly string CHARACTER_DELETION_QUERY = "UPDATE characters SET name=@name, access_level='-1' WHERE account=@account AND name=@oldname";
+    static readonly string CHARACTER_ITEM_DELETION_QUERY = "UPDATE character_items SET owner=@owner WHERE owner=@oldowner";
 
     public CharacterDeletionRequest(GameClient client, ReceivablePacket packet)
     {

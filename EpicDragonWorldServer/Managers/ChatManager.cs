@@ -2,15 +2,15 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class ChatManager
+class ChatManager
 {
-    private static readonly byte CHAT_TYPE_SYSTEM = 0;
-    private static readonly byte CHAT_TYPE_NORMAL = 1;
-    private static readonly byte CHAT_TYPE_MESSAGE = 2;
-    private static readonly string COMMAND_PERSONAL_MESSAGE = "/tell ";
-    private static readonly string COMMAND_LOCATION = "/loc";
-    private static readonly string SYS_NAME = "System";
-    private static readonly string MSG_TO = "To ";
+    static readonly byte CHAT_TYPE_SYSTEM = 0;
+    static readonly byte CHAT_TYPE_NORMAL = 1;
+    static readonly byte CHAT_TYPE_MESSAGE = 2;
+    static readonly string COMMAND_PERSONAL_MESSAGE = "/tell ";
+    static readonly string COMMAND_LOCATION = "/loc";
+    static readonly string SYS_NAME = "System";
+    static readonly string MSG_TO = "To ";
 
     public static void HandleChat(Player sender, string message)
     {

@@ -6,7 +6,7 @@ using System.Data;
  * Author: Pantelis Andrianakis
  * Date: November 10th 2018
  */
-public class DatabaseManager
+class DatabaseManager
 {
     static readonly MySqlConnection[] connections = new MySqlConnection[Config.DATABASE_MAX_CONNECTIONS];
     static readonly object taskLock = new object();

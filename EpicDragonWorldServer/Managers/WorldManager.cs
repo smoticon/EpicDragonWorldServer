@@ -6,12 +6,12 @@ using System.Linq;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class WorldManager
+class WorldManager
 {
-    private static readonly BlockingCollection<GameClient> ONLINE_CLIENTS = new BlockingCollection<GameClient>();
-    private static readonly ConcurrentDictionary<long, Player> PLAYER_OBJECTS = new ConcurrentDictionary<long, Player>();
-    private static readonly ConcurrentDictionary<long, WorldObject> GAME_OBJECTS = new ConcurrentDictionary<long, WorldObject>();
-    private static readonly int VISIBILITY_RADIUS = 10050; // Needs to be slightly bigger than the client limit.
+    static readonly BlockingCollection<GameClient> ONLINE_CLIENTS = new BlockingCollection<GameClient>();
+    static readonly ConcurrentDictionary<long, Player> PLAYER_OBJECTS = new ConcurrentDictionary<long, Player>();
+    static readonly ConcurrentDictionary<long, WorldObject> GAME_OBJECTS = new ConcurrentDictionary<long, WorldObject>();
+    static readonly int VISIBILITY_RADIUS = 10050; // Needs to be slightly bigger than the client limit.
     // TODO: Separate data to WorldRegions.
 
     public static void AddObject(WorldObject obj)

@@ -4,15 +4,15 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class Config
+class Config
 {
     // --------------------------------------------------
     // Config File Definitions
     // --------------------------------------------------
-    private static readonly string ACCOUNT_CONFIG_FILE = "Config\\Account.ini";
-    private static readonly string LOGGING_CONFIG_FILE = "Config\\Logging.ini";
-    private static readonly string PLAYER_CONFIG_FILE = "Config\\Player.ini";
-    private static readonly string SERVER_CONFIG_FILE = "Config\\Server.ini";
+    static readonly string ACCOUNT_CONFIG_FILE = "Config\\Account.ini";
+    static readonly string LOGGING_CONFIG_FILE = "Config\\Logging.ini";
+    static readonly string PLAYER_CONFIG_FILE = "Config\\Player.ini";
+    static readonly string SERVER_CONFIG_FILE = "Config\\Server.ini";
 
     // --------------------------------------------------
     // Account
@@ -40,7 +40,7 @@ public class Config
     public static int MAXIMUM_ONLINE_USERS;
     public static double CLIENT_VERSION;
 
-    internal static void Load()
+    public static void Load()
     {
         ConfigReader accountConfigs = new ConfigReader(ACCOUNT_CONFIG_FILE);
         ACCOUNT_AUTO_CREATE = accountConfigs.GetBool("AccountAutoCreate", false);

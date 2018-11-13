@@ -8,10 +8,10 @@ using System.Linq;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class ConfigReader
+class ConfigReader
 {
-    private readonly Dictionary<string, string> configs = new Dictionary<string, string>();
-    private readonly string fileName;
+    readonly Dictionary<string, string> configs = new Dictionary<string, string>();
+    readonly string fileName;
 
     public ConfigReader(string fileName)
     {

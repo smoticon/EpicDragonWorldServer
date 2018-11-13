@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class PlayerInformation : SendablePacket
+class PlayerInformation : SendablePacket
 {
     public PlayerInformation(Player player)
     {

@@ -5,14 +5,14 @@ using System;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class Player : Creature
+class Player : Creature
 {
-    private static readonly string RESTORE_CHARACTER = "SELECT * FROM characters WHERE name=@name";
-    private static readonly string STORE_CHARACTER = "UPDATE characters SET name=@name, class_id=@class_id WHERE account=@account AND name=@name";
+    static readonly string RESTORE_CHARACTER = "SELECT * FROM characters WHERE name=@name";
+    static readonly string STORE_CHARACTER = "UPDATE characters SET name=@name, class_id=@class_id WHERE account=@account AND name=@name";
 
-    private readonly GameClient client;
-    private readonly string name;
-    private readonly int classId;
+    readonly GameClient client;
+    readonly string name;
+    readonly int classId;
 
     public Player(GameClient client, string name)
     {

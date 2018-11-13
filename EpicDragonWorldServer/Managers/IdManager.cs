@@ -4,9 +4,9 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class IdManager
+class IdManager
 {
-    private static long lastId = 0;
+    static long lastId = 0;
 
     public static long GetNextId()
     {

@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class LogManager
+class LogManager
 {
     static readonly string LOG_PATH = "Log\\";
     static readonly string LOG_FILE_CONSOLE = "Console ";

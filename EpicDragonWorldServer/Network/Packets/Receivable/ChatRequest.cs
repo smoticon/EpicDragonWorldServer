@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class ChatRequest
+class ChatRequest
 {
     public ChatRequest(GameClient client, ReceivablePacket packet)
     {

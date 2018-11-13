@@ -7,12 +7,12 @@ using System.Threading.Tasks;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class GameClientNetworkListener
+class GameClientNetworkListener
 {
     static readonly object taskLock = new object(); // Task lock.
     static readonly List<Task> connections = new List<Task>(); // Pending connections.
 
-    internal static void Init()
+    public static void Init()
     {
         new GameClientNetworkListener().StartListener().Wait();
     }

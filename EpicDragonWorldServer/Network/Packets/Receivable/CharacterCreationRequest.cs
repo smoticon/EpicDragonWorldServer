@@ -5,18 +5,18 @@ using System;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class CharacterCreationRequest
+class CharacterCreationRequest
 {
-    private static readonly string ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE access_level>'-1' AND account=@account";
-    private static readonly string NAME_EXISTS_QUERY = "SELECT * FROM characters WHERE name=@name";
-    private static readonly string CHARACTER_SELECTED_RESET_QUERY = "UPDATE characters SET selected=0 WHERE account=@account";
-    private static readonly string CHARACTER_CREATE_QUERY = "INSERT INTO characters (account, name, slot, selected, class_id, location_name, x, y, z, heading, experience, hp, mp) values (@account, @name, @slot, @selected, @class_id, @location_name, @x, @y, @z, @heading, @experience, @hp, @mp)";
+    static readonly string ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE access_level>'-1' AND account=@account";
+    static readonly string NAME_EXISTS_QUERY = "SELECT * FROM characters WHERE name=@name";
+    static readonly string CHARACTER_SELECTED_RESET_QUERY = "UPDATE characters SET selected=0 WHERE account=@account";
+    static readonly string CHARACTER_CREATE_QUERY = "INSERT INTO characters (account, name, slot, selected, class_id, location_name, x, y, z, heading, experience, hp, mp) values (@account, @name, @slot, @selected, @class_id, @location_name, @x, @y, @z, @heading, @experience, @hp, @mp)";
 
-    private static readonly int INVALID_NAME = 0;
-    private static readonly int NAME_IS_TOO_SHORT = 1;
-    private static readonly int NAME_ALREADY_EXISTS = 2;
-    private static readonly int CANNOT_CREATE_ADDITIONAL_CHARACTERS = 3;
-    private static readonly int SUCCESS = 100;
+    static readonly int INVALID_NAME = 0;
+    static readonly int NAME_IS_TOO_SHORT = 1;
+    static readonly int NAME_ALREADY_EXISTS = 2;
+    static readonly int CANNOT_CREATE_ADDITIONAL_CHARACTERS = 3;
+    static readonly int SUCCESS = 100;
 
     public CharacterCreationRequest(GameClient client, ReceivablePacket packet)
     {
@@ -122,7 +122,7 @@ public class CharacterCreationRequest
         try
         {
             MySqlConnection con = DatabaseManager.GetConnection();
-            MySqlCommand cmd = new MySqlCommand(CHARACTER_SELECTED_RESET_QUERY, con);
+            MySqlCommand cmd = new MySqlCommand(CHARACTER_CREATE_QUERY, con);
             cmd.Parameters.AddWithValue("account", client.GetAccountName());
             cmd.Parameters.AddWithValue("name", characterName);
             cmd.Parameters.AddWithValue("slot", lastCharacterSlot + 1);

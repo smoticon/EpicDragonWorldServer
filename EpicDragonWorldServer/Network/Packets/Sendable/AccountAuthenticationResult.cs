@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-public class AccountAuthenticationResult : SendablePacket
+class AccountAuthenticationResult : SendablePacket
 {
     public AccountAuthenticationResult(int result)
     {
