@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
  */
 class LogManager
 {
-    static readonly string LOG_PATH = "Log\\";
+    static readonly string LOG_PATH = "Log" + Path.DirectorySeparatorChar;
     static readonly string LOG_FILE_CONSOLE = "Console ";
     static readonly string LOG_FILE_WORLD = "World ";
     static readonly string LOG_FILE_CHAT = "Chat ";

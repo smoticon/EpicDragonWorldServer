@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.IO;
 
 /**
  * Author: Pantelis Andrianakis
@@ -9,10 +10,10 @@ class Config
     // --------------------------------------------------
     // Config File Definitions
     // --------------------------------------------------
-    static readonly string ACCOUNT_CONFIG_FILE = "Config\\Account.ini";
-    static readonly string LOGGING_CONFIG_FILE = "Config\\Logging.ini";
-    static readonly string PLAYER_CONFIG_FILE = "Config\\Player.ini";
-    static readonly string SERVER_CONFIG_FILE = "Config\\Server.ini";
+	static readonly string ACCOUNT_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Account.ini";
+	static readonly string LOGGING_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Logging.ini";
+	static readonly string PLAYER_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Player.ini";
+	static readonly string SERVER_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Server.ini";
 
     // --------------------------------------------------
     // Account
