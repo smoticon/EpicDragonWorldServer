@@ -6,9 +6,9 @@
  */
 class WorldObject
 {
-    readonly long objectId = IdManager.GetNextId();
-    readonly DateTime spawnTime = DateTime.Now;
-    LocationHolder location = new LocationHolder(0, -1000, 0);
+    private readonly long objectId = IdManager.GetNextId();
+    private readonly DateTime spawnTime = DateTime.Now;
+    private LocationHolder location = new LocationHolder(0, -1000, 0);
 
     public long GetObjectId()
     {

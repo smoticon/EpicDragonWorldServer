@@ -28,8 +28,13 @@ class CharacterSelectionInfoResult : SendablePacket
                 characterData.SetName(reader.GetString("name"));
                 characterData.SetSlot((byte)reader.GetInt16("slot")); // TODO: Remove cast?
                 characterData.SetSelected(reader.GetBoolean("selected"));
-                characterData.SetClassId((byte)reader.GetInt16("class_id")); // TODO: Remove cast?
-                characterData.SetLocationName(reader.GetString("location_name"));
+                characterData.SetRace((byte)reader.GetInt16("race")); // TODO: Remove cast?
+                characterData.SetHeight(reader.GetFloat("height"));
+                characterData.SetBelly(reader.GetFloat("belly"));
+                characterData.SetHairType((byte)reader.GetInt16("hair_type")); // TODO: Remove cast?
+                characterData.SetHairColor(reader.GetInt32("hair_color"));
+                characterData.SetSkinColor(reader.GetInt32("skin_color"));
+                characterData.SetEyeColor(reader.GetInt32("eye_color"));
                 characterData.SetX(reader.GetFloat("x"));
                 characterData.SetY(reader.GetFloat("y"));
                 characterData.SetZ(reader.GetFloat("z"));
@@ -55,8 +60,13 @@ class CharacterSelectionInfoResult : SendablePacket
             WriteString(characterData.GetName());
             WriteByte(characterData.GetSlot());
             WriteByte(characterData.IsSelected() ? 1 : 0);
-            WriteByte(characterData.GetClassId());
-            WriteString(characterData.GetLocationName());
+            WriteByte(characterData.GetRace());
+            WriteFloat(characterData.GetHeight());
+            WriteFloat(characterData.GetBelly());
+            WriteByte(characterData.GetHairType());
+            WriteInt(characterData.GetHairColor());
+            WriteInt(characterData.GetSkinColor());
+            WriteInt(characterData.GetEyeColor());
             WriteFloat(characterData.GetX());
             WriteFloat(characterData.GetY());
             WriteFloat(characterData.GetZ());

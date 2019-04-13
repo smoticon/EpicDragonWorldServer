@@ -2,9 +2,9 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class MoveToLocation : SendablePacket
+class LocationUpdate : SendablePacket
 {
-    public MoveToLocation(WorldObject obj, float heading, int animState, int waterState)
+    public LocationUpdate(WorldObject obj, float heading)
     {
         // Send the data.
         WriteShort(9); // Packet id.
@@ -12,8 +12,6 @@ class MoveToLocation : SendablePacket
         WriteFloat(obj.GetLocation().GetX());
         WriteFloat(obj.GetLocation().GetY());
         WriteFloat(obj.GetLocation().GetZ());
-        WriteFloat(heading);
-        WriteShort(animState);
-        WriteByte(waterState);
+        WriteFloat(obj.GetLocation().GetHeading());
     }
 }

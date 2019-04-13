@@ -82,7 +82,7 @@ class GameClientNetworkListener
         byte[] bufferData;
         short length; // Since we use short value, max length should be 32767.
 
-        while (!(tcpClient.Client.Poll(1, SelectMode.SelectRead) && !networkStream.DataAvailable))
+        while (!(tcpClient.Client.Poll(0, SelectMode.SelectRead) && !networkStream.DataAvailable))
         {
             try
             {
@@ -97,7 +97,9 @@ class GameClientNetworkListener
             }
             catch (Exception)
             {
-                // Connection closed from client side.
+                tcpClient.Close();
+                WorldManager.RemoveClient(gameClient);
+                break;
             }
         }
 

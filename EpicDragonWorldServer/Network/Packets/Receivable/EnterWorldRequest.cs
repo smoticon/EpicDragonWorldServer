@@ -15,8 +15,10 @@ class EnterWorldRequest
         WorldManager.AddObject(player);
         // Assign this player to client.
         client.SetActiveChar(player);
-        // Send active player information to client.
-        client.ChannelSend(new EnterWorldInformation(player));
+
+        // Send user interface information to client.
+        client.ChannelSend(new PlayerOptionsInformation(player));
+
         // Send and receive visible object information.
         PlayerInformation playerInfo = new PlayerInformation(player);
         foreach (Player nearby in WorldManager.GetVisiblePlayers(player))

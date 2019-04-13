@@ -4,12 +4,9 @@
  */
 class Logout : SendablePacket
 {
-    public Logout(string accountName)
+    public Logout()
     {
         // Send the data.
         WriteShort(8); // Packet id.
-
-        // Extreme case precaution in case of client crash or forced close.
-        WorldManager.RemoveClientByAccountName(accountName);
     }
 }

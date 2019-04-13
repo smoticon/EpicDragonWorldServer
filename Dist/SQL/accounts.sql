@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `accounts` (
+CREATE TABLE IF NOT EXISTS `character_interfaces` (
   `account` varchar(20) NOT NULL DEFAULT '',
   `password` varchar(64) NOT NULL, # MD5 hash
   `email` varchar(100) NOT NULL DEFAULT '',

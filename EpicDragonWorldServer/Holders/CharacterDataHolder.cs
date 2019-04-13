@@ -4,19 +4,24 @@
  */
 class CharacterDataHolder
 {
-    string name = "";
-    byte slot = 0;
-    bool selected = false;
-    byte classId = 0;
-    string locationName = "";
-    float x = 0;
-    float y = 0;
-    float z = 0;
-    float heading = 0;
-    long experience = 0;
-    long hp = 0;
-    long mp = 0;
-    byte accessLevel = 0;
+    private string name = "";
+    private byte slot = 0;
+    private bool selected = false;
+    private byte race = 0;
+    private float height = 0.5f;
+    private float belly = 0.5f;
+    private int hairType = 0;
+    private int hairColor = 2695723;
+    private int skinColor = 15847869;
+    private int eyeColor = 2695723;
+    private float x = 0;
+    private float y = 0;
+    private float z = 0;
+    private float heading = 0;
+    private long experience = 0;
+    private long hp = 0;
+    private long mp = 0;
+    private byte accessLevel = 0;
 
     public string GetName()
     {
@@ -48,24 +53,74 @@ class CharacterDataHolder
         this.selected = selected;
     }
 
-    public byte GetClassId()
+    public byte GetRace()
     {
-        return classId;
+        return race;
     }
 
-    public void SetClassId(byte classId)
+    public void SetRace(byte race)
     {
-        this.classId = classId;
+        this.race = race;
     }
 
-    public string GetLocationName()
+    public float GetHeight()
     {
-        return locationName;
+        return height;
     }
 
-    public void SetLocationName(string locationName)
+    public void SetHeight(float height)
     {
-        this.locationName = locationName;
+        this.height = height;
+    }
+
+    public float GetBelly()
+    {
+        return belly;
+    }
+
+    public void SetBelly(float belly)
+    {
+        this.belly = belly;
+    }
+
+    public int GetHairType()
+    {
+        return hairType;
+    }
+
+    public void SetHairType(int hairType)
+    {
+        this.hairType = hairType;
+    }
+
+    public int GetHairColor()
+    {
+        return hairColor;
+    }
+
+    public void SetHairColor(int hairColor)
+    {
+        this.hairColor = hairColor;
+    }
+
+    public int GetSkinColor()
+    {
+        return skinColor;
+    }
+
+    public void SetSkinColor(int skinColor)
+    {
+        this.skinColor = skinColor;
+    }
+
+    public int GetEyeColor()
+    {
+        return eyeColor;
+    }
+
+    public void SetEyeColor(int eyeColor)
+    {
+        this.eyeColor = eyeColor;
     }
 
     public float GetX()

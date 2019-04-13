@@ -37,14 +37,26 @@ class GameClientPacketHandler
                 break;
 
             case 8:
-                new LocationUpdate(client, packet);
+                new ExitWorldRequest(client, packet);
                 break;
 
             case 9:
-                new ObjectInfoRequest(client, packet);
+                new LocationUpdateRequest(client, packet);
                 break;
 
             case 10:
+                new AnimatorUpdateRequest(client, packet);
+                break;
+
+            case 11:
+                new ObjectInfoRequest(client, packet);
+                break;
+
+            case 12:
+                new PlayerOptionsUpdate(client, packet);
+                break;
+
+            case 13:
                 new ChatRequest(client, packet);
                 break;
         }

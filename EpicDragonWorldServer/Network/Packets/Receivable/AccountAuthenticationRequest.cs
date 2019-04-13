@@ -105,7 +105,7 @@ class AccountAuthenticationRequest
         GameClient existingClient = WorldManager.GetClientByAccountName(accountName);
         if (existingClient != null)
         {
-            existingClient.ChannelSend(new Logout(accountName));
+            existingClient.ChannelSend(new Logout());
             client.ChannelSend(new AccountAuthenticationResult(STATUS_ALREADY_ONLINE));
             return;
         }

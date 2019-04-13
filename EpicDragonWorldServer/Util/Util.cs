@@ -1,4 +1,6 @@
-﻿/**
+﻿using System.Globalization;
+
+/**
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
@@ -25,4 +27,9 @@ class Util
         '(',
         ')'
     };
+
+    public static int HexStringToInt(string hex)
+    {
+        return int.Parse(hex, NumberStyles.HexNumber);
+    }
 }

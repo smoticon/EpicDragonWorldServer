@@ -8,10 +8,10 @@ using System.Linq;
  */
 class WorldManager
 {
-    static readonly BlockingCollection<GameClient> ONLINE_CLIENTS = new BlockingCollection<GameClient>();
-    static readonly ConcurrentDictionary<long, Player> PLAYER_OBJECTS = new ConcurrentDictionary<long, Player>();
-    static readonly ConcurrentDictionary<long, WorldObject> GAME_OBJECTS = new ConcurrentDictionary<long, WorldObject>();
-    static readonly int VISIBILITY_RADIUS = 10050; // Needs to be slightly bigger than the client limit.
+    private static readonly BlockingCollection<GameClient> ONLINE_CLIENTS = new BlockingCollection<GameClient>();
+    private static readonly ConcurrentDictionary<long, Player> PLAYER_OBJECTS = new ConcurrentDictionary<long, Player>();
+    private static readonly ConcurrentDictionary<long, WorldObject> GAME_OBJECTS = new ConcurrentDictionary<long, WorldObject>();
+    public static readonly int VISIBILITY_RADIUS = 10050; // Needs to be slightly bigger than the client limit.
     // TODO: Separate data to WorldRegions.
 
     public static void AddObject(WorldObject obj)
@@ -68,7 +68,7 @@ class WorldManager
         List<WorldObject> result = new List<WorldObject>();
         foreach (Player player in PLAYER_OBJECTS.Values)
         {
-            if (player == obj)
+            if (player.GetObjectId() == obj.GetObjectId())
             {
                 continue;
             }
@@ -79,7 +79,7 @@ class WorldManager
         }
         foreach (WorldObject wo in GAME_OBJECTS.Values)
         {
-            if (wo == obj)
+            if (wo.GetObjectId() == obj.GetObjectId())
             {
                 continue;
             }
@@ -96,7 +96,7 @@ class WorldManager
         List<Player> result = new List<Player>();
         foreach (Player player in PLAYER_OBJECTS.Values)
         {
-            if (player == obj)
+            if (player.GetObjectId() == obj.GetObjectId())
             {
                 continue;
             }
@@ -153,18 +153,6 @@ class WorldManager
 
         // Remove from list.
         ONLINE_CLIENTS.TryTake(out client);
-    }
-
-    public static void RemoveClientByAccountName(string accountName)
-    {
-        foreach (GameClient client in ONLINE_CLIENTS)
-        {
-            if (client.GetAccountName().Equals(accountName))
-            {
-                RemoveClient(client);
-                break;
-            }
-        }
     }
 
     public static GameClient GetClientByAccountName(string accountName)

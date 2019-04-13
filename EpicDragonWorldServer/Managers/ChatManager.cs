@@ -44,8 +44,8 @@ class ChatManager
             else
             {
                 // Step by step cleanup, to avoid problems with extra/double spaces on original message.
-                message = message.Substring(lowercaseMessageSplit[0].Length, message.Length).Trim(); // Remove command.
-                message = message.Substring(lowercaseMessageSplit[1].Length, message.Length).Trim(); // Remove receiver name.
+                message = message.Substring(lowercaseMessageSplit[0].Length, message.Length - lowercaseMessageSplit[0].Length).Trim(); // Remove command.
+                message = message.Substring(lowercaseMessageSplit[1].Length, message.Length - lowercaseMessageSplit[1].Length).Trim(); // Remove receiver name.
                 sender.ChannelSend(new ChatResult(CHAT_TYPE_MESSAGE, MSG_TO + receiver.GetName(), message));
                 receiver.ChannelSend(new ChatResult(CHAT_TYPE_MESSAGE, sender.GetName(), message));
                 // Log chat.

@@ -8,10 +8,11 @@ using System.Collections.Generic;
  */
 class CharacterDeletionRequest
 {
-    static readonly string ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE account=@account ORDER BY slot ASC";
-    static readonly string CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=@slot, selected=@selected WHERE account=@account AND name=@name";
-    static readonly string CHARACTER_DELETION_QUERY = "UPDATE characters SET name=@name, access_level='-1' WHERE account=@account AND name=@oldname";
-    static readonly string CHARACTER_ITEM_DELETION_QUERY = "UPDATE character_items SET owner=@owner WHERE owner=@oldowner";
+    private static readonly string ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE account=@account ORDER BY slot ASC";
+    private static readonly string CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=@slot, selected=@selected WHERE account=@account AND name=@name";
+    private static readonly string CHARACTER_DELETION_QUERY = "UPDATE characters SET name=@name, access_level='-1' WHERE account=@account AND name=@oldname";
+    private static readonly string CHARACTER_ITEM_DELETION_QUERY = "UPDATE character_items SET owner=@owner WHERE owner=@oldowner";
+    private static readonly string CHARACTER_INTERFACE_DELETION_QUERY = "UPDATE character_options SET name=@name WHERE name=@oldname";
 
     public CharacterDeletionRequest(GameClient client, ReceivablePacket packet)
     {
@@ -70,6 +71,21 @@ class CharacterDeletionRequest
             MySqlCommand cmd = new MySqlCommand(CHARACTER_ITEM_DELETION_QUERY, con);
             cmd.Parameters.AddWithValue("owner", deletedCharacterName + deleteTime);
             cmd.Parameters.AddWithValue("oldowner", deletedCharacterName);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+        catch (Exception e)
+        {
+            LogManager.Log(e.ToString());
+        }
+
+        // Delete character interface. (Same as above, change interface name to name + deletion time.)
+        try
+        {
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(CHARACTER_INTERFACE_DELETION_QUERY, con);
+            cmd.Parameters.AddWithValue("name", deletedCharacterName + deleteTime);
+            cmd.Parameters.AddWithValue("oldname", deletedCharacterName);
             cmd.ExecuteNonQuery();
             con.Close();
         }

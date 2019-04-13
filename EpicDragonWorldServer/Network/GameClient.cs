@@ -7,10 +7,10 @@ using System.Net.Sockets;
  */
 class GameClient
 {
-    readonly NetworkStream networkStream;
-    readonly string ip;
-    string accountName = "";
-    Player activeChar;
+    private readonly NetworkStream networkStream;
+    private readonly string ip;
+    private string accountName = "";
+    private Player activeChar;
 
     public GameClient(NetworkStream stream, string address)
     {
