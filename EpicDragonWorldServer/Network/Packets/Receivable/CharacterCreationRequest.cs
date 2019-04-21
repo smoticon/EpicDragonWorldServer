@@ -58,8 +58,8 @@ class CharacterCreationRequest
         // Visual exploit checks.
         if ((race < 0 || race > 1)
             || (height < 0.39 || height > 0.61)
-            || (hairType < 0 || hairType > 4)
-            || (!Config.VALID_SKIN_COLORS.Contains(skinColor)))
+            || (hairType < 0 || hairType > 3)
+            /*|| (!Config.VALID_SKIN_COLORS.Contains(skinColor))*/) // TODO: Check palette.
         {
             client.ChannelSend(new CharacterCreationResult(INVALID_PARAMETERS));
             return;
