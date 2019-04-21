@@ -11,7 +11,7 @@ class WorldManager
     private static readonly BlockingCollection<GameClient> ONLINE_CLIENTS = new BlockingCollection<GameClient>();
     private static readonly ConcurrentDictionary<long, Player> PLAYER_OBJECTS = new ConcurrentDictionary<long, Player>();
     private static readonly ConcurrentDictionary<long, WorldObject> GAME_OBJECTS = new ConcurrentDictionary<long, WorldObject>();
-    public static readonly int VISIBILITY_RADIUS = 10050; // Needs to be slightly bigger than the client limit.
+    public static readonly int VISIBILITY_RADIUS = 10000;
     // TODO: Separate data to WorldRegions.
 
     public static void AddObject(WorldObject obj)
@@ -100,7 +100,7 @@ class WorldManager
             {
                 continue;
             }
-            if (obj.CalculateDistance(player) < VISIBILITY_RADIUS)
+            if (obj.CalculateDistance(player) < VISIBILITY_RADIUS + 500) // Need the extra distance to send location of objects getting out of range.
             {
                 result.Add(player);
             }
