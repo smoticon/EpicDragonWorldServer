@@ -15,26 +15,21 @@ class LocationUpdateRequest
         // Get player.
         Player player = client.GetActiveChar();
 
-        // This number can be smaller than visibility radius, but not bigger.
-        // Use smaller values for speed hack checks.
-        if (player.CalculateDistance(posX, posY, posZ) < WorldManager.VISIBILITY_RADIUS)
+        // Check if player is outside of world bounds.
+        if (posX < Config.WORLD_MINIMUM_X || posX > Config.WORLD_MAXIMUM_X || posY < Config.WORLD_MINIMUM_Y || posY > Config.WORLD_MAXIMUM_Y || posZ < Config.WORLD_MINIMUM_Z || posZ > Config.WORLD_MAXIMUM_Z)
         {
-            // Update player location.
-            player.SetLocation(new LocationHolder(posX, posY, posZ, heading));
+            client.ChannelSend(new Logout());
+            return;
+        }
 
-            // Check if player is outside of world bounds.
-            if (posX < Config.WORLD_MINIMUM_X || posX > Config.WORLD_MAXIMUM_X || posY < Config.WORLD_MINIMUM_Y || posY > Config.WORLD_MAXIMUM_Y || posZ < Config.WORLD_MINIMUM_Z || posZ > Config.WORLD_MAXIMUM_Z)
-            {
-                client.ChannelSend(new Logout());
-                return;
-            }
+        // Update player location.
+        player.SetLocation(new LocationHolder(posX, posY, posZ, heading));
 
-            // Broadcast movement.
-            LocationUpdate locationUpdate = new LocationUpdate(player, heading);
-            foreach (Player nearby in WorldManager.GetVisiblePlayers(player))
-            {
-                nearby.ChannelSend(locationUpdate);
-            }
+        // Broadcast movement.
+        LocationUpdate locationUpdate = new LocationUpdate(player, heading);
+        foreach (Player nearby in WorldManager.GetVisiblePlayers(player))
+        {
+            nearby.ChannelSend(locationUpdate);
         }
     }
 }

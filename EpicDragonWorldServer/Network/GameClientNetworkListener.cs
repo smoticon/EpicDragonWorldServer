@@ -97,6 +97,7 @@ class GameClientNetworkListener
             }
             catch (Exception)
             {
+                // When client is disconnected remove player from the world.
                 tcpClient.Close();
                 WorldManager.RemoveClient(gameClient);
                 break;
