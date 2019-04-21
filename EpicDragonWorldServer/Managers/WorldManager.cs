@@ -100,7 +100,7 @@ class WorldManager
             {
                 continue;
             }
-            if (obj.CalculateDistance(player) < VISIBILITY_RADIUS + 500) // Need the extra distance to send location of objects getting out of range.
+            if (obj.CalculateDistance(player) < VISIBILITY_RADIUS + 100) // Need the extra distance to send location of objects getting out of range.
             {
                 result.Add(player);
             }
