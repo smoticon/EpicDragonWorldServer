@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 /**
  * Author: Pantelis Andrianakis
@@ -25,6 +26,7 @@ class WorldObject
         return location;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void SetLocation(LocationHolder location)
     {
         this.location = location;
