@@ -1,4 +1,6 @@
-﻿/**
+﻿using System.Threading.Tasks;
+
+/**
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
@@ -19,12 +21,19 @@ class EnterWorldRequest
         // Send user interface information to client.
         client.ChannelSend(new PlayerOptionsInformation(player));
 
+        // Use a task to send and receive nearby player information,
+        // because we need to have player initialization be complete in client side.
+        Task.Delay(1000).ContinueWith(task => BroadcastAndReceiveInfo(player));
+    }
+
+    private void BroadcastAndReceiveInfo(Player player)
+    {
         // Send and receive visible object information.
         PlayerInformation playerInfo = new PlayerInformation(player);
         foreach (Player nearby in WorldManager.GetVisiblePlayers(player))
         {
             // Send the information to the current player.
-            client.ChannelSend(new PlayerInformation(nearby));
+            player.ChannelSend(new PlayerInformation(nearby));
             // Send information to the other player as well.
             nearby.ChannelSend(playerInfo);
         }
