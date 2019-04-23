@@ -3,7 +3,7 @@
 
 ## Progress
 - Connect to Unity3D client.
-- Load configs from files.
+- Load configurations from files.
 - File logger for logs.
 - MySql database manager.
 - Packet communication.
@@ -14,4 +14,4 @@
 - Chat and messaging.
 
 ### You can see the latest development progress on YouTube.
-[![Video demonstration](https://img.youtube.com/vi/e28z8jHUR-0/0.jpg)](https://www.youtube.com/watch?v=ZnFbbdPDezw&list=PLNuit1aMUWTDRll1MGF7Cqn_lX-BqKpZn&index=4)
+[![Video demonstration](https://img.youtube.com/vi/ZnFbbdPDezw/0.jpg)](https://www.youtube.com/watch?v=ZnFbbdPDezw&list=PLNuit1aMUWTDRll1MGF7Cqn_lX-BqKpZn&index=4)

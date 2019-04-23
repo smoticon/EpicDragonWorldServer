@@ -20,7 +20,7 @@ class ConfigReader
         {
             foreach (string row in File.ReadAllLines(fileName))
             {
-                if (!row.StartsWith('#') && row.Trim().Length > 0)
+                if (!row.StartsWith("#") && row.Trim().Length > 0)
                 {
                     string[] rowSplit = row.Split('=');
                     if (rowSplit.Length > 1)
