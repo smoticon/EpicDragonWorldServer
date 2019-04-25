@@ -28,7 +28,7 @@ public class LogManager
         string fileName = LOG_PATH + prefix + date + LOG_FILE_EXT;
         if (Config.LOG_FILE_SIZE_LIMIT_ENABLED && File.Exists(fileName))
         {
-            int counter = 0;
+            int counter = 1;
             long fileSize = new FileInfo(fileName).Length;
             while (fileSize >= Config.LOG_FILE_SIZE_LIMIT)
             {
