@@ -28,6 +28,8 @@ class Config
     // --------------------------------------------------
     // Logging
     // --------------------------------------------------
+    public static bool LOG_FILE_SIZE_LIMIT_ENABLED = false; // Must be set before configs load.
+    public static long LOG_FILE_SIZE_LIMIT = 1073741824; // Must be set before configs load.
     public static bool LOG_CHAT;
     public static bool LOG_WORLD;
 
@@ -60,13 +62,18 @@ class Config
 
     public static void Load()
     {
+        Util.PrintSection("Configs");
+
+        // Initialize first so we can use logs as configured.
+        ConfigReader loggingConfigs = new ConfigReader(LOGGING_CONFIG_FILE);
+        LOG_FILE_SIZE_LIMIT_ENABLED = loggingConfigs.GetBool("LogFileSizeLimitEnabled", false);
+        LOG_FILE_SIZE_LIMIT = loggingConfigs.GetLong("LogFileSizeLimit", 1073741824);
+        LOG_CHAT = loggingConfigs.GetBool("LogChat", true);
+        LOG_WORLD = loggingConfigs.GetBool("LogWorld", true);
+
         ConfigReader accountConfigs = new ConfigReader(ACCOUNT_CONFIG_FILE);
         ACCOUNT_AUTO_CREATE = accountConfigs.GetBool("AccountAutoCreate", false);
         ACCOUNT_MAX_CHARACTERS = accountConfigs.GetInt("AccountMaxCharacters", 5);
-
-        ConfigReader loggingConfigs = new ConfigReader(LOGGING_CONFIG_FILE);
-        LOG_CHAT = loggingConfigs.GetBool("LogChat", true);
-        LOG_WORLD = loggingConfigs.GetBool("LogWorld", true);
 
         ConfigReader playerConfigs = new ConfigReader(PLAYER_CONFIG_FILE);
         string[] startingLocation = playerConfigs.GetString("StartingLocation", "3924.109;67.42678;2329.238").Split(";");

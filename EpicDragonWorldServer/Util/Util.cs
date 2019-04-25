@@ -4,10 +4,20 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class Util
+public class Util
 {
+    public static void PrintSection(string section)
+    {
+        section = "=[ " + section + " ]";
+        while (section.Length < 62)
+        {
+            section = "-" + section;
+        }
+        LogManager.Log(section);
+    }
+
     public static char[] ILLEGAL_CHARACTERS =
-{
+    {
         '/',
         '\n',
         '\r',

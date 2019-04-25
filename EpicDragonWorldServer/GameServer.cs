@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
  */
 class GameServer
 {
-    static readonly ManualResetEvent quitEvent = new ManualResetEvent(false);
+    private static readonly ManualResetEvent quitEvent = new ManualResetEvent(false);
 
     static void Main(string[] args)
     {
@@ -19,17 +18,12 @@ class GameServer
         // Keep start time for later.
         DateTime serverLoadStart = DateTime.Now;
 
-        // Create Log directory used by LogManager.
-        Directory.CreateDirectory("Log");
-
-        PrintSection("Configs");
+        LogManager.Init();
         Config.Load();
-
-        PrintSection("Database");
         DatabaseManager.Init();
 
         // Post info.
-        PrintSection("Info");
+        Util.PrintSection("Info");
         LogManager.Log("Server loaded in " + (DateTime.Now - serverLoadStart).TotalSeconds + " seconds.");
 
         // Initialize async network listening.
@@ -42,15 +36,5 @@ class GameServer
             eArgs.Cancel = true;
         };
         quitEvent.WaitOne();
-    }
-
-    static void PrintSection(string section)
-    {
-        section = "=[ " + section + " ]";
-        while (section.Length < 62)
-        {
-            section = "-" + section;
-        }
-        LogManager.Log(section);
     }
 }

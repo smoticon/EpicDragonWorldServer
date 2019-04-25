@@ -14,6 +14,8 @@ class DatabaseManager
 
     public static void Init()
     {
+        Util.PrintSection("Database");
+
         try
         {
             for (int i = 0; i < Config.DATABASE_MAX_CONNECTIONS; i++)
@@ -30,6 +32,7 @@ class DatabaseManager
         {
             LogManager.Log(e.ToString());
         }
+
         LogManager.Log("Database: Initialized.");
     }
 
