@@ -31,18 +31,17 @@ public class WorldObject
     public void SetLocation(LocationHolder location)
     {
         this.location = location;
+
         // When changing location test for appropriate region.
         RegionHolder testRegion = WorldManager.GetRegion(this);
-        if (region == null)
+        if (!testRegion.Equals(region))
         {
+            if (region != null)
+            {
+                region.RemoveObject(objectId);
+            }
             region = testRegion;
             region.AddObject(this);
-        }
-        else if (!testRegion.Equals(region))
-        {
-            region.RemoveObject(objectId);
-            testRegion.AddObject(this);
-            region = testRegion;
         }
     }
 
