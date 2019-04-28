@@ -5,7 +5,7 @@ using System;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class Player : Creature
+public class Player : Creature
 {
     private static readonly string RESTORE_CHARACTER = "SELECT * FROM characters WHERE name=@name";
     private static readonly string STORE_CHARACTER = "UPDATE characters SET name=@name, race=@race, x=@x, y=@y, z=@z, heading=@heading, experience=@experience, hp=@hp, mp=@mp WHERE account=@account AND name=@name";
@@ -165,5 +165,10 @@ class Player : Creature
     public override Player AsPlayer()
     {
         return this;
+    }
+
+    public override String ToString()
+    {
+        return "Player [" + name + "]";
     }
 }

@@ -6,9 +6,9 @@ using System.Text;
  * Author: Pantelis Andrianakis
  * Date: December 23rd 2017
  */
-class SendablePacket
+public class SendablePacket
 {
-    MemoryStream memoryStream;
+    readonly MemoryStream memoryStream;
 
     public SendablePacket()
     {

@@ -25,7 +25,7 @@ class ChatManager
         if (lowercaseMessage.Equals(COMMAND_LOCATION))
         {
             LocationHolder location = sender.GetLocation();
-            sender.ChannelSend(new ChatResult(CHAT_TYPE_SYSTEM, SYS_NAME, "Your location is " + location.GetX() + " " + location.GetY() + " " + location.GetZ()));
+            sender.ChannelSend(new ChatResult(CHAT_TYPE_SYSTEM, SYS_NAME, "Your location is " + location.GetX() + " " + location.GetZ() + " " + location.GetY()));
         }
         else if (lowercaseMessage.StartsWith(COMMAND_PERSONAL_MESSAGE))
         {

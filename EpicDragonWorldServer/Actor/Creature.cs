@@ -1,8 +1,10 @@
-﻿/**
+﻿using System;
+
+/**
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class Creature : WorldObject
+public class Creature : WorldObject
 {
     private long currentHp = 0;
     private long currentMp = 0;
@@ -35,5 +37,10 @@ class Creature : WorldObject
     public override Creature AsCreature()
     {
         return this;
+    }
+
+    public override String ToString()
+    {
+        return "Creature [" + GetObjectId() + "]";
     }
 }

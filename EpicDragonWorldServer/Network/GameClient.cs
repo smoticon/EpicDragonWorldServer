@@ -5,7 +5,7 @@ using System.Net.Sockets;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class GameClient
+public class GameClient
 {
     private readonly NetworkStream networkStream;
     private readonly string ip;

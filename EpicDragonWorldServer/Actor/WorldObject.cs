@@ -5,11 +5,12 @@ using System.Runtime.CompilerServices;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class WorldObject
+public class WorldObject
 {
     private readonly long objectId = IdManager.GetNextId();
     private readonly DateTime spawnTime = DateTime.Now;
     private LocationHolder location = new LocationHolder(0, -1000, 0);
+    private RegionHolder region = null;
 
     public long GetObjectId()
     {
@@ -30,6 +31,24 @@ class WorldObject
     public void SetLocation(LocationHolder location)
     {
         this.location = location;
+        // When changing location test for appropriate region.
+        RegionHolder testRegion = WorldManager.GetRegion(this);
+        if (region == null)
+        {
+            region = testRegion;
+            region.AddObject(this);
+        }
+        else if (!testRegion.Equals(region))
+        {
+            region.RemoveObject(objectId);
+            testRegion.AddObject(this);
+            region = testRegion;
+        }
+    }
+
+    public RegionHolder GetRegion()
+    {
+        return region;
     }
 
     /**
@@ -121,4 +140,9 @@ class WorldObject
     //{
     //    return null;
     //}
+
+    public override String ToString()
+    {
+        return "WorldObject [" + objectId + "]";
+    }
 }

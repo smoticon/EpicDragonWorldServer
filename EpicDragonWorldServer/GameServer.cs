@@ -21,6 +21,7 @@ class GameServer
         LogManager.Init();
         Config.Load();
         DatabaseManager.Init();
+        WorldManager.Init();
 
         // Post info.
         Util.PrintSection("Info");

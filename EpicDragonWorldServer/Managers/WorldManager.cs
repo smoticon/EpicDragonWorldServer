@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,13 +7,76 @@ using System.Linq;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class WorldManager
+public class WorldManager
 {
+    public static readonly int VISIBILITY_RADIUS = 10000;
+    public static readonly int MOVEMENT_BROADCAST_RADIUS = VISIBILITY_RADIUS + 100; // Need the extra distance to send location of objects getting out of range.
+    private static readonly double REGION_RADIUS = Math.Sqrt(VISIBILITY_RADIUS);
+    private static readonly int REGION_SIZE_X = (int)(Config.WORLD_MAXIMUM_X / REGION_RADIUS);
+    private static readonly int REGION_SIZE_Z = (int)(Config.WORLD_MAXIMUM_Z / REGION_RADIUS);
+    private static readonly RegionHolder[][] REGIONS = new RegionHolder[REGION_SIZE_X][];
     private static readonly BlockingCollection<GameClient> ONLINE_CLIENTS = new BlockingCollection<GameClient>();
     private static readonly ConcurrentDictionary<long, Player> PLAYER_OBJECTS = new ConcurrentDictionary<long, Player>();
-    private static readonly ConcurrentDictionary<long, WorldObject> GAME_OBJECTS = new ConcurrentDictionary<long, WorldObject>();
-    public static readonly int VISIBILITY_RADIUS = 10000;
-    // TODO: Separate data to WorldRegions.
+
+    public static void Init()
+    {
+        Util.PrintSection("World");
+
+        // Initialize regions.
+        for (int x = 0; x < REGION_SIZE_X; x++)
+        {
+            REGIONS[x] = new RegionHolder[REGION_SIZE_Z];
+            for (int z = 0; z < REGION_SIZE_Z; z++)
+            {
+                REGIONS[x][z] = new RegionHolder(x, z);
+            }
+        }
+
+        // Set surrounding regions.
+        for (int x = 0; x < REGION_SIZE_X; x++)
+        {
+            for (int z = 0; z < REGION_SIZE_Z; z++)
+            {
+                List<RegionHolder> surroundingRegions = new List<RegionHolder>();
+                for (int sx = x - 1; sx <= (x + 1); sx++)
+                {
+                    for (int sz = z - 1; sz <= (z + 1); sz++)
+                    {
+                        if (((sx >= 0) && (sx < REGION_SIZE_X) && (sz >= 0) && (sz < REGION_SIZE_Z)))
+                        {
+                            surroundingRegions.Add(REGIONS[sx][sz]);
+                        }
+                    }
+                }
+                REGIONS[x][z].SetSurroundingRegions(surroundingRegions.ToArray<RegionHolder>());
+            }
+        }
+
+        LogManager.Log("WorldManager: Initialized " + REGION_SIZE_X + "x" + REGION_SIZE_Z + " regions.");
+    }
+
+    public static RegionHolder GetRegion(WorldObject obj)
+    {
+        int x = (int)(obj.GetLocation().GetX() / REGION_RADIUS);
+        int z = (int)(obj.GetLocation().GetZ() / REGION_RADIUS);
+        if (x < 0)
+        {
+            x = 0;
+        }
+        if (z < 0)
+        {
+            z = 0;
+        }
+        if (x >= REGION_SIZE_X)
+        {
+            x = REGION_SIZE_X - 1;
+        }
+        if (z >= REGION_SIZE_Z)
+        {
+            z = REGION_SIZE_Z - 1;
+        }
+        return REGIONS[x][z];
+    }
 
     public static void AddObject(WorldObject obj)
     {
@@ -29,10 +93,6 @@ class WorldManager
                     LogManager.LogWorld("Player [" + obj.AsPlayer().GetName() + "] Account [" + obj.AsPlayer().GetClient().GetAccountName() + "] Entered the world.");
                 }
             }
-        }
-        else if (!GAME_OBJECTS.Values.Contains(obj))
-        {
-            GAME_OBJECTS.TryAdd(obj.GetObjectId(), obj);
         }
     }
 
@@ -57,35 +117,25 @@ class WorldManager
                 LogManager.LogWorld("Player [" + obj.AsPlayer().GetName() + "] Account [" + obj.AsPlayer().GetClient().GetAccountName() + "] Left the world.");
             }
         }
-        else
-        {
-            ((IDictionary<long, WorldObject>)GAME_OBJECTS).Remove(obj.GetObjectId());
-        }
+
+        obj.GetRegion().RemoveObject(obj.GetObjectId());
     }
 
     public static List<WorldObject> GetVisibleObjects(WorldObject obj)
     {
         List<WorldObject> result = new List<WorldObject>();
-        foreach (Player player in PLAYER_OBJECTS.Values)
+        foreach (RegionHolder region in obj.GetRegion().GetSurroundingRegions())
         {
-            if (player.GetObjectId() == obj.GetObjectId())
+            foreach (WorldObject wo in region.GetObjects())
             {
-                continue;
-            }
-            if (obj.CalculateDistance(player) < VISIBILITY_RADIUS)
-            {
-                result.Add(player);
-            }
-        }
-        foreach (WorldObject wo in GAME_OBJECTS.Values)
-        {
-            if (wo.GetObjectId() == obj.GetObjectId())
-            {
-                continue;
-            }
-            if (obj.CalculateDistance(wo) < VISIBILITY_RADIUS)
-            {
-                result.Add(wo);
+                if (wo.GetObjectId() == obj.GetObjectId())
+                {
+                    continue;
+                }
+                if (obj.CalculateDistance(wo) < MOVEMENT_BROADCAST_RADIUS)
+                {
+                    result.Add(wo);
+                }
             }
         }
         return result;
@@ -94,27 +144,25 @@ class WorldManager
     public static List<Player> GetVisiblePlayers(WorldObject obj)
     {
         List<Player> result = new List<Player>();
-        foreach (Player player in PLAYER_OBJECTS.Values)
+        foreach (RegionHolder region in obj.GetRegion().GetSurroundingRegions())
         {
-            if (player.GetObjectId() == obj.GetObjectId())
+            foreach (WorldObject wo in region.GetObjects())
             {
-                continue;
-            }
-            if (obj.CalculateDistance(player) < VISIBILITY_RADIUS + 100) // Need the extra distance to send location of objects getting out of range.
-            {
-                result.Add(player);
+                if (!wo.IsPlayer())
+                {
+                    continue;
+                }
+                if (wo.GetObjectId() == obj.GetObjectId())
+                {
+                    continue;
+                }
+                if (obj.CalculateDistance(wo) < MOVEMENT_BROADCAST_RADIUS)
+                {
+                    result.Add(wo.AsPlayer());
+                }
             }
         }
         return result;
-    }
-
-    public static WorldObject GetObject(long objectId)
-    {
-        if (PLAYER_OBJECTS.ContainsKey(objectId))
-        {
-            return PLAYER_OBJECTS[objectId];
-        }
-        return GAME_OBJECTS[objectId];
     }
 
     public static Player GetPlayerByName(string name)

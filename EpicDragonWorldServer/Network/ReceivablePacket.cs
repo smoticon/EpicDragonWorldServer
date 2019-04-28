@@ -6,9 +6,9 @@ using System.Text;
  * Author: Pantelis Andrianakis
  * Date: December 23rd 2017
  */
-class ReceivablePacket
+public class ReceivablePacket
 {
-    MemoryStream memoryStream;
+    readonly MemoryStream memoryStream;
 
     public ReceivablePacket(byte[] bytes)
     {
