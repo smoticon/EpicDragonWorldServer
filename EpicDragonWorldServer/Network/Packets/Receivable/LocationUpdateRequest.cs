@@ -2,8 +2,10 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class LocationUpdateRequest
+public class LocationUpdateRequest
 {
+    private readonly static int MAX_MOVE_DISTANCE = 300;
+
     public LocationUpdateRequest(GameClient client, ReceivablePacket packet)
     {
         // Read data.
@@ -18,6 +20,15 @@ class LocationUpdateRequest
         // Check if player is outside of world bounds.
         if (posX < Config.WORLD_MINIMUM_X || posX > Config.WORLD_MAXIMUM_X || posY < Config.WORLD_MINIMUM_Y || posY > Config.WORLD_MAXIMUM_Y || posZ < Config.WORLD_MINIMUM_Z || posZ > Config.WORLD_MAXIMUM_Z)
         {
+            player.SetLocation(Config.STARTING_LOCATION);
+            client.ChannelSend(new Logout());
+            return;
+        }
+
+        // Check if player moved too far away via probable exploit.
+        if (!player.IsTeleporting() && player.CalculateDistance(posX, posY, posZ) > MAX_MOVE_DISTANCE)
+        {
+            player.SetLocation(Config.STARTING_LOCATION);
             client.ChannelSend(new Logout());
             return;
         }
@@ -26,7 +37,7 @@ class LocationUpdateRequest
         player.SetLocation(new LocationHolder(posX, posY, posZ, heading));
 
         // Broadcast movement.
-        LocationUpdate locationUpdate = new LocationUpdate(player, heading);
+        LocationUpdate locationUpdate = new LocationUpdate(player);
         foreach (Player nearby in WorldManager.GetVisiblePlayers(player))
         {
             nearby.ChannelSend(locationUpdate);

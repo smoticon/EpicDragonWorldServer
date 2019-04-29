@@ -2,13 +2,30 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class LocationUpdate : SendablePacket
+public class LocationUpdate : SendablePacket
 {
-    public LocationUpdate(WorldObject obj, float heading)
+    readonly WorldObject obj;
+    readonly bool teleport;
+
+    public LocationUpdate(WorldObject obj)
     {
-        // Send the data.
+        this.obj = obj;
+        teleport = false;
+        WriteData();
+    }
+
+    // Only used for client active player teleports.
+    public LocationUpdate(WorldObject obj, bool teleport)
+    {
+        this.obj = obj;
+        this.teleport = teleport;
+        WriteData();
+    }
+
+    private void WriteData()
+    {
         WriteShort(9); // Packet id.
-        WriteLong(obj.GetObjectId());
+        WriteLong(teleport ? 0 : obj.GetObjectId());
         WriteFloat(obj.GetLocation().GetX());
         WriteFloat(obj.GetLocation().GetY());
         WriteFloat(obj.GetLocation().GetZ());

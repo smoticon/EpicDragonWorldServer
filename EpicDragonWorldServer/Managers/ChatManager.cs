@@ -2,15 +2,16 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class ChatManager
+public class ChatManager
 {
-    static readonly byte CHAT_TYPE_SYSTEM = 0;
-    static readonly byte CHAT_TYPE_NORMAL = 1;
-    static readonly byte CHAT_TYPE_MESSAGE = 2;
-    static readonly string COMMAND_PERSONAL_MESSAGE = "/tell ";
-    static readonly string COMMAND_LOCATION = "/loc";
-    static readonly string SYS_NAME = "System";
-    static readonly string MSG_TO = "To ";
+    private static readonly byte CHAT_TYPE_SYSTEM = 0;
+    private static readonly byte CHAT_TYPE_NORMAL = 1;
+    private static readonly byte CHAT_TYPE_MESSAGE = 2;
+    private static readonly string COMMAND_PERSONAL_MESSAGE = "/tell ";
+    private static readonly string COMMAND_LOCATION = "/loc";
+    private static readonly string COMMAND_RETURN = "/return";
+    private static readonly string SYS_NAME = "System";
+    private static readonly string MSG_TO = "To ";
 
     public static void HandleChat(Player sender, string message)
     {
@@ -26,6 +27,12 @@ class ChatManager
         {
             LocationHolder location = sender.GetLocation();
             sender.ChannelSend(new ChatResult(CHAT_TYPE_SYSTEM, SYS_NAME, "Your location is " + location.GetX() + " " + location.GetZ() + " " + location.GetY()));
+        }
+        else if (lowercaseMessage.Equals(COMMAND_RETURN))
+        {
+            sender.SetTeleporting();
+            sender.SetLocation(Config.STARTING_LOCATION);
+            sender.ChannelSend(new LocationUpdate(sender, true));
         }
         else if (lowercaseMessage.StartsWith(COMMAND_PERSONAL_MESSAGE))
         {
