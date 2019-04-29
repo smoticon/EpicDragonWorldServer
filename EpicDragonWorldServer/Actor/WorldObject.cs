@@ -42,10 +42,11 @@ public class WorldObject
             {
                 // Remove this object from the region.
                 region.RemoveObject(objectId);
+
                 // Broadcast change to players left behind when teleporting.
                 if (isTeleporting)
                 {
-                    LocationUpdate locationUpdate = new LocationUpdate(this);
+                    DeleteObject deleteObject = new DeleteObject(this);
                     foreach (RegionHolder nearbyRegion in region.GetSurroundingRegions())
                     {
                         foreach (WorldObject obj in region.GetObjects())
@@ -56,11 +57,7 @@ public class WorldObject
                             }
                             if (obj.IsPlayer())
                             {
-                                obj.AsPlayer().ChannelSend(locationUpdate);
-                            }
-                            if (IsPlayer())
-                            {
-                                AsPlayer().ChannelSend(new LocationUpdate(obj));
+                                obj.AsPlayer().ChannelSend(deleteObject);
                             }
                         }
                     }
