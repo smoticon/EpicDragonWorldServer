@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 
 /**
  * Author: Pantelis Andrianakis
@@ -15,7 +14,8 @@ public class WorldManager
     private static readonly int REGION_SIZE_X = (int)(Config.WORLD_MAXIMUM_X / REGION_RADIUS);
     private static readonly int REGION_SIZE_Z = (int)(Config.WORLD_MAXIMUM_Z / REGION_RADIUS);
     private static readonly RegionHolder[][] REGIONS = new RegionHolder[REGION_SIZE_X][];
-    private static readonly BlockingCollection<GameClient> ONLINE_CLIENTS = new BlockingCollection<GameClient>();
+    private static readonly List<GameClient> ONLINE_CLIENTS = new List<GameClient>();
+    private static readonly object ONLINE_CLIENTS_LOCK = new object();
     private static readonly ConcurrentDictionary<long, Player> PLAYER_OBJECTS = new ConcurrentDictionary<long, Player>();
 
     public static void Init()
@@ -48,7 +48,7 @@ public class WorldManager
                         }
                     }
                 }
-                REGIONS[x][z].SetSurroundingRegions(surroundingRegions.ToArray<RegionHolder>());
+                REGIONS[x][z].SetSurroundingRegions(surroundingRegions.ToArray());
             }
         }
 
@@ -82,9 +82,12 @@ public class WorldManager
     {
         if (obj.IsPlayer())
         {
-            if (!PLAYER_OBJECTS.Values.Contains(obj))
+            if (!PLAYER_OBJECTS.Values.Contains(obj.AsPlayer()))
             {
-                ONLINE_CLIENTS.Add(obj.AsPlayer().GetClient());
+                lock (ONLINE_CLIENTS_LOCK)
+                {
+                    ONLINE_CLIENTS.Add(obj.AsPlayer().GetClient());
+                }
                 PLAYER_OBJECTS.TryAdd(obj.GetObjectId(), obj.AsPlayer());
 
                 // Log world access.
@@ -184,9 +187,12 @@ public class WorldManager
 
     public static void AddClient(GameClient client)
     {
-        if (!ONLINE_CLIENTS.Contains(client))
+        lock (ONLINE_CLIENTS_LOCK)
         {
-            ONLINE_CLIENTS.Add(client);
+            if (!ONLINE_CLIENTS.Contains(client))
+            {
+                ONLINE_CLIENTS.Add(client);
+            }
         }
     }
 
@@ -200,7 +206,10 @@ public class WorldManager
         }
 
         // Remove from list.
-        ONLINE_CLIENTS.TryTake(out client);
+        lock (ONLINE_CLIENTS_LOCK)
+        {
+            ONLINE_CLIENTS.Remove(client);
+        }
     }
 
     public static GameClient GetClientByAccountName(string accountName)
