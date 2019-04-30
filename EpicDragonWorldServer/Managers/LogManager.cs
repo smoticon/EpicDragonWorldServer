@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 /**
  * Author: Pantelis Andrianakis
@@ -15,6 +15,9 @@ public class LogManager
     private static readonly string LOG_FILE_EXT = ".txt";
     private static readonly string LOG_DATE_FORMAT = "{0:dd/MM HH:mm:ss}";
     private static readonly string LOG_FILE_NAME_FORMAT = "{0:yyyy-MM-dd}";
+    private static readonly object CONSOLE_FILE_LOCK = new object();
+    private static readonly object WORLD_FILE_LOCK = new object();
+    private static readonly object CHAT_FILE_LOCK = new object();
 
     public static void Init()
     {
@@ -39,39 +42,57 @@ public class LogManager
         return fileName;
     }
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
     public static void Log(string message)
     {
-        DateTime currentTime = DateTime.Now;
-        message = "[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message;
-        // Write to console.
-        Console.WriteLine(message);
-        // Append to "log\Console yyyy-MM-dd.txt" file.
-        using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_CONSOLE, currentTime)))
+        // Use a task to asynchronously wait for file lock.
+        Task.Run(() =>
         {
-            writer.WriteLine(message);
-        }
+            lock (CONSOLE_FILE_LOCK)
+            {
+                DateTime currentTime = DateTime.Now;
+                message = "[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message;
+                // Write to console.
+                Console.WriteLine(message);
+                // Append to "log\Console yyyy-MM-dd.txt" file.
+                using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_CONSOLE, currentTime)))
+                {
+                    writer.WriteLine(message);
+                }
+            }
+        });
     }
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
     public static void LogWorld(string message)
     {
-        DateTime currentTime = DateTime.Now;
-        // Append to "log\World yyyy-MM-dd.txt" file.
-        using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_WORLD, currentTime)))
+        // Use a task to asynchronously wait for file lock.
+        Task.Run(() =>
         {
-            writer.WriteLine("[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message);
-        }
+            lock (WORLD_FILE_LOCK)
+            {
+                DateTime currentTime = DateTime.Now;
+                // Append to "log\World yyyy-MM-dd.txt" file.
+                using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_WORLD, currentTime)))
+                {
+                    writer.WriteLine("[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message);
+                }
+            }
+        });
     }
 
-    [MethodImpl(MethodImplOptions.Synchronized)]
     public static void LogChat(string message)
     {
-        DateTime currentTime = DateTime.Now;
-        // Append to "log\Chat yyyy-MM-dd.txt" file.
-        using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_CHAT, currentTime)))
+        // Use a task to asynchronously wait for file lock.
+        Task.Run(() =>
         {
-            writer.WriteLine("[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message);
-        }
+            lock (CHAT_FILE_LOCK)
+            {
+                DateTime currentTime = DateTime.Now;
+                // Append to "log\Chat yyyy-MM-dd.txt" file.
+                using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_CHAT, currentTime)))
+                {
+                    writer.WriteLine("[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message);
+                }
+            }
+        });
     }
 }
