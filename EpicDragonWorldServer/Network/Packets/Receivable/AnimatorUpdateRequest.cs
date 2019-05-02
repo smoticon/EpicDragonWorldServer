@@ -13,8 +13,11 @@ class AnimatorUpdateRequest
         bool isInWater = packet.ReadByte() == 1;
         bool isGrounded = packet.ReadByte() == 1;
 
-        // Broadcast movement.
+        // Set last known world object animations.
         Player player = client.GetActiveChar();
+        player.SetAnimations(new AnimationHolder(velocityX, velocityZ, triggerJump, isInWater, isGrounded));
+
+        // Broadcast movement.
         AnimatorUpdate animatorUpdate = new AnimatorUpdate(player.GetObjectId(), velocityX, velocityZ, triggerJump, isInWater, isGrounded);
         foreach (Player nearby in WorldManager.GetVisiblePlayers(player))
         {

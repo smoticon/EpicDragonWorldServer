@@ -10,6 +10,7 @@ public class WorldObject
 {
     private readonly long objectId = IdManager.GetNextId();
     private readonly DateTime spawnTime = DateTime.Now;
+    private AnimationHolder animations = null;
     private LocationHolder location = new LocationHolder(0, -1000, 0);
     private RegionHolder region = null;
     private bool isTeleporting = false;
@@ -22,6 +23,16 @@ public class WorldObject
     public DateTime GetSpawnTime()
     {
         return spawnTime;
+    }
+
+    public AnimationHolder GetAnimations()
+    {
+        return animations;
+    }
+
+    public void SetAnimations(AnimationHolder animations)
+    {
+        this.animations = animations;
     }
 
     public LocationHolder GetLocation()
