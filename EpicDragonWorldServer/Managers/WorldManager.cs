@@ -52,7 +52,7 @@ public class WorldManager
             }
         }
 
-        LogManager.Log("WorldManager: Initialized " + REGION_SIZE_X + "x" + REGION_SIZE_Z + " regions.");
+        LogManager.Log("WorldManager: Initialized " + REGION_SIZE_X + " by " + REGION_SIZE_Z + " regions.");
     }
 
     public static RegionHolder GetRegion(WorldObject obj)
