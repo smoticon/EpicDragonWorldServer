@@ -25,7 +25,7 @@ class GameServer
 
         // Post info.
         Util.PrintSection("Info");
-        LogManager.Log("Server loaded in " + (DateTime.Now - serverLoadStart).TotalSeconds + " seconds.");
+        LogManager.Log("Server loaded in " + Math.Round((DateTime.Now - serverLoadStart).TotalSeconds, 2) + " seconds.");
 
         // Initialize async network listening.
         Task.Run(() => GameClientNetworkListener.Init());
