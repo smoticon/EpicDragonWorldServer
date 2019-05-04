@@ -8,8 +8,8 @@ using System.Collections.Generic;
  */
 public class WorldManager
 {
-    public static readonly int VISIBILITY_RADIUS = 10000;
-    public static readonly int MOVEMENT_BROADCAST_RADIUS = VISIBILITY_RADIUS + 100; // Need the extra distance to send location of objects getting out of range.
+    private static readonly int VISIBILITY_RADIUS = 10000;
+    private static readonly int MOVEMENT_BROADCAST_RADIUS = VISIBILITY_RADIUS + 100; // Need the extra distance to send location of objects getting out of range.
     private static readonly double REGION_RADIUS = Math.Sqrt(VISIBILITY_RADIUS);
     private static readonly int REGION_SIZE_X = (int)(Config.WORLD_MAXIMUM_X / REGION_RADIUS);
     private static readonly int REGION_SIZE_Z = (int)(Config.WORLD_MAXIMUM_Z / REGION_RADIUS);

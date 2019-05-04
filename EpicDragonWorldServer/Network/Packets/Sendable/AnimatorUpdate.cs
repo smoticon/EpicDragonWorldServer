@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: February 4th 2019
  */
-class AnimatorUpdate : SendablePacket
+public class AnimatorUpdate : SendablePacket
 {
     public AnimatorUpdate(long objectId, float velocityX, float velocityZ, bool triggerJump, bool isInWater, bool isGrounded)
     {

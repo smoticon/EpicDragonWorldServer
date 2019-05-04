@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class CharacterSelectionInfoRequest
+public class CharacterSelectionInfoRequest
 {
     public CharacterSelectionInfoRequest(GameClient client, ReceivablePacket packet)
     {

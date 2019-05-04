@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class DeleteObject : SendablePacket
+public class DeleteObject : SendablePacket
 {
     public DeleteObject(WorldObject obj)
     {

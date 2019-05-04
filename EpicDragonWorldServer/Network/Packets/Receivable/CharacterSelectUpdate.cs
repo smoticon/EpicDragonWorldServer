@@ -5,10 +5,10 @@ using System;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class CharacterSelectUpdate
+public class CharacterSelectUpdate
 {
-    static readonly string CHARACTER_SELECTED_RESET_QUERY = "UPDATE characters SET selected=0 WHERE account=@account";
-    static readonly string CHARACTER_SELECTED_UPDATE_QUERY = "UPDATE characters SET selected=1 WHERE account=@account AND slot=@slot";
+    private static readonly string CHARACTER_SELECTED_RESET_QUERY = "UPDATE characters SET selected=0 WHERE account=@account";
+    private static readonly string CHARACTER_SELECTED_UPDATE_QUERY = "UPDATE characters SET selected=1 WHERE account=@account AND slot=@slot";
 
     public CharacterSelectUpdate(GameClient client, ReceivablePacket packet)
     {

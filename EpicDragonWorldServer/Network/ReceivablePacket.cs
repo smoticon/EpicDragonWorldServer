@@ -8,7 +8,7 @@ using System.Text;
  */
 public class ReceivablePacket
 {
-    readonly MemoryStream memoryStream;
+    private readonly MemoryStream memoryStream;
 
     public ReceivablePacket(byte[] bytes)
     {

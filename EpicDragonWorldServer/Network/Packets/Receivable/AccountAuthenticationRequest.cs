@@ -5,17 +5,17 @@ using System;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class AccountAuthenticationRequest
+public class AccountAuthenticationRequest
 {
-    static readonly string ACCOUNT_INFO_QUERY = "SELECT * FROM accounts WHERE account=@account";
-    static readonly string ACCOUNT_INFO_UPDATE_QUERY = "UPDATE accounts SET last_active=@last_active, last_ip=@ip WHERE account=@account";
-    static readonly string ACCOUNT_CREATE_QUERY = "INSERT INTO accounts (account, password, status) values (@account, @password, 3)";
-    static readonly int STATUS_NOT_FOUND = 0;
-    static readonly int STATUS_WRONG_PASSWORD = 3;
-    static readonly int STATUS_ALREADY_ONLINE = 4;
-    static readonly int STATUS_TOO_MANY_ONLINE = 5;
-    static readonly int STATUS_INCORRECT_CLIENT = 6;
-    static readonly int STATUS_AUTHENTICATED = 100;
+    private static readonly string ACCOUNT_INFO_QUERY = "SELECT * FROM accounts WHERE account=@account";
+    private static readonly string ACCOUNT_INFO_UPDATE_QUERY = "UPDATE accounts SET last_active=@last_active, last_ip=@ip WHERE account=@account";
+    private static readonly string ACCOUNT_CREATE_QUERY = "INSERT INTO accounts (account, password, status) values (@account, @password, 3)";
+    private static readonly int STATUS_NOT_FOUND = 0;
+    private static readonly int STATUS_WRONG_PASSWORD = 3;
+    private static readonly int STATUS_ALREADY_ONLINE = 4;
+    private static readonly int STATUS_TOO_MANY_ONLINE = 5;
+    private static readonly int STATUS_INCORRECT_CLIENT = 6;
+    private static readonly int STATUS_AUTHENTICATED = 100;
 
     public AccountAuthenticationRequest(GameClient client, ReceivablePacket packet)
     {

@@ -8,7 +8,7 @@ using System.Text;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class Config
+public class Config
 {
     // --------------------------------------------------
     // Config File Definitions

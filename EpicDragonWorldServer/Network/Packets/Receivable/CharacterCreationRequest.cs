@@ -5,7 +5,7 @@ using System;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class CharacterCreationRequest
+public class CharacterCreationRequest
 {
     private static readonly string ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE access_level>'-1' AND account=@account";
     private static readonly string NAME_EXISTS_QUERY = "SELECT * FROM characters WHERE name=@name";

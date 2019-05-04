@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: February 4th 2019
  */
-class AnimatorUpdateRequest
+public class AnimatorUpdateRequest
 {
     public AnimatorUpdateRequest(GameClient client, ReceivablePacket packet)
     {

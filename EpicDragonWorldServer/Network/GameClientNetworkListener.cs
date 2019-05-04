@@ -7,10 +7,10 @@ using System.Threading.Tasks;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class GameClientNetworkListener
+public class GameClientNetworkListener
 {
-    static readonly object taskLock = new object(); // Task lock.
-    static readonly List<Task> connections = new List<Task>(); // Pending connections.
+    private static readonly List<Task> CONNECTIONS = new List<Task>(); // Pending connections.
+    private static readonly object TASK_LOCK = new object(); // Task lock.
 
     public static void Init()
     {
@@ -18,7 +18,7 @@ class GameClientNetworkListener
     }
 
     // The core server task.
-    async Task StartListener()
+    private async Task StartListener()
     {
         TcpListener tcpListener = TcpListener.Create(Config.SERVER_PORT);
         tcpListener.Start();
@@ -36,15 +36,15 @@ class GameClientNetworkListener
     }
 
     // Register and handle the connection.
-    async Task StartHandleConnectionAsync(TcpClient tcpClient)
+    private async Task StartHandleConnectionAsync(TcpClient tcpClient)
     {
         // Start the new connection task.
         Task connectionTask = HandleConnectionAsync(tcpClient);
 
         // Add it to the list of pending task.
-        lock (taskLock)
+        lock (TASK_LOCK)
         {
-            connections.Add(connectionTask);
+            CONNECTIONS.Add(connectionTask);
         }
 
         // Catch all errors of HandleConnectionAsync.
@@ -61,15 +61,15 @@ class GameClientNetworkListener
         finally
         {
             // Remove pending task.
-            lock (taskLock)
+            lock (TASK_LOCK)
             {
-                connections.Remove(connectionTask);
+                CONNECTIONS.Remove(connectionTask);
             }
         }
     }
 
     // Handle new connection.
-    async Task HandleConnectionAsync(TcpClient tcpClient)
+    private async Task HandleConnectionAsync(TcpClient tcpClient)
     {
         // Continue asynchronously on another threads.
         await Task.Yield();

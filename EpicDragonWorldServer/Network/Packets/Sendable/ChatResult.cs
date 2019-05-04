@@ -2,7 +2,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class ChatResult : SendablePacket
+public class ChatResult : SendablePacket
 {
     public ChatResult(byte chatType, string sender, string message)
     {

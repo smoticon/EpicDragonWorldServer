@@ -5,7 +5,7 @@ using System.Text;
  * Author: Pantelis Andrianakis
  * Date: December 28th 2017
  */
-class SHA256Generator
+public class SHA256Generator
 {
     public static string Calculate(string input)
     {

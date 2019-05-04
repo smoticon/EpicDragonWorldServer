@@ -4,8 +4,8 @@
  */
 public class LocationUpdate : SendablePacket
 {
-    readonly WorldObject obj;
-    readonly bool teleport;
+    private readonly WorldObject obj;
+    private readonly bool teleport;
 
     public LocationUpdate(WorldObject obj)
     {

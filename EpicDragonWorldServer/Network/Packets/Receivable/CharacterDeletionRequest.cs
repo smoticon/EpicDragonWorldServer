@@ -6,7 +6,7 @@ using System.Collections.Generic;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class CharacterDeletionRequest
+public class CharacterDeletionRequest
 {
     private static readonly string ACCOUNT_CHARACTER_QUERY = "SELECT * FROM characters WHERE account=@account ORDER BY slot ASC";
     private static readonly string CHARACTER_SLOT_UPDATE_QUERY = "UPDATE characters SET slot=@slot, selected=@selected WHERE account=@account AND name=@name";

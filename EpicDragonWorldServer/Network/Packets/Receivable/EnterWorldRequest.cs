@@ -4,7 +4,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class EnterWorldRequest
+public class EnterWorldRequest
 {
     public EnterWorldRequest(GameClient client, ReceivablePacket packet)
     {

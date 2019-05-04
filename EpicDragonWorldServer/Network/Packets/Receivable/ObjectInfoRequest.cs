@@ -4,7 +4,7 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class ObjectInfoRequest
+public class ObjectInfoRequest
 {
     public ObjectInfoRequest(GameClient client, ReceivablePacket packet)
     {

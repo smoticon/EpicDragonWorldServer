@@ -6,11 +6,11 @@ using System.Data;
  * Author: Pantelis Andrianakis
  * Date: November 10th 2018
  */
-class DatabaseManager
+public class DatabaseManager
 {
-    static readonly MySqlConnection[] connections = new MySqlConnection[Config.DATABASE_MAX_CONNECTIONS];
-    static readonly object taskLock = new object();
-    static int connectionCounter = 0;
+    private static readonly MySqlConnection[] CONNECTIONS = new MySqlConnection[Config.DATABASE_MAX_CONNECTIONS];
+    private static readonly object TASK_LOCK = new object();
+    private static int CONNECTION_COUNTER = 0;
 
     public static void Init()
     {
@@ -20,12 +20,12 @@ class DatabaseManager
         {
             for (int i = 0; i < Config.DATABASE_MAX_CONNECTIONS; i++)
             {
-                connections[i] = new MySqlConnection(Config.DATABASE_CONNECTION_PARAMETERS);
-                connections[i].Open();
+                CONNECTIONS[i] = new MySqlConnection(Config.DATABASE_CONNECTION_PARAMETERS);
+                CONNECTIONS[i].Open();
             }
             for (int i = 0; i < Config.DATABASE_MAX_CONNECTIONS; i++)
             {
-                connections[i].Close();
+                CONNECTIONS[i].Close();
             }
         }
         catch (Exception e)
@@ -39,20 +39,20 @@ class DatabaseManager
     public static MySqlConnection GetConnection()
     {
         MySqlConnection connection = null;
-        lock (taskLock)
+        lock (TASK_LOCK)
         {
             while (connection == null)
             {
-                if (connectionCounter >= Config.DATABASE_MAX_CONNECTIONS)
+                if (CONNECTION_COUNTER >= Config.DATABASE_MAX_CONNECTIONS)
                 {
-                    connectionCounter = 0;
+                    CONNECTION_COUNTER = 0;
                 }
-                if (connections[connectionCounter].State == ConnectionState.Closed)
+                if (CONNECTIONS[CONNECTION_COUNTER].State == ConnectionState.Closed)
                 {
-                    connection = connections[connectionCounter];
+                    connection = CONNECTIONS[CONNECTION_COUNTER];
                     connection.Open();
                 }
-                connectionCounter++;
+                CONNECTION_COUNTER++;
             }
         }
         return connection;

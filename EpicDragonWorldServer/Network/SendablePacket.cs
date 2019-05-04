@@ -8,7 +8,7 @@ using System.Text;
  */
 public class SendablePacket
 {
-    readonly MemoryStream memoryStream;
+    private readonly MemoryStream memoryStream;
 
     public SendablePacket()
     {

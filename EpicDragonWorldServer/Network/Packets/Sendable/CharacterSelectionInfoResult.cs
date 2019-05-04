@@ -6,9 +6,9 @@ using System.Collections.Generic;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class CharacterSelectionInfoResult : SendablePacket
+public class CharacterSelectionInfoResult : SendablePacket
 {
-    static readonly string CHARACTER_QUERY = "SELECT * FROM characters WHERE account=@account AND access_level>'-1' ORDER BY slot ASC";
+    private static readonly string CHARACTER_QUERY = "SELECT * FROM characters WHERE account=@account AND access_level>'-1' ORDER BY slot ASC";
 
     public CharacterSelectionInfoResult(string accountName)
     {

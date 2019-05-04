@@ -5,7 +5,7 @@
  * Author: Pantelis Andrianakis
  * Date: December 23rd 2017
  */
-class Encryption
+public class Encryption
 {
     public static byte[] Encrypt(byte[] bytes)
     {

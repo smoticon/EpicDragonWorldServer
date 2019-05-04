@@ -6,9 +6,9 @@ using System.Threading.Tasks;
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class GameServer
+public class GameServer
 {
-    private static readonly ManualResetEvent quitEvent = new ManualResetEvent(false);
+    private static readonly ManualResetEvent QUIT_EVENT = new ManualResetEvent(false);
 
     static void Main(string[] args)
     {
@@ -33,9 +33,9 @@ class GameServer
         // Wait.
         Console.CancelKeyPress += (sender, eArgs) =>
         {
-            quitEvent.Set();
+            QUIT_EVENT.Set();
             eArgs.Cancel = true;
         };
-        quitEvent.WaitOne();
+        QUIT_EVENT.WaitOne();
     }
 }

@@ -4,12 +4,12 @@
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
-class IdManager
+public class IdManager
 {
-    static long lastId = 0;
+    private static long LAST_ID = 0;
 
     public static long GetNextId()
     {
-        return Interlocked.Increment(ref lastId);
+        return Interlocked.Increment(ref LAST_ID);
     }
 }

@@ -5,7 +5,7 @@ using System;
  * Author: Pantelis Andrianakis
  * Date: February 14th 2019
  */
-class PlayerOptionsInformation : SendablePacket
+public class PlayerOptionsInformation : SendablePacket
 {
     private static readonly string ACCOUNT_CHARACTER_QUERY = "SELECT * FROM character_options WHERE name=@name";
 
