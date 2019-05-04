@@ -44,15 +44,17 @@ public class LogManager
 
     public static void Log(string message)
     {
+        // Create console message out of asynchronous lock.
+        DateTime currentTime = DateTime.Now;
+        message = "[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message;
+        // Write to console out of asynchronous lock.
+        Console.WriteLine(message);
+
         // Use a task to asynchronously wait for file lock.
         Task.Run(() =>
         {
             lock (CONSOLE_FILE_LOCK)
             {
-                DateTime currentTime = DateTime.Now;
-                message = "[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message;
-                // Write to console.
-                Console.WriteLine(message);
                 // Append to "log\Console yyyy-MM-dd.txt" file.
                 using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_CONSOLE, currentTime)))
                 {
