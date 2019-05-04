@@ -20,7 +20,7 @@ public class SendablePacket
         if (value != null)
         {
             byte[] byteArray = Encoding.UTF8.GetBytes(value);
-            WriteByte(byteArray.Length);
+            WriteShort(byteArray.Length); // Maximum accepted byte array size for strings is 32767.
             WriteBytes(byteArray);
         }
         else

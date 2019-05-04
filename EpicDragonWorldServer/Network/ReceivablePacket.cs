@@ -17,7 +17,7 @@ public class ReceivablePacket
 
     public string ReadString()
     {
-        return Encoding.UTF8.GetString(ReadBytes(memoryStream.ReadByte()));
+        return Encoding.UTF8.GetString(ReadBytes(ReadShort())); // Maximum accepted byte array size for strings is 32767.
     }
 
     public byte[] ReadBytes(int length)
