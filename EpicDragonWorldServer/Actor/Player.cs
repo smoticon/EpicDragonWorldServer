@@ -21,6 +21,7 @@ public class Player : Creature
     private readonly int eyeColor;
     private readonly long experience;
     private readonly byte accessLevel;
+    private readonly Inventory inventory;
 
     public Player(GameClient client, string name)
     {
@@ -70,6 +71,9 @@ public class Player : Creature
         {
             LogManager.Log(e.ToString());
         }
+
+        // Initialize inventory.
+        inventory = new Inventory(name);
     }
 
     public void StoreMe()
@@ -95,6 +99,9 @@ public class Player : Creature
         {
             LogManager.Log(e.ToString());
         }
+
+        // Save inventory.
+        inventory.Store(name);
     }
 
     public GameClient GetClient()
@@ -150,6 +157,11 @@ public class Player : Creature
     public byte GetAccessLevel()
     {
         return accessLevel;
+    }
+
+    public Inventory GetInventory()
+    {
+        return inventory;
     }
 
     public void ChannelSend(SendablePacket packet)
