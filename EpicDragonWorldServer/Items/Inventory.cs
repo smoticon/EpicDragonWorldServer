@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 /**
  * Author: Pantelis Andrianakis
@@ -63,16 +64,23 @@ public class Inventory
         }
 
         // Prepare query.
-        string query = STORE_ITEM_START;
+        StringBuilder query = new StringBuilder(STORE_ITEM_START);
         foreach (KeyValuePair<int, int> item in items)
         {
-            query += "('" + ownerName + "'," + item.Key + "," + item.Value + ")" + (itemCount-- == 0 ? ";" : ",");
+            query.Append("('");
+            query.Append(ownerName);
+            query.Append("',");
+            query.Append(item.Key);
+            query.Append(",");
+            query.Append(item.Value);
+            query.Append(")");
+            query.Append(itemCount-- == 0 ? ";" : ",");
         }
         // Store new records.
         try
         {
             MySqlConnection con = DatabaseManager.GetConnection();
-            MySqlCommand cmd = new MySqlCommand(query, con);
+            MySqlCommand cmd = new MySqlCommand(query.ToString(), con);
             cmd.ExecuteNonQuery();
             con.Close();
         }
