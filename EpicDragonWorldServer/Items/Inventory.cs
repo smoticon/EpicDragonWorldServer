@@ -11,12 +11,12 @@ public class Inventory
     private static readonly string RESTORE_INVENTORY = "SELECT * FROM character_items WHERE owner=@owner";
     private static readonly string DELETE_INVENTORY = "DELETE FROM character_items WHERE owner=@owner";
     private static readonly string STORE_ITEM = "INSERT INTO character_items (owner, slot_id, item_id) values (@owner, @slot_id, @item_id)";
-    private static readonly object ITEM_LOCK = new object();
     private readonly Dictionary<int, int> items = new Dictionary<int, int>();
+    private readonly object itemLock = new object();
 
     public Inventory(string ownerName)
     {
-        lock (ITEM_LOCK)
+        lock (itemLock)
         {
             // Restore information from database.
             try
@@ -92,7 +92,7 @@ public class Inventory
 
     public void SetSlot(int slotId, int itemId)
     {
-        lock (ITEM_LOCK)
+        lock (itemLock)
         {
             items.Add(slotId, itemId);
         }
@@ -100,7 +100,7 @@ public class Inventory
 
     public void RemoveSlot(int slotId)
     {
-        lock (ITEM_LOCK)
+        lock (itemLock)
         {
             items.Remove(slotId);
         }
