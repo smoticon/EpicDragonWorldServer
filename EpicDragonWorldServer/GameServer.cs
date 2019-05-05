@@ -23,6 +23,9 @@ public class GameServer
         DatabaseManager.Init();
         WorldManager.Init();
 
+        SkillData.Load();
+        ItemData.Load();
+
         // Post info.
         Util.PrintSection("Info");
         LogManager.Log("Server loaded in " + Math.Round((DateTime.Now - serverLoadStart).TotalSeconds, 2) + " seconds.");
