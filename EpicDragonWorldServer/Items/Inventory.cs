@@ -10,7 +10,7 @@ public class Inventory
 {
     private static readonly string RESTORE_INVENTORY = "SELECT * FROM character_items WHERE owner=@owner";
     private static readonly string DELETE_INVENTORY = "DELETE FROM character_items WHERE owner=@owner";
-    private static readonly string STORE_ITEM = "INSERT INTO character_items (owner, slot_id, item_id) values (@owner, @slot_id, @item_id)";
+    private static readonly string STORE_ITEM_START = "INSERT INTO character_items VALUES ";
     private readonly Dictionary<int, int> items = new Dictionary<int, int>();
     private readonly object itemLock = new object();
 
@@ -56,33 +56,33 @@ public class Inventory
         }
 
         // No need to store if item list is empty.
-        if (items.Count == 0)
+        int itemCount = items.Count;
+        if (itemCount == 0)
         {
             return;
         }
 
+        // Prepare query.
+        string query = STORE_ITEM_START;
+        foreach (KeyValuePair<int, int> item in items)
+        {
+            query += "('" + ownerName + "'," + item.Key + "," + item.Value + ")" + (itemCount-- == 0 ? ";" : ",");
+        }
         // Store new records.
         try
         {
-            // TODO: Use some method like AddBatch.
-            foreach (KeyValuePair<int, int> item in items)
-            {
-                MySqlConnection con = DatabaseManager.GetConnection();
-                MySqlCommand cmd = new MySqlCommand(STORE_ITEM, con);
-                cmd.Parameters.AddWithValue("owner", ownerName);
-                cmd.Parameters.AddWithValue("slot_id", item.Key);
-                cmd.Parameters.AddWithValue("item_id", item.Value);
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(query, con);
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
         catch (Exception e)
         {
             LogManager.Log(e.ToString());
         }
 
-        // Clear item list.
-        items.Clear();
+        // Clear item list?
+        // items.Clear();
     }
 
     public int GetSlot(int slotId)
