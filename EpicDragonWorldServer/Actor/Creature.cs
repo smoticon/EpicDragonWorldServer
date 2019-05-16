@@ -39,7 +39,7 @@ public class Creature : WorldObject
         return this;
     }
 
-    public override String ToString()
+    public override string ToString()
     {
         return "Creature [" + GetObjectId() + "]";
     }

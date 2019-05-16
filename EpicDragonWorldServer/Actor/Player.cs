@@ -179,7 +179,7 @@ public class Player : Creature
         return this;
     }
 
-    public override String ToString()
+    public override string ToString()
     {
         return "Player [" + name + "]";
     }

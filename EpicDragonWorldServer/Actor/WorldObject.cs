@@ -114,97 +114,77 @@ public class WorldObject
         return isTeleporting;
     }
 
-    /**
-	 * Calculates distance between this WorldObject and given x, y , z.
-	 * @param x the X coordinate
-	 * @param y the Y coordinate
-	 * @param z the Z coordinate
-	 * @return distance between object and given x, y, z.
-	 */
+    /// <summary>Calculates distance between this WorldObject and given x, y , z.</summary>
+    /// <param name="x">the X coordinate</param>
+    /// <param name="y">the Y coordinate</param>
+    /// <param name="z">the Z coordinate</param>
+    /// <returns>distance between object and given x, y, z.</returns>
     public double CalculateDistance(float x, float y, float z)
     {
         return Math.Pow(x - location.GetX(), 2) + Math.Pow(y - location.GetY(), 2) + Math.Pow(z - location.GetZ(), 2);
     }
 
-    /**
-	 * Calculates distance between this WorldObject and another WorldObject.
-	 * @param object WorldObject
-	 * @return distance between object and given x, y, z.
-	 */
+    /// <summary>Calculates distance between this WorldObject and another WorldObject.</summary>
+    /// <param name="obj">the other WorldObject</param>
+    /// <returns>distance between object and given x, y, z.</returns>
     public double CalculateDistance(WorldObject obj)
     {
         return CalculateDistance(obj.GetLocation().GetX(), obj.GetLocation().GetY(), obj.GetLocation().GetZ());
     }
 
-    /**
-	 * Verify if object is instance of Creature.
-	 * @return {@code true} if object is instance of Creature, {@code false} otherwise.
-	 */
+    /// <summary>Verify if object is instance of Creature.</summary>
+    /// <returns>if object is instance of Creature.</returns>
     public virtual bool IsCreature()
     {
         return false;
     }
 
-    /**
-	 * @return {@link Creature} instance if current object is such, {@code null} otherwise.
-	 */
+    /// <returns>Creature instance if current object is such, null otherwise.</returns>
     public virtual Creature AsCreature()
     {
         return null;
     }
 
-    /**
-	 * Verify if object is instance of Player.
-	 * @return {@code true} if object is instance of Player, {@code false} otherwise.
-	 */
+    /// <summary>Verify if object is instance of Player.</summary>
+    /// <returns>if object is instance of Player.</returns>
     public virtual bool IsPlayer()
     {
         return false;
     }
 
-    /**
-	 * @return {@link Player} instance if current object is such, {@code null} otherwise.
-	 */
+    /// <returns>Player instance if current object is such, null otherwise.</returns>
     public virtual Player AsPlayer()
     {
         return null;
     }
 
-    /**
-	 * Verify if object is instance of Monster.
-	 * @return {@code true} if object is instance of Monster, {@code false} otherwise.
-	 */
+    /// <summary>Verify if object is instance of Monster.</summary>
+    /// <returns>if object is instance of Monster.</returns>
     //public virtual bool IsMonster()
     //{
     //    return false;
     //}
 
-    /**
-	 * @return {@link Monster} instance if current object is such, {@code null} otherwise.
-	 */
+    /// <returns>Monster instance if current object is such, null otherwise.</returns>
     //public virtual Monster AsMonster()
     //{
     //    return null;
     //}
 
-    /**
-	 * Verify if object is instance of Npc.
-	 * @return {@code true} if object is instance of Npc, {@code false} otherwise.
-	 */
+    /// <summary>Verify if object is instance of Npc.</summary>
+    /// <returns>if object is instance of Npc.</returns>
     //public virtual bool IsNpc()
     //{
     //    return false;
     //}
 
-    /**
-	 * @return {@link Npc} instance if current object is such, {@code null} otherwise.
-	 */
+    /// <returns>Npc instance if current object is such, null otherwise.</returns>
     //public virtual Npc AsNpc()
     //{
     //    return null;
     //}
 
-    public override String ToString()
+    public override string ToString()
     {
         return "WorldObject [" + objectId + "]";
     }
