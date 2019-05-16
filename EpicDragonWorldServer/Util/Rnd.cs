@@ -9,9 +9,9 @@ public class Rnd
     private static readonly Random RANDOM = new Random();
 
     /// <summary>
-    /// Returns a random boolean value.
+    /// Returns a random bool value.
     /// </summary>
-    public static bool NextBoolean()
+    public static bool NextBool()
     {
         lock (RANDOM)
         {

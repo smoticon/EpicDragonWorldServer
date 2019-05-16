@@ -9,7 +9,6 @@ using System.Data;
 public class DatabaseManager
 {
     private static readonly MySqlConnection[] CONNECTIONS = new MySqlConnection[Config.DATABASE_MAX_CONNECTIONS];
-    private static readonly object TASK_LOCK = new object();
     private static int CONNECTION_COUNTER = 0;
 
     public static void Init()
@@ -39,7 +38,7 @@ public class DatabaseManager
     public static MySqlConnection GetConnection()
     {
         MySqlConnection connection = null;
-        lock (TASK_LOCK)
+        lock (CONNECTIONS)
         {
             while (connection == null)
             {

@@ -15,9 +15,6 @@ public class LogManager
     private static readonly string LOG_FILE_EXT = ".txt";
     private static readonly string LOG_DATE_FORMAT = "{0:dd/MM HH:mm:ss}";
     private static readonly string LOG_FILE_NAME_FORMAT = "{0:yyyy-MM-dd}";
-    private static readonly object CONSOLE_FILE_LOCK = new object();
-    private static readonly object WORLD_FILE_LOCK = new object();
-    private static readonly object CHAT_FILE_LOCK = new object();
 
     public static void Init()
     {
@@ -53,7 +50,7 @@ public class LogManager
         // Use a task to asynchronously wait for file lock.
         Task.Run(() =>
         {
-            lock (CONSOLE_FILE_LOCK)
+            lock (LOG_FILE_CONSOLE)
             {
                 // Append to "log\Console yyyy-MM-dd.txt" file.
                 using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_CONSOLE, currentTime)))
@@ -69,7 +66,7 @@ public class LogManager
         // Use a task to asynchronously wait for file lock.
         Task.Run(() =>
         {
-            lock (WORLD_FILE_LOCK)
+            lock (LOG_FILE_WORLD)
             {
                 DateTime currentTime = DateTime.Now;
                 // Append to "log\World yyyy-MM-dd.txt" file.
@@ -86,7 +83,7 @@ public class LogManager
         // Use a task to asynchronously wait for file lock.
         Task.Run(() =>
         {
-            lock (CHAT_FILE_LOCK)
+            lock (LOG_FILE_CHAT)
             {
                 DateTime currentTime = DateTime.Now;
                 // Append to "log\Chat yyyy-MM-dd.txt" file.

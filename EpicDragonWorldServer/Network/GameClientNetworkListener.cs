@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 public class GameClientNetworkListener
 {
     private static readonly List<Task> CONNECTIONS = new List<Task>(); // Pending connections.
-    private static readonly object TASK_LOCK = new object(); // Task lock.
 
     public static void Init()
     {
@@ -42,7 +41,7 @@ public class GameClientNetworkListener
         Task connectionTask = HandleConnectionAsync(tcpClient);
 
         // Add it to the list of pending task.
-        lock (TASK_LOCK)
+        lock (CONNECTIONS)
         {
             CONNECTIONS.Add(connectionTask);
         }
@@ -61,7 +60,7 @@ public class GameClientNetworkListener
         finally
         {
             // Remove pending task.
-            lock (TASK_LOCK)
+            lock (CONNECTIONS)
             {
                 CONNECTIONS.Remove(connectionTask);
             }

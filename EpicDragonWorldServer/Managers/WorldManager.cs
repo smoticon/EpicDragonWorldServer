@@ -15,7 +15,6 @@ public class WorldManager
     private static readonly int REGION_SIZE_Z = (int)(Config.WORLD_MAXIMUM_Z / REGION_RADIUS);
     private static readonly RegionHolder[][] REGIONS = new RegionHolder[REGION_SIZE_X][];
     private static readonly List<GameClient> ONLINE_CLIENTS = new List<GameClient>();
-    private static readonly object ONLINE_CLIENTS_LOCK = new object();
     private static readonly ConcurrentDictionary<long, Player> PLAYER_OBJECTS = new ConcurrentDictionary<long, Player>();
 
     public static void Init()
@@ -84,7 +83,7 @@ public class WorldManager
         {
             if (!PLAYER_OBJECTS.Values.Contains(obj.AsPlayer()))
             {
-                lock (ONLINE_CLIENTS_LOCK)
+                lock (ONLINE_CLIENTS)
                 {
                     ONLINE_CLIENTS.Add(obj.AsPlayer().GetClient());
                 }
@@ -187,7 +186,7 @@ public class WorldManager
 
     public static void AddClient(GameClient client)
     {
-        lock (ONLINE_CLIENTS_LOCK)
+        lock (ONLINE_CLIENTS)
         {
             if (!ONLINE_CLIENTS.Contains(client))
             {
@@ -206,7 +205,7 @@ public class WorldManager
         }
 
         // Remove from list.
-        lock (ONLINE_CLIENTS_LOCK)
+        lock (ONLINE_CLIENTS)
         {
             ONLINE_CLIENTS.Remove(client);
         }
