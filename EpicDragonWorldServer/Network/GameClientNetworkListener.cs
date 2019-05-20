@@ -87,7 +87,7 @@ public class GameClientNetworkListener
             {
                 // Get packet data length.
                 await networkStream.ReadAsync(bufferLength, 0, 2);
-                length = BitConverter.ToInt16(bufferLength, 0);
+                length = BitConverter.ToInt16(bufferLength);
                 // Get packet data.
                 bufferData = new byte[length];
                 await networkStream.ReadAsync(bufferData, 0, length);

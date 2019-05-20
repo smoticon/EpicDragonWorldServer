@@ -17,7 +17,10 @@ public class ReceivablePacket
 
     public string ReadString()
     {
-        return Encoding.UTF8.GetString(ReadBytes(ReadShort())); // Maximum accepted byte array size for strings is 32767.
+        // Since we use short value maximum byte size for strings is 32767.
+        // Take care that maximum packet size data is 32767 bytes as well.
+        // Sending a 32767 byte string would require all the available packet size.
+        return Encoding.UTF8.GetString(ReadBytes(ReadShort()));
     }
 
     public byte[] ReadBytes(int length)
@@ -40,7 +43,7 @@ public class ReceivablePacket
         byte[] byteArray = new byte[2];
         byteArray[0] = (byte)memoryStream.ReadByte();
         byteArray[1] = (byte)memoryStream.ReadByte();
-        return BitConverter.ToInt16(byteArray, 0);
+        return BitConverter.ToInt16(byteArray);
     }
 
     public int ReadInt()
@@ -50,7 +53,7 @@ public class ReceivablePacket
         byteArray[1] = (byte)memoryStream.ReadByte();
         byteArray[2] = (byte)memoryStream.ReadByte();
         byteArray[3] = (byte)memoryStream.ReadByte();
-        return BitConverter.ToInt32(byteArray, 0);
+        return BitConverter.ToInt32(byteArray);
     }
 
     public long ReadLong()
@@ -64,7 +67,7 @@ public class ReceivablePacket
         byteArray[5] = (byte)memoryStream.ReadByte();
         byteArray[6] = (byte)memoryStream.ReadByte();
         byteArray[7] = (byte)memoryStream.ReadByte();
-        return BitConverter.ToInt64(byteArray, 0);
+        return BitConverter.ToInt64(byteArray);
     }
 
     public float ReadFloat()
@@ -74,7 +77,7 @@ public class ReceivablePacket
         byteArray[1] = (byte)memoryStream.ReadByte();
         byteArray[2] = (byte)memoryStream.ReadByte();
         byteArray[3] = (byte)memoryStream.ReadByte();
-        return BitConverter.ToSingle(byteArray, 0);
+        return BitConverter.ToSingle(byteArray);
     }
 
     public double ReadDouble()
@@ -88,6 +91,6 @@ public class ReceivablePacket
         byteArray[5] = (byte)memoryStream.ReadByte();
         byteArray[6] = (byte)memoryStream.ReadByte();
         byteArray[7] = (byte)memoryStream.ReadByte();
-        return BitConverter.ToDouble(byteArray, 0);
+        return BitConverter.ToDouble(byteArray);
     }
 }
