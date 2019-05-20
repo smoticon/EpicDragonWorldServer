@@ -14,9 +14,10 @@ public class Config
     // Config File Definitions
     // --------------------------------------------------
     private static readonly string ACCOUNT_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Account.ini";
+    private static readonly string DATABASE_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Database.ini";
     private static readonly string LOGGING_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Logging.ini";
+    private static readonly string NETWORK_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Network.ini";
     private static readonly string PLAYER_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Player.ini";
-    private static readonly string SERVER_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "Server.ini";
     private static readonly string WORLD_CONFIG_FILE = "Config" + Path.DirectorySeparatorChar + "World.ini";
 
     // --------------------------------------------------
@@ -24,6 +25,12 @@ public class Config
     // --------------------------------------------------
     public static bool ACCOUNT_AUTO_CREATE;
     public static int ACCOUNT_MAX_CHARACTERS;
+
+    // --------------------------------------------------
+    // Database
+    // --------------------------------------------------
+    public static string DATABASE_CONNECTION_PARAMETERS;
+    public static int DATABASE_MAX_CONNECTIONS;
 
     // --------------------------------------------------
     // Logging
@@ -34,21 +41,19 @@ public class Config
     public static bool LOG_WORLD;
 
     // --------------------------------------------------
+    // Network
+    // --------------------------------------------------
+    public static int SERVER_PORT;
+    public static int MAXIMUM_ONLINE_USERS;
+    public static double CLIENT_VERSION;
+    public static byte[] ENCRYPTION_SECRET_KEYWORD;
+    public static byte[] ENCRYPTION_PRIVATE_PASSWORD;
+
+    // --------------------------------------------------
     // Player
     // --------------------------------------------------
     public static LocationHolder STARTING_LOCATION;
     public static List<int> VALID_SKIN_COLORS = new List<int>();
-
-    // --------------------------------------------------
-    // Server
-    // --------------------------------------------------
-    public static int SERVER_PORT;
-    public static string DATABASE_CONNECTION_PARAMETERS;
-    public static int DATABASE_MAX_CONNECTIONS;
-    public static byte[] ENCRYPTION_SECRET_KEYWORD;
-    public static byte[] ENCRYPTION_PRIVATE_PASSWORD;
-    public static int MAXIMUM_ONLINE_USERS;
-    public static double CLIENT_VERSION;
 
     // --------------------------------------------------
     // World
@@ -75,6 +80,17 @@ public class Config
         ACCOUNT_AUTO_CREATE = accountConfigs.GetBool("AccountAutoCreate", false);
         ACCOUNT_MAX_CHARACTERS = accountConfigs.GetInt("AccountMaxCharacters", 5);
 
+        ConfigReader databaseConfigs = new ConfigReader(DATABASE_CONFIG_FILE);
+        DATABASE_CONNECTION_PARAMETERS = databaseConfigs.GetString("DbConnectionParameters", "Server=127.0.0.1;User ID=root;Password=;Database=edws");
+        DATABASE_MAX_CONNECTIONS = databaseConfigs.GetInt("MaximumDbConnections", 50);
+
+        ConfigReader networkConfigs = new ConfigReader(NETWORK_CONFIG_FILE);
+        SERVER_PORT = networkConfigs.GetInt("ServerPort", 5055);
+        MAXIMUM_ONLINE_USERS = networkConfigs.GetInt("MaximumOnlineUsers", 2000);
+        CLIENT_VERSION = networkConfigs.GetDouble("ClientVersion", 1.0);
+        ENCRYPTION_SECRET_KEYWORD = new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(networkConfigs.GetString("SecretKeyword", "SECRET_KEYWORD")));
+        ENCRYPTION_PRIVATE_PASSWORD = Encoding.ASCII.GetBytes(networkConfigs.GetString("PrivatePassword", "1234567890123456"));
+
         ConfigReader playerConfigs = new ConfigReader(PLAYER_CONFIG_FILE);
         string[] startingLocation = playerConfigs.GetString("StartingLocation", "3924.109;67.42678;2329.238").Split(";");
         STARTING_LOCATION = new LocationHolder(float.Parse(startingLocation[0], CultureInfo.InvariantCulture), float.Parse(startingLocation[1], CultureInfo.InvariantCulture), float.Parse(startingLocation[2], CultureInfo.InvariantCulture), startingLocation.Length > 3 ? float.Parse(startingLocation[3], CultureInfo.InvariantCulture) : 0);
@@ -82,15 +98,6 @@ public class Config
         {
             VALID_SKIN_COLORS.Add(Util.HexStringToInt(colorCode));
         }
-
-        ConfigReader serverConfigs = new ConfigReader(SERVER_CONFIG_FILE);
-        SERVER_PORT = serverConfigs.GetInt("ServerPort", 5055);
-        DATABASE_CONNECTION_PARAMETERS = serverConfigs.GetString("DbConnectionParameters", "Server=127.0.0.1;User ID=root;Password=;Database=edws");
-        DATABASE_MAX_CONNECTIONS = serverConfigs.GetInt("MaximumDbConnections", 50);
-        ENCRYPTION_SECRET_KEYWORD = new MD5CryptoServiceProvider().ComputeHash(Encoding.UTF8.GetBytes(serverConfigs.GetString("SecretKeyword", "SECRET_KEYWORD")));
-        ENCRYPTION_PRIVATE_PASSWORD = Encoding.ASCII.GetBytes(serverConfigs.GetString("PrivatePassword", "1234567890123456"));
-        MAXIMUM_ONLINE_USERS = serverConfigs.GetInt("MaximumOnlineUsers", 2000);
-        CLIENT_VERSION = serverConfigs.GetDouble("ClientVersion", 1.0);
 
         ConfigReader worldConfigs = new ConfigReader(WORLD_CONFIG_FILE);
         WORLD_MINIMUM_X = worldConfigs.GetFloat("MinimumX", -558.8f);
