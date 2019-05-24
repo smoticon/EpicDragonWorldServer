@@ -106,6 +106,7 @@ public class AccountAuthenticationRequest
         if (existingClient != null)
         {
             existingClient.ChannelSend(new Logout());
+            WorldManager.RemoveClient(existingClient);
             client.ChannelSend(new AccountAuthenticationResult(STATUS_ALREADY_ONLINE));
             return;
         }
