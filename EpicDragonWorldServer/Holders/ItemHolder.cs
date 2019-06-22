@@ -4,17 +4,17 @@
  */
 public class ItemHolder
 {
-    private protected int itemId;
-    private protected int slotId;
-    private protected ItemType itemType;
-    private protected bool stackable;
-    private protected bool tradable;
-    private protected long price;
-    private protected int stamina;
-    private protected int strength;
-    private protected int dexterity;
-    private protected int intelect;
-    private protected SkillHolder skillHolder;
+    private readonly int itemId;
+    private readonly int slotId;
+    private readonly ItemType itemType;
+    private readonly bool stackable;
+    private readonly bool tradable;
+    private readonly long price;
+    private readonly int stamina;
+    private readonly int strength;
+    private readonly int dexterity;
+    private readonly int intelect;
+    private readonly SkillHolder skillHolder;
 
     public ItemHolder(int itemId, int slotId, ItemType itemType, bool stackable, bool tradable, long price, int stamina, int strength, int dexterity, int intelect, SkillHolder skillHolder)
     {

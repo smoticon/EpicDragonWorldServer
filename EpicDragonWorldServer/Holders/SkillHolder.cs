@@ -4,13 +4,13 @@
  */
 public class SkillHolder
 {
-    private protected int skillId;
-    private protected int level;
-    private protected SkillType skillType;
-    private protected int reuse;
-    private protected int range;
-    private protected int param1;
-    private protected int param2;
+    private readonly int skillId;
+    private readonly int level;
+    private readonly SkillType skillType;
+    private readonly int reuse;
+    private readonly int range;
+    private readonly int param1;
+    private readonly int param2;
 
     public SkillHolder(int skillId, int level, SkillType skillType, int reuse, int range, int param1, int param2)
     {
