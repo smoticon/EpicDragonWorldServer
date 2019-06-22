@@ -5,7 +5,7 @@
 public class ItemHolder
 {
     private readonly int itemId;
-    private readonly int slotId;
+    private readonly ItemSlot itemSlot;
     private readonly ItemType itemType;
     private readonly bool stackable;
     private readonly bool tradable;
@@ -15,10 +15,10 @@ public class ItemHolder
     private readonly int intelect;
     private readonly SkillHolder skillHolder;
 
-    public ItemHolder(int itemId, int slotId, ItemType itemType, bool stackable, bool tradable, int stamina, int strength, int dexterity, int intelect, SkillHolder skillHolder)
+    public ItemHolder(int itemId, ItemSlot itemSlot, ItemType itemType, bool stackable, bool tradable, int stamina, int strength, int dexterity, int intelect, SkillHolder skillHolder)
     {
         this.itemId = itemId;
-        this.slotId = slotId;
+        this.itemSlot = itemSlot;
         this.itemType = itemType;
         this.stackable = stackable;
         this.tradable = tradable;
@@ -34,9 +34,9 @@ public class ItemHolder
         return itemId;
     }
 
-    public int GetSlotId()
+    public ItemSlot GetItemSlot()
     {
-        return slotId;
+        return itemSlot;
     }
 
     public ItemType GetItemType()

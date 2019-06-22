@@ -33,7 +33,7 @@ public class ItemData
                 }
                 else
                 {
-                    ITEMS.Add(itemId, new ItemHolder(itemId, reader.GetInt32("slot_id"), (ItemType)Enum.Parse(typeof(ItemType), reader.GetString("type")), reader.GetBoolean("stackable"), reader.GetBoolean("tradable"), reader.GetInt32("stamina"), reader.GetInt32("strength"), reader.GetInt32("dexterity"), reader.GetInt32("intelect"), skillHolder));
+                    ITEMS.Add(itemId, new ItemHolder(itemId, (ItemSlot)Enum.Parse(typeof(ItemSlot), reader.GetString("slot")), (ItemType)Enum.Parse(typeof(ItemType), reader.GetString("type")), reader.GetBoolean("stackable"), reader.GetBoolean("tradable"), reader.GetInt32("stamina"), reader.GetInt32("strength"), reader.GetInt32("dexterity"), reader.GetInt32("intelect"), skillHolder));
                 }
             }
             con.Close();
