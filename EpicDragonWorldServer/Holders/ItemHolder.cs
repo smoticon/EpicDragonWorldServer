@@ -9,21 +9,19 @@ public class ItemHolder
     private readonly ItemType itemType;
     private readonly bool stackable;
     private readonly bool tradable;
-    private readonly long price;
     private readonly int stamina;
     private readonly int strength;
     private readonly int dexterity;
     private readonly int intelect;
     private readonly SkillHolder skillHolder;
 
-    public ItemHolder(int itemId, int slotId, ItemType itemType, bool stackable, bool tradable, long price, int stamina, int strength, int dexterity, int intelect, SkillHolder skillHolder)
+    public ItemHolder(int itemId, int slotId, ItemType itemType, bool stackable, bool tradable, int stamina, int strength, int dexterity, int intelect, SkillHolder skillHolder)
     {
         this.itemId = itemId;
         this.slotId = slotId;
         this.itemType = itemType;
         this.stackable = stackable;
         this.tradable = tradable;
-        this.price = price;
         this.stamina = stamina;
         this.strength = strength;
         this.dexterity = dexterity;
@@ -54,11 +52,6 @@ public class ItemHolder
     public bool IsTradable()
     {
         return tradable;
-    }
-
-    public long GetPrice()
-    {
-        return price;
     }
 
     public int GetSTA()
