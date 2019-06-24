@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `items` (
   `item_id` int(4) DEFAULT '0',
-  `slot` enum('NONE','HEAD','CHEST','LEGS','HANDS','FEET') DEFAULT 'NONE' NOT NULL,
+  `slot` enum('NONE','HEAD','CHEST','LEGS','HANDS','FEET','RIGHT_HAND','LEFT_HAND','TWO_HAND') DEFAULT 'NONE' NOT NULL,
   `type` enum('JUNK','EQUIP','CONSUME') DEFAULT 'JUNK' NOT NULL,
   `stackable` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
   `tradable` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
