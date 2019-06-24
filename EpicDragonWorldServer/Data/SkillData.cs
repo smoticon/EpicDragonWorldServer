@@ -44,6 +44,10 @@ public class SkillData
 
     public static SkillHolder GetSkillHolder(int skillId, int skillLevel)
     {
+        if (!SKILLS.ContainsKey(skillId))
+        {
+            return null;
+        }
         return SKILLS[GetSkillHashCode(skillId, skillLevel)];
     }
 }
