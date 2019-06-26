@@ -96,13 +96,16 @@ public class Config
         string[] startingLocation = playerConfigs.GetString("StartingLocation", "3924.109;67.42678;2329.238").Split(";");
         STARTING_LOCATION = new LocationHolder(float.Parse(startingLocation[0], CultureInfo.InvariantCulture), float.Parse(startingLocation[1], CultureInfo.InvariantCulture), float.Parse(startingLocation[2], CultureInfo.InvariantCulture), startingLocation.Length > 3 ? float.Parse(startingLocation[3], CultureInfo.InvariantCulture) : 0);
         STARTING_ITEMS.Clear();
-        string[] startingItems = playerConfigs.GetString("StartingItems", "").Split(";");
-        foreach (string itemId in startingItems)
+        foreach (string itemString in playerConfigs.GetString("StartingItems", "").Split(";"))
         {
-            string trimmedString = itemId.Trim();
-            if (trimmedString.Length > 0)
+            string trimmedString = itemString.Trim();
+            if (!trimmedString.Equals(""))
             {
-                STARTING_ITEMS.Add(int.Parse(trimmedString));
+                int itemId = int.Parse(trimmedString);
+                if (itemId > 0)
+                {
+                    STARTING_ITEMS.Add(itemId);
+                }
             }
         }
         VALID_SKIN_COLORS.Clear();
