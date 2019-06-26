@@ -53,6 +53,7 @@ public class Config
     // Player
     // --------------------------------------------------
     public static LocationHolder STARTING_LOCATION;
+    public static List<int> STARTING_ITEMS = new List<int>();
     public static List<int> VALID_SKIN_COLORS = new List<int>();
 
     // --------------------------------------------------
@@ -94,6 +95,17 @@ public class Config
         ConfigReader playerConfigs = new ConfigReader(PLAYER_CONFIG_FILE);
         string[] startingLocation = playerConfigs.GetString("StartingLocation", "3924.109;67.42678;2329.238").Split(";");
         STARTING_LOCATION = new LocationHolder(float.Parse(startingLocation[0], CultureInfo.InvariantCulture), float.Parse(startingLocation[1], CultureInfo.InvariantCulture), float.Parse(startingLocation[2], CultureInfo.InvariantCulture), startingLocation.Length > 3 ? float.Parse(startingLocation[3], CultureInfo.InvariantCulture) : 0);
+        STARTING_ITEMS.Clear();
+        string[] startingItems = playerConfigs.GetString("StartingItems", "").Split(";");
+        foreach (string itemId in startingItems)
+        {
+            string trimmedString = itemId.Trim();
+            if (trimmedString.Length > 0)
+            {
+                STARTING_ITEMS.Add(int.Parse(trimmedString));
+            }
+        }
+        VALID_SKIN_COLORS.Clear();
         foreach (string colorCode in playerConfigs.GetString("ValidSkinColorCodes", "F1D1BD;F1C4AD;E7B79C;E19F7E;AF7152;7E472E;4A2410;F7DDC0;F3D1A9;C5775A;B55B44;863923;672818;3F1508").Split(";"))
         {
             VALID_SKIN_COLORS.Add(Util.HexStringToInt(colorCode));

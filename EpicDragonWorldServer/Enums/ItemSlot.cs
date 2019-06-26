@@ -10,7 +10,6 @@ public enum ItemSlot
     LEGS,
     HANDS,
     FEET,
-    RIGHT_HAND,
     LEFT_HAND,
-    TWO_HAND
+    RIGHT_HAND
 }

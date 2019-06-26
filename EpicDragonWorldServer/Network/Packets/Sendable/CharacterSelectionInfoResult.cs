@@ -9,6 +9,7 @@ using System.Collections.Generic;
 public class CharacterSelectionInfoResult : SendablePacket
 {
     private static readonly string CHARACTER_QUERY = "SELECT * FROM characters WHERE account=@account AND access_level>'-1' ORDER BY slot ASC";
+    private static readonly string VISIBLE_ITEMS_QUERY = "SELECT * FROM character_items WHERE owner=@owner AND slot_id>'0' AND slot_id<'8' ORDER BY slot_id ASC"; // Visible equipment slots are 1 to 7.
 
     public CharacterSelectionInfoResult(string accountName)
     {
@@ -25,7 +26,8 @@ public class CharacterSelectionInfoResult : SendablePacket
             while (reader.Read())
             {
                 CharacterDataHolder characterData = new CharacterDataHolder();
-                characterData.SetName(reader.GetString("name"));
+                string name = reader.GetString("name");
+                characterData.SetName(name);
                 characterData.SetSlot((byte)reader.GetInt16("slot")); // TODO: Remove cast?
                 characterData.SetSelected(reader.GetBoolean("selected"));
                 characterData.SetRace((byte)reader.GetInt16("race")); // TODO: Remove cast?
@@ -43,6 +45,57 @@ public class CharacterSelectionInfoResult : SendablePacket
                 characterData.SetHp(reader.GetInt64("hp"));
                 characterData.SetMp(reader.GetInt64("mp"));
                 characterData.SetAccessLevel((byte)reader.GetInt16("access_level")); // TODO: Remove cast?
+
+                // Also get items for this character.
+                try
+                {
+                    MySqlConnection con2 = DatabaseManager.GetConnection();
+                    MySqlCommand cmd2 = new MySqlCommand(VISIBLE_ITEMS_QUERY, con2);
+                    cmd2.Parameters.AddWithValue("owner", name);
+                    MySqlDataReader reader2 = cmd2.ExecuteReader();
+                    while (reader2.Read())
+                    {
+                        int slotId = reader2.GetInt32("slot_id");
+                        int itemId = reader2.GetInt32("item_id");
+                        switch (slotId)
+                        {
+                            case 1:
+                                characterData.SetHeadItem(itemId);
+                                break;
+
+                            case 2:
+                                characterData.SetChestItem(itemId);
+                                break;
+
+                            case 3:
+                                characterData.SetLegsItem(itemId);
+                                break;
+
+                            case 4:
+                                characterData.SetHandsItem(itemId);
+                                break;
+
+                            case 5:
+                                characterData.SetFeetItem(itemId);
+                                break;
+
+                            case 6:
+                                characterData.SetLeftHandItem(itemId);
+                                break;
+
+                            case 7:
+                                characterData.SetRightHandItem(itemId);
+                                break;
+                        }
+                    }
+                    con2.Close();
+                }
+                catch (Exception e)
+                {
+                    LogManager.Log(e.ToString());
+                }
+
+                // Add gathered data to character list.
                 characterList.Add(characterData);
             }
             con.Close();
@@ -67,6 +120,13 @@ public class CharacterSelectionInfoResult : SendablePacket
             WriteInt(characterData.GetHairColor());
             WriteInt(characterData.GetSkinColor());
             WriteInt(characterData.GetEyeColor());
+            WriteInt(characterData.GetHeadItem());
+            WriteInt(characterData.GetChestItem());
+            WriteInt(characterData.GetLegsItem());
+            WriteInt(characterData.GetHandsItem());
+            WriteInt(characterData.GetFeetItem());
+            WriteInt(characterData.GetLeftHandItem());
+            WriteInt(characterData.GetRightHandItem());
             WriteFloat(characterData.GetX());
             WriteFloat(characterData.GetY());
             WriteFloat(characterData.GetZ());

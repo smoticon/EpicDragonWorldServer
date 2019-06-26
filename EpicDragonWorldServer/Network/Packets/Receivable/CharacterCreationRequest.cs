@@ -1,5 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 /**
  * Author: Pantelis Andrianakis
@@ -12,6 +14,7 @@ public class CharacterCreationRequest
     private static readonly string CHARACTER_SELECTED_RESET_QUERY = "UPDATE characters SET selected=0 WHERE account=@account";
     private static readonly string CHARACTER_CREATE_QUERY = "INSERT INTO characters (account, name, slot, selected, race, height, belly, hair_type, hair_color, skin_color, eye_color, x, y, z, heading, experience, hp, mp) values (@account, @name, @slot, @selected, @race, @height, @belly, @hair_type, @hair_color, @skin_color, @eye_color, @x, @y, @z, @heading, @experience, @hp, @mp)";
     private static readonly string CHARACTER_CREATE_OPTIONS_QUERY = "INSERT INTO character_options (name) values (@name)";
+    private static readonly string CHARACTER_ITEM_START = "INSERT INTO character_items VALUES ";
 
     private static readonly int INVALID_NAME = 0;
     private static readonly int NAME_IS_TOO_SHORT = 1;
@@ -178,6 +181,49 @@ public class CharacterCreationRequest
         catch (Exception e)
         {
             LogManager.Log(e.ToString());
+        }
+
+        // Add starting items.
+        int itemCount = Config.STARTING_ITEMS.Count;
+        if (itemCount > 0)
+        {
+            // Prepare query.
+            StringBuilder query = new StringBuilder(CHARACTER_ITEM_START);
+            List<ItemSlot> usedEquipableSlots = new List<ItemSlot>();
+            int inventorySlotCounter = 8; // First inventory item slot.
+            foreach (int itemId in Config.STARTING_ITEMS)
+            {
+                query.Append("('");
+                query.Append(characterName);
+                query.Append("',");
+                ItemHolder itemHolder = ItemData.GetItemHolder(itemId);
+                ItemSlot itemSlot = itemHolder.GetItemSlot();
+                if (itemHolder.GetItemType() == ItemType.EQUIP && !usedEquipableSlots.Contains(itemSlot))
+                {
+                    usedEquipableSlots.Add(itemSlot);
+                    query.Append((int)itemHolder.GetItemSlot());
+                }
+                else
+                {
+                    query.Append(inventorySlotCounter++);
+                }
+                query.Append(",");
+                query.Append(itemId);
+                query.Append(")");
+                query.Append(itemCount-- == 1 ? ";" : ",");
+            }
+            // Store new item records.
+            try
+            {
+                MySqlConnection con = DatabaseManager.GetConnection();
+                MySqlCommand cmd = new MySqlCommand(query.ToString(), con);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                LogManager.Log(e.ToString());
+            }
         }
 
         // Send success result.

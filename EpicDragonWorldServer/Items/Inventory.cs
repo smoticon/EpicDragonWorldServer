@@ -73,7 +73,7 @@ public class Inventory
             query.Append(",");
             query.Append(item.Value);
             query.Append(")");
-            query.Append(itemCount-- == 0 ? ";" : ",");
+            query.Append(itemCount-- == 1 ? ";" : ",");
         }
         // Store new records.
         try
@@ -94,6 +94,10 @@ public class Inventory
 
     public int GetSlot(int slotId)
     {
+        if (!items.ContainsKey(slotId))
+        {
+            return 0;
+        }
         return items[slotId];
     }
 
