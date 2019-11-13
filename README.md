@@ -1,8 +1,8 @@
 # Epic Dragon World Server
-.NET Core server that connects with Unity3D clients.
+.NET Core server that connects with Unity clients.
 
 ## Progress
-- Connect to Unity3D client.
+- Connect to Unity client.
 - Load configurations from files.
 - File logger for logs.
 - MySql database manager.
