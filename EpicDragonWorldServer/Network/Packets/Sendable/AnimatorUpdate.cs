@@ -7,7 +7,7 @@ public class AnimatorUpdate : SendablePacket
     public AnimatorUpdate(long objectId, float velocityX, float velocityZ, bool triggerJump, bool isInWater, bool isGrounded)
     {
         // Send the data.
-        WriteShort(10); // Packet id.
+        WriteShort(11); // Packet id.
         WriteLong(objectId);
         WriteFloat(velocityX);
         WriteFloat(velocityZ);

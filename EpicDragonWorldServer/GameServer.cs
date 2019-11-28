@@ -25,6 +25,8 @@ public class GameServer
 
         SkillData.Load();
         ItemData.Load();
+        NpcData.Load();
+        SpawnData.Load();
 
         // Post info.
         Util.PrintSection("Info");

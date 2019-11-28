@@ -5,8 +5,9 @@ PacketId: Name
 4: CharacterDeletionResult
 5: PlayerOptionsInformation
 6: PlayerInformation
-7: DeleteObject
-8: Logout
-9: LocationUpdate
-10: AnimatorUpdate
-11: ChatResult
+7: NpcInformation
+8: DeleteObject
+9: Logout
+10: LocationUpdate
+11: AnimatorUpdate
+12: ChatResult

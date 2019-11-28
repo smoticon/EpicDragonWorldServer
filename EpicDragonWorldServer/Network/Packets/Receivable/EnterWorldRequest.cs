@@ -39,5 +39,15 @@ public class EnterWorldRequest
             // Send information to the other player as well.
             nearby.ChannelSend(playerInfo);
         }
+
+        // Send nearby NPC information.
+        foreach (WorldObject nearby in WorldManager.GetVisibleObjects(player))
+        {
+            if (!nearby.IsNpc())
+            {
+                continue;
+            }
+            player.ChannelSend(new NpcInformation(nearby.AsNpc()));
+        }
     }
 }

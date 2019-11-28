@@ -24,7 +24,7 @@ public class LocationUpdate : SendablePacket
 
     private void WriteData()
     {
-        WriteShort(9); // Packet id.
+        WriteShort(10); // Packet id.
         WriteLong(teleport ? 0 : obj.GetObjectId());
         WriteFloat(obj.GetLocation().GetX());
         WriteFloat(obj.GetLocation().GetY());

@@ -3,6 +3,8 @@ CREATE TABLE IF NOT EXISTS `spawnlist` (
   `x` float DEFAULT '0',
   `y` float DEFAULT '0',
   `z` float DEFAULT '0',
-  `heading` int(4) DEFAULT '0',
-  `respawn_time` int(4) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `heading` float DEFAULT '0',
+  `respawn_delay` int(4) DEFAULT '60'
+) CHARSET=latin1 COLLATE=latin1_general_ci;
+
+INSERT INTO `spawnlist` VALUES ('1', '4542.18', '68.7411', '3844.77', '246.4', '60');

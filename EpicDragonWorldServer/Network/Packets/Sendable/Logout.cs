@@ -7,6 +7,6 @@ public class Logout : SendablePacket
     public Logout()
     {
         // Send the data.
-        WriteShort(8); // Packet id.
+        WriteShort(9); // Packet id.
     }
 }

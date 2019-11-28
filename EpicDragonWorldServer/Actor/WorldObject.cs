@@ -74,8 +74,24 @@ public class WorldObject
                     }
                 }
             }
+
+            // Assign new region.
             region = testRegion;
             region.AddObject(this);
+
+            // Send visible NPC information.
+            // TODO: Exclude known NPCs?
+            if (IsPlayer())
+            {
+                foreach (WorldObject obj in WorldManager.GetVisibleObjects(this))
+                {
+                    if (!obj.IsNpc())
+                    {
+                        continue;
+                    }
+                    AsPlayer().ChannelSend(new NpcInformation(obj.AsNpc()));
+                }
+            }
         }
     }
 
@@ -158,31 +174,31 @@ public class WorldObject
         return null;
     }
 
-    /// <summary>Verify if object is instance of Monster.</summary>
-    /// <returns>if object is instance of Monster.</returns>
-    //public virtual bool IsMonster()
-    //{
-    //    return false;
-    //}
-
-    /// <returns>Monster instance if current object is such, null otherwise.</returns>
-    //public virtual Monster AsMonster()
-    //{
-    //    return null;
-    //}
-
     /// <summary>Verify if object is instance of Npc.</summary>
     /// <returns>if object is instance of Npc.</returns>
-    //public virtual bool IsNpc()
-    //{
-    //    return false;
-    //}
+    public virtual bool IsNpc()
+    {
+        return false;
+    }
 
     /// <returns>Npc instance if current object is such, null otherwise.</returns>
-    //public virtual Npc AsNpc()
-    //{
-    //    return null;
-    //}
+    public virtual Npc AsNpc()
+    {
+        return null;
+    }
+
+    /// <summary>Verify if object is instance of Monster.</summary>
+    /// <returns>if object is instance of Monster.</returns>
+    public virtual bool IsMonster()
+    {
+        return false;
+    }
+
+    /// <returns>Monster instance if current object is such, null otherwise.</returns>
+    public virtual Monster AsMonster()
+    {
+        return null;
+    }
 
     public override string ToString()
     {

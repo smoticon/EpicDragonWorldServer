@@ -22,7 +22,10 @@ public class ObjectInfoRequest
                 {
                     client.ChannelSend(new PlayerInformation(obj.AsPlayer()));
                 }
-                // TODO: Other objects - NpcInformation?
+                else if (obj.IsNpc())
+                {
+                    client.ChannelSend(new NpcInformation(obj.AsNpc()));
+                }
 
                 // Send delayed animation update in case object was already moving.
                 Task.Delay(1000).ContinueWith(task => SendAnimationInfo(client, obj));
