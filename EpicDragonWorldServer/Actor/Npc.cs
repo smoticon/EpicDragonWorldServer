@@ -1,7 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
-
-/**
+﻿/**
  * Author: Pantelis Andrianakis
  * Date: November 28th 2019
  */
