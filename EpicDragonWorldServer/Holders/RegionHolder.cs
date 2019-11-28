@@ -18,9 +18,21 @@ public class RegionHolder
         this.z = z;
     }
 
-    public void SetSurroundingRegions(RegionHolder[] surroundingRegions)
+    public void SetSurroundingRegions(RegionHolder[] regions)
     {
-        this.surroundingRegions = surroundingRegions;
+        surroundingRegions = regions;
+
+        // Make sure that this region is always first to improve bulk operations.
+        for (int i = 0; i < surroundingRegions.Length; i++)
+        {
+            if (surroundingRegions[i] == this)
+            {
+                RegionHolder first = surroundingRegions[0];
+                surroundingRegions[0] = this;
+                surroundingRegions[i] = first;
+                break;
+            }
+        }
     }
 
     public RegionHolder[] GetSurroundingRegions()
