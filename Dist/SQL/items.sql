@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `intelect` int(4) DEFAULT '0',
   `skill_id` int(4) DEFAULT '0',
   `skill_level` int(4) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) CHARSET=latin1 COLLATE=latin1_general_ci;
 
 INSERT INTO `items` VALUES ('1', 'CHEST', 'EQUIP', '0', '0', '0', '0', '0', '0', '0', '0');
 INSERT INTO `items` VALUES ('2', 'LEGS', 'EQUIP', '0', '0', '0', '0', '0', '0', '0', '0');

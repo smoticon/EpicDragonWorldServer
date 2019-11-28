@@ -19,4 +19,4 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `mp` int(8) DEFAULT '1',
   `access_level` int(2) DEFAULT '0',
   `creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

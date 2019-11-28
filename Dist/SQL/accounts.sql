@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS `accounts` (
   `last_ip` varchar(15) NULL DEFAULT NULL,
   `active_code` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`account`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

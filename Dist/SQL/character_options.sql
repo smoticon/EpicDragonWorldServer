@@ -46,4 +46,4 @@ CREATE TABLE `character_options` (
   `key_shortcut_12_1` int(4) DEFAULT '61',
   `key_shortcut_12_2` int(4) DEFAULT '0',
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

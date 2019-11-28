@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS `skills` (
   `range` int(4) DEFAULT '0',
   `param_1` int(4) DEFAULT '0',
   `param_2` int(4) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) CHARSET=latin1 COLLATE=latin1_general_ci;
