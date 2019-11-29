@@ -39,6 +39,7 @@ public class Config
     public static long LOG_FILE_SIZE_LIMIT = 1073741824; // Must be set before configs load.
     public static bool LOG_CHAT;
     public static bool LOG_WORLD;
+    public static bool LOG_ADMIN;
 
     // --------------------------------------------------
     // Network
@@ -76,6 +77,7 @@ public class Config
         LOG_FILE_SIZE_LIMIT = loggingConfigs.GetLong("LogFileSizeLimit", 1073741824);
         LOG_CHAT = loggingConfigs.GetBool("LogChat", true);
         LOG_WORLD = loggingConfigs.GetBool("LogWorld", true);
+        LOG_ADMIN = loggingConfigs.GetBool("LogAdmin", true);
 
         ConfigReader accountConfigs = new ConfigReader(ACCOUNT_CONFIG_FILE);
         ACCOUNT_AUTO_CREATE = accountConfigs.GetBool("AccountAutoCreate", false);

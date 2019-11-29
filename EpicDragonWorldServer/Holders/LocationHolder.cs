@@ -64,4 +64,10 @@ public class LocationHolder
     {
         this.heading = heading;
     }
+
+    public override string ToString()
+    {
+        string result = x + " " + y + " " + z;
+        return "Location [" + (heading > 0 ? result + " " + heading : result) + "]";
+    }
 }

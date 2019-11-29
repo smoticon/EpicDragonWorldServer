@@ -12,6 +12,7 @@ public class LogManager
     private static readonly string LOG_FILE_CONSOLE = "Console ";
     private static readonly string LOG_FILE_WORLD = "World ";
     private static readonly string LOG_FILE_CHAT = "Chat ";
+    private static readonly string LOG_FILE_ADMIN = "Admin ";
     private static readonly string LOG_FILE_EXT = ".txt";
     private static readonly string LOG_DATE_FORMAT = "{0:dd/MM HH:mm:ss}";
     private static readonly string LOG_FILE_NAME_FORMAT = "{0:yyyy-MM-dd}";
@@ -88,6 +89,23 @@ public class LogManager
                 DateTime currentTime = DateTime.Now;
                 // Append to "log\Chat yyyy-MM-dd.txt" file.
                 using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_CHAT, currentTime)))
+                {
+                    writer.WriteLine("[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message);
+                }
+            }
+        });
+    }
+
+    public static void LogAdmin(string message)
+    {
+        // Use a task to asynchronously wait for file lock.
+        Task.Run(() =>
+        {
+            lock (LOG_FILE_ADMIN)
+            {
+                DateTime currentTime = DateTime.Now;
+                // Append to "log\Admin yyyy-MM-dd.txt" file.
+                using (StreamWriter writer = File.AppendText(GetFileName(LOG_FILE_ADMIN, currentTime)))
                 {
                     writer.WriteLine("[" + string.Format(LOG_DATE_FORMAT, currentTime) + "] " + message);
                 }

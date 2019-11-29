@@ -22,19 +22,7 @@ public class SpawnData
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                int npcId = reader.GetInt32("npc_id");
-                NpcHolder npcHolder = NpcData.GetNpcHolder(npcId);
-                SpawnHolder spawn = new SpawnHolder(new LocationHolder(reader.GetFloat("x"), reader.GetFloat("y"), reader.GetFloat("z"), reader.GetFloat("heading")), reader.GetInt32("respawn_delay"));
-                switch (npcHolder.GetNpcType())
-                {
-                    case NpcType.NPC:
-                        new Npc(npcHolder, spawn);
-                        break;
-
-                    case NpcType.MONSTER:
-                        new Monster(npcHolder, spawn);
-                        break;
-                }
+                SpawnNpc(reader.GetInt32("npc_id"), new LocationHolder(reader.GetFloat("x"), reader.GetFloat("y"), reader.GetFloat("z"), reader.GetFloat("heading")), reader.GetInt32("respawn_delay"));
                 COUNT++;
             }
             con.Close();
@@ -45,5 +33,23 @@ public class SpawnData
         }
 
         LogManager.Log("SpawnData: Loaded " + COUNT + " spawns.");
+    }
+
+    public static Npc SpawnNpc(int npcId, LocationHolder location, int respawnDelay)
+    {
+        NpcHolder npcHolder = NpcData.GetNpcHolder(npcId);
+        SpawnHolder spawn = new SpawnHolder(location, respawnDelay);
+        Npc npc = null;
+        switch (npcHolder.GetNpcType())
+        {
+            case NpcType.NPC:
+                npc = new Npc(npcHolder, spawn);
+                break;
+
+            case NpcType.MONSTER:
+                npc = new Monster(npcHolder, spawn);
+                break;
+        }
+        return npc;
     }
 }

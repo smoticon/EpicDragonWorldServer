@@ -1,6 +1,4 @@
-﻿using System;
-
-/**
+﻿/**
  * Author: Pantelis Andrianakis
  * Date: November 7th 2018
  */
