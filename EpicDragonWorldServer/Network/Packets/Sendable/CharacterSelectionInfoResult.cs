@@ -31,16 +31,16 @@ public class CharacterSelectionInfoResult : SendablePacket
                 characterData.SetSlot((byte)reader.GetInt16("slot")); // TODO: Remove cast?
                 characterData.SetSelected(reader.GetBoolean("selected"));
                 characterData.SetRace((byte)reader.GetInt16("race")); // TODO: Remove cast?
-                characterData.SetHeight(reader.GetFloat("height"));
-                characterData.SetBelly(reader.GetFloat("belly"));
+                characterData.SetHeight((float)reader.GetDouble("height")); // Fixes known MySQL float issue.
+                characterData.SetBelly((float)reader.GetDouble("belly")); // Fixes known MySQL float issue.
                 characterData.SetHairType((byte)reader.GetInt16("hair_type")); // TODO: Remove cast?
                 characterData.SetHairColor(reader.GetInt32("hair_color"));
                 characterData.SetSkinColor(reader.GetInt32("skin_color"));
                 characterData.SetEyeColor(reader.GetInt32("eye_color"));
-                characterData.SetX(reader.GetFloat("x"));
-                characterData.SetY(reader.GetFloat("y"));
-                characterData.SetZ(reader.GetFloat("z"));
-                characterData.SetHeading(reader.GetFloat("heading"));
+                characterData.SetX((float)reader.GetDouble("x")); // Fixes known MySQL float issue.
+                characterData.SetY((float)reader.GetDouble("y")); // Fixes known MySQL float issue.
+                characterData.SetZ((float)reader.GetDouble("z")); // Fixes known MySQL float issue.
+                characterData.SetHeading((float)reader.GetDouble("heading")); // Fixes known MySQL float issue.
                 characterData.SetExperience(reader.GetInt64("experience"));
                 characterData.SetHp(reader.GetInt64("hp"));
                 characterData.SetMp(reader.GetInt64("mp"));

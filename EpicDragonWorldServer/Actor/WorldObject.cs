@@ -130,6 +130,28 @@ public class WorldObject
         return isTeleporting;
     }
 
+    public void DeleteMe()
+    {
+        // Remove from region.
+        region.RemoveObject(objectId);
+
+        // Broadcast NPC deletion.
+        DeleteObject delete = new DeleteObject(this);
+        foreach (RegionHolder nearbyRegion in region.GetSurroundingRegions())
+        {
+            foreach (WorldObject nearby in nearbyRegion.GetObjects())
+            {
+                if (nearby != null && nearby.IsPlayer())
+                {
+                    nearby.AsPlayer().ChannelSend(delete);
+                }
+            }
+        }
+
+        // Set region to null.
+        region = null;
+    }
+
     /// <summary>Calculates distance between this WorldObject and given x, y , z.</summary>
     /// <param name="x">the X coordinate</param>
     /// <param name="y">the Y coordinate</param>

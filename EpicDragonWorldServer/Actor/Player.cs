@@ -38,16 +38,16 @@ public class Player : Creature
             while (reader.Read())
             {
                 raceId = (byte)reader.GetInt16("race"); // TODO: Remove cast?
-                height = reader.GetFloat("height");
-                belly = reader.GetFloat("belly");
+                height = (float)reader.GetDouble("height"); // Fixes known MySQL float issue.
+                belly = (float)reader.GetDouble("belly"); // Fixes known MySQL float issue.
                 hairType = (byte)reader.GetInt16("hair_type"); // TODO: Remove cast?
                 hairColor = reader.GetInt32("hair_color");
                 skinColor = reader.GetInt32("skin_color");
                 eyeColor = reader.GetInt32("eye_color");
 
-                float locX = reader.GetFloat("x");
-                float locY = reader.GetFloat("y");
-                float locZ = reader.GetFloat("z");
+                float locX = (float)reader.GetDouble("x"); // Fixes known MySQL float issue.
+                float locY = (float)reader.GetDouble("y"); // Fixes known MySQL float issue.
+                float locZ = (float)reader.GetDouble("z"); // Fixes known MySQL float issue.
 
                 // Check if player is outside of world bounds.
                 if (locX < Config.WORLD_MINIMUM_X || locX > Config.WORLD_MAXIMUM_X || locY < Config.WORLD_MINIMUM_Y || locY > Config.WORLD_MAXIMUM_Y || locZ < Config.WORLD_MINIMUM_Z || locZ > Config.WORLD_MAXIMUM_Z)
@@ -57,7 +57,7 @@ public class Player : Creature
                 }
                 else
                 {
-                    SetLocation(new LocationHolder(locX, locY, locZ, reader.GetFloat("heading")));
+                    SetLocation(new LocationHolder(locX, locY, locZ, (float)reader.GetDouble("heading"))); // Fixes known MySQL float issue.
                 }
 
                 experience = reader.GetInt64("experience");

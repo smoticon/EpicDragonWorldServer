@@ -22,7 +22,7 @@ public class SpawnData
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                SpawnNpc(reader.GetInt32("npc_id"), new LocationHolder(reader.GetFloat("x"), reader.GetFloat("y"), reader.GetFloat("z"), reader.GetFloat("heading")), reader.GetInt32("respawn_delay"));
+                SpawnNpc(reader.GetInt32("npc_id"), new LocationHolder((float)reader.GetDouble("x"), (float)reader.GetDouble("y"), (float)reader.GetDouble("z"), (float)reader.GetDouble("heading")), reader.GetInt32("respawn_delay"));
                 COUNT++;
             }
             con.Close();

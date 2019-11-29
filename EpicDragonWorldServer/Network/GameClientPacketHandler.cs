@@ -59,6 +59,10 @@ public class GameClientPacketHandler
             case 13:
                 new ChatRequest(client, packet);
                 break;
+
+            case 14:
+                new TargetUpdateRequest(client, packet);
+                break;
         }
     }
 }

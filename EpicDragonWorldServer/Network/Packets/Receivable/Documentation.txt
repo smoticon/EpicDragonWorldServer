@@ -12,3 +12,4 @@ PacketId: Name
 11: ObjectInfoRequest
 12: PlayerOptionsUpdate
 13: ChatRequest
+14: ChangeTargetRequest

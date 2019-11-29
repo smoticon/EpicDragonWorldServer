@@ -15,6 +15,7 @@ public class ChatManager
     private static readonly string COMMAND_RETURN = "/return";
     // Administrator commands
     private static readonly string COMMAND_SPAWN = "/spawn ";
+    private static readonly string COMMAND_DELETE = "/delete";
 
     public static void HandleChat(Player sender, string message)
     {
@@ -42,6 +43,10 @@ public class ChatManager
         else if (isAdmin && lowercaseMessage.StartsWith(COMMAND_SPAWN))
         {
             SpawnCommand.Handle(sender, lowercaseMessage);
+        }
+        else if (isAdmin && lowercaseMessage.Equals(COMMAND_DELETE))
+        {
+            DeleteCommand.Handle(sender);
         }
         else // Normal message.
         {

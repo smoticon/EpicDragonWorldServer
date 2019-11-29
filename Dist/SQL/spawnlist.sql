@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS `spawnlist` (
   `npc_id` int(4) DEFAULT '0',
-  `x` float DEFAULT '0',
-  `y` float DEFAULT '0',
-  `z` float DEFAULT '0',
-  `heading` float DEFAULT '0',
+  `x` double DEFAULT '0',
+  `y` double DEFAULT '0',
+  `z` double DEFAULT '0',
+  `heading` double DEFAULT '0',
   `respawn_delay` int(4) DEFAULT '60'
 ) CHARSET=latin1 COLLATE=latin1_general_ci;
 
