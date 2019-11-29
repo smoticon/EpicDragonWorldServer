@@ -30,32 +30,15 @@ public class SpawnCommand
         }
 
         // Log admin activity.
+        LocationHolder playerLocation = player.GetLocation();
+        LocationHolder npcLocation = new LocationHolder(playerLocation.GetX(), playerLocation.GetY(), playerLocation.GetZ(), playerLocation.GetHeading());
         if (Config.LOG_ADMIN)
         {
-            LogManager.LogAdmin(player.GetName() + " used command /spawn " + npcId + " " + respawnDelay);
+            LogManager.LogAdmin(player.GetName() + " used command /spawn " + npcId + " " + respawnDelay + " at " + npcLocation);
         }
 
         // Spawn NPC.
-        Npc npc = SpawnData.SpawnNpc(npcId, player.GetLocation(), respawnDelay);
-
-        // Store in database.
-        try
-        {
-            MySqlConnection con = DatabaseManager.GetConnection();
-            MySqlCommand cmd = new MySqlCommand(SPAWN_SAVE_QUERY, con);
-            cmd.Parameters.AddWithValue("npc_id", npcId);
-            cmd.Parameters.AddWithValue("x", npc.GetLocation().GetX());
-            cmd.Parameters.AddWithValue("y", npc.GetLocation().GetY());
-            cmd.Parameters.AddWithValue("z", npc.GetLocation().GetZ());
-            cmd.Parameters.AddWithValue("heading", npc.GetLocation().GetHeading());
-            cmd.Parameters.AddWithValue("respawn_delay", respawnDelay);
-            cmd.ExecuteNonQuery();
-            con.Close();
-        }
-        catch (Exception e)
-        {
-            LogManager.Log(e.ToString());
-        }
+        Npc npc = SpawnData.SpawnNpc(npcId, npcLocation, respawnDelay);
 
         // Broadcast NPC information.
         NpcInformation info = new NpcInformation(npc);
@@ -66,6 +49,25 @@ public class SpawnCommand
         }
 
         // Send player success message.
-        ChatManager.SendSystemMessage(player, "You have spawned " + npcId + " at " + npc.GetLocation());
+        ChatManager.SendSystemMessage(player, "You have spawned " + npcId + " at " + npcLocation);
+
+        // Store in database.
+        try
+        {
+            MySqlConnection con = DatabaseManager.GetConnection();
+            MySqlCommand cmd = new MySqlCommand(SPAWN_SAVE_QUERY, con);
+            cmd.Parameters.AddWithValue("npc_id", npcId);
+            cmd.Parameters.AddWithValue("x", npcLocation.GetX());
+            cmd.Parameters.AddWithValue("y", npcLocation.GetY());
+            cmd.Parameters.AddWithValue("z", npcLocation.GetZ());
+            cmd.Parameters.AddWithValue("heading", npcLocation.GetHeading());
+            cmd.Parameters.AddWithValue("respawn_delay", respawnDelay);
+            cmd.ExecuteNonQuery();
+            con.Close();
+        }
+        catch (Exception e)
+        {
+            LogManager.Log(e.ToString());
+        }
     }
 }
