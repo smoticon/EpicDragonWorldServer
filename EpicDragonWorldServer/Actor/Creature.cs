@@ -8,6 +8,13 @@ public class Creature : WorldObject
     private long currentMp = 0;
     private WorldObject target;
 
+    // TODO: Implement Player level data.
+    // TODO: Implement Creature stats holder.
+    public long GetMaxHp()
+    {
+        return 100;
+    }
+
     public void SetCurrentHp(long value)
     {
         currentHp = value;

@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `z` double DEFAULT '3830.602',
   `heading` double DEFAULT '0',
   `experience` int(8) DEFAULT '0',
-  `hp` int(8) DEFAULT '1',
-  `mp` int(8) DEFAULT '1',
+  `hp` int(8) DEFAULT '100',
+  `mp` int(8) DEFAULT '100',
   `access_level` int(2) DEFAULT '0',
   `creation_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

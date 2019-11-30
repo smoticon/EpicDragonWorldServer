@@ -158,9 +158,9 @@ public class CharacterCreationRequest
             cmd.Parameters.AddWithValue("y", Config.STARTING_LOCATION.GetY());
             cmd.Parameters.AddWithValue("z", Config.STARTING_LOCATION.GetZ());
             cmd.Parameters.AddWithValue("heading", Config.STARTING_LOCATION.GetHeading());
-            cmd.Parameters.AddWithValue("experience", 0); // TODO: Starting level experience.
-            cmd.Parameters.AddWithValue("hp", 1); // TODO: Character stats HP.
-            cmd.Parameters.AddWithValue("mp", 1); // TODO: Character stats MP.
+            cmd.Parameters.AddWithValue("experience", 0); // TODO: Implement Player level data.
+            cmd.Parameters.AddWithValue("hp", 100); // TODO: Implement Player level data.
+            cmd.Parameters.AddWithValue("mp", 100); // TODO: Implement Player level data.
             cmd.ExecuteNonQuery();
             con.Close();
         }

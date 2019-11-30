@@ -133,7 +133,9 @@ public class CharacterSelectionInfoResult : SendablePacket
             WriteFloat(characterData.GetHeading());
             WriteLong(characterData.GetExperience());
             WriteLong(characterData.GetHp());
+            WriteLong(100); // TODO: Implement Player level data. - Max HP
             WriteLong(characterData.GetMp());
+            WriteLong(100); // TODO: Implement Player level data. - Max MP
             WriteByte(characterData.GetAccessLevel());
         }
     }

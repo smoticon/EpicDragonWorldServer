@@ -8,17 +8,19 @@ public class NpcHolder
     private readonly NpcType npcType;
     private readonly int level;
     private readonly bool sex;
+    private readonly long hp;
     private readonly int stamina;
     private readonly int strength;
     private readonly int dexterity;
     private readonly int intelect;
 
-    public NpcHolder(int npcId, NpcType npcType, int level, bool sex, int stamina, int strength, int dexterity, int intelect)
+    public NpcHolder(int npcId, NpcType npcType, int level, bool sex, long hp, int stamina, int strength, int dexterity, int intelect)
     {
         this.npcId = npcId;
         this.npcType = npcType;
         this.level = level;
         this.sex = sex;
+        this.hp = hp;
         this.stamina = stamina;
         this.strength = strength;
         this.dexterity = dexterity;
@@ -43,6 +45,11 @@ public class NpcHolder
     public bool IsFemale()
     {
         return sex;
+    }
+
+    public long GetHp()
+    {
+        return hp;
     }
 
     public int GetSTA()

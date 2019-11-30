@@ -29,5 +29,7 @@ public class PlayerInformation : SendablePacket
         WriteFloat(player.GetLocation().GetY());
         WriteFloat(player.GetLocation().GetZ());
         WriteFloat(player.GetLocation().GetHeading());
+        WriteLong(player.GetCurrentHp());
+        WriteLong(player.GetMaxHp());
     }
 }

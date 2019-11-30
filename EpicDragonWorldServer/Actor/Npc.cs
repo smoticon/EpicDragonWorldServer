@@ -12,6 +12,8 @@ public class Npc : Creature
         this.npcHolder = npcHolder;
         this.spawnHolder = spawnHolder;
 
+        SetCurrentHp(npcHolder.GetHp());
+        // TODO: Implement Creature stats holder.
         SetLocation(spawnHolder.GetLocation());
     }
 

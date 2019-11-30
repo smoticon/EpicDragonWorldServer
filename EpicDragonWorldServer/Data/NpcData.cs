@@ -24,7 +24,7 @@ public class NpcData
             while (reader.Read())
             {
                 int npcId = reader.GetInt32("npc_id");
-                NPCS.Add(npcId, new NpcHolder(npcId, (NpcType)Enum.Parse(typeof(NpcType), reader.GetString("type")), reader.GetInt32("level"), reader.GetBoolean("sex"), reader.GetInt32("stamina"), reader.GetInt32("strength"), reader.GetInt32("dexterity"), reader.GetInt32("intelect")));
+                NPCS.Add(npcId, new NpcHolder(npcId, (NpcType)Enum.Parse(typeof(NpcType), reader.GetString("type")), reader.GetInt32("level"), reader.GetBoolean("sex"), reader.GetInt64("hp"), reader.GetInt32("stamina"), reader.GetInt32("strength"), reader.GetInt32("dexterity"), reader.GetInt32("intelect")));
             }
             con.Close();
         }
