@@ -22,6 +22,7 @@ public class EnterWorldRequest
         client.ChannelSend(new PlayerOptionsInformation(player));
 
         // TODO: Send all inventory items to client.
+        client.ChannelSend(new CharacterInventoryResult(player));
 
         // Use a task to send and receive nearby player information,
         // because we need to have player initialization be complete in client side.
